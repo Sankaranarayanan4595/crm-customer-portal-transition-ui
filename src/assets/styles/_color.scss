@@ -1,0 +1,145 @@
+@use '../../../../CommonLibrary-UI/BBLayout-mongo/src/lib/assets/styles/variables/colors' as c;
+
+/***********************
+█▀▀ █▀█ █░░ █▀█ █▀█ █▀
+█▄▄ █▄█ █▄▄ █▄█ █▀▄ ▄█
+************************/
+//maincolors
+$black: c.$black;
+$white: c.$white;
+
+/***********************
+█▀▄ █▀▀ █▀ █ █▀▀ █▄░█   █▀ █▄█ █▀ ▀█▀ █▀▀ █▀▄▀█
+█▄▀ ██▄ ▄█ █ █▄█ █░▀█   ▄█ ░█░ ▄█ ░█░ ██▄ █░▀░█
+************************/
+
+/**************************
+
+░█████╗░██████╗░░██████╗░
+██╔══██╗██╔══██╗██╔════╝░
+███████║██████╦╝██║░░██╗░
+██╔══██║██╔══██╗██║░░╚██╗
+██║░░██║██████╦╝╚██████╔╝
+╚═╝░░╚═╝╚═════╝░░╚═════╝░
+**************************/
+
+//primary
+$primary-100: c.$primary-100 !default;
+$primary-200: c.$primary-200 !default;
+$primary-300: c.$primary-300 !default;
+$primary-400: c.$primary-400 !default;
+$primary-500: c.$primary-500 !default;
+$primary-600: c.$primary-600 !default;
+$primary-700: c.$primary-700 !default;
+$primary-800: c.$primary-800 !default;
+$primary-900: c.$primary-900 !default;
+$primary-default: c.$primary-default !default;
+
+//secondary
+$secondary-100: c.$secondary-100 !default;
+$secondary-200: c.$secondary-200 !default;
+$secondary-300: c.$secondary-300 !default;
+$secondary-400: c.$secondary-400 !default;
+$secondary-500: c.$secondary-500 !default;
+$secondary-600: c.$secondary-600 !default;
+$secondary-700: c.$secondary-700 !default;
+$secondary-800: c.$secondary-800 !default;
+$secondary-900: c.$secondary-900 !default;
+$secondary-default: c.$secondary-default !default;
+
+//territory
+$territory-100: c.$territory-100 !default;
+$territory-200: c.$territory-200 !default;
+$territory-300: c.$territory-300 !default;
+$territory-400: c.$territory-400 !default;
+$territory-500: c.$territory-500 !default;
+$territory-600: c.$territory-600 !default;
+$territory-700: c.$territory-700 !default;
+$territory-800: c.$territory-800 !default;
+$territory-900: c.$territory-900 !default;
+$territory-default: c.$territory-default !default;
+
+/***********************
+█▀▄ █▀▀ █▀▀ ▄▀█ █░█ █░░ ▀█▀
+█▄▀ ██▄ █▀░ █▀█ █▄█ █▄▄ ░█░
+************************/
+//grey scale
+// ash
+$ash-100: c.$ash-100 !default;
+$ash-110: c.$ash-110 !default;
+$ash-120: c.$ash-120 !default;
+$ash-130: c.$ash-130 !default;
+$ash-140: c.$ash-140 !default;
+$ash-150: c.$ash-150 !default;
+$ash-160: c.$ash-160 !default;
+$ash-170: c.$ash-170 !default;
+$ash-180: c.$ash-180 !default;
+$ash-190: c.$ash-190 !default;
+$ash-200: c.$ash-200 !default;
+$ash-210: c.$ash-210 !default;
+$ash-220: c.$ash-220 !default;
+$ash-230: c.$ash-230 !default;
+$ash-240: c.$ash-240 !default;
+$ash-250: c.$ash-250 !default;
+$ash-260: c.$ash-260 !default;
+$ash-270: c.$ash-270 !default;
+$ash-280: c.$ash-280 !default;
+$ash-290: c.$ash-290 !default;
+
+// danger
+$danger-100: c.$danger-100 !default;
+$danger-200: c.$danger-200 !default;
+$danger-300: c.$danger-300 !default;
+$danger-400: c.$danger-400 !default;
+$danger-500: c.$danger-500 !default;
+$danger-600: c.$danger-600 !default;
+$danger-700: c.$danger-700 !default;
+$danger-800: c.$danger-800 !default;
+$danger-900: c.$danger-900 !default;
+$danger: c.$danger !default;
+
+// warning
+$warning-100: c.$warning-100 !default;
+$warning-200: c.$warning-200 !default;
+$warning-300: c.$warning-300 !default;
+$warning-400: c.$warning-400 !default;
+$warning-500: c.$warning-500 !default;
+$warning-600: c.$warning-600 !default;
+$warning-700: c.$warning-700 !default;
+$warning-800: c.$warning-800 !default;
+$warning-900: c.$warning-900 !default;
+$warning: c.$warning !default;
+
+// success
+$success-100: c.$success-100 !default;
+$success-200: c.$success-200 !default;
+$success-300: c.$success-300 !default;
+$success-400: c.$success-400 !default;
+$success-500: c.$success-500 !default;
+$success-600: c.$success-600 !default;
+$success-700: c.$success-700 !default;
+$success-800: c.$success-800 !default;
+$success-900: c.$success-900 !default;
+$success: c.$success !default;
+
+// info
+$info-100: c.$info-100 !default;
+$info-200: c.$info-200 !default;
+$info-300: c.$info-300 !default;
+$info-400: c.$info-400 !default;
+$info-500: c.$info-500 !default;
+$info-600: c.$info-600 !default;
+$info-700: c.$info-700 !default;
+$info-800: c.$info-800 !default;
+$info-900: c.$info-900 !default;
+$info: c.$info !default;
+//cu
+$bg-homePg: #F6F6F5;
+$border-1:#B5B3B0;
+$border-2:#E0E0E0;
+$border-3:#BDBDBD;
+$border-4:#E2E3E4;
+$border-5:#9E9D9A;
+$txt-1:#5A5A58;
+$txt-2:#2D2D2C;
+$txt-3:#171616;

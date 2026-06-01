@@ -1,0 +1,45 @@
+// ngprime
+::ng-deep .p-dialog-content {
+  overflow-y: visible !important;
+}
+::ng-deep .p-dialog-header {
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+.email-table {
+  border-radius: 4px;
+  th {
+    background: darken(#f5f5f5, 5%);
+  }
+}
+.required .required:after {
+  display: none !important;
+}
+
+::ng-deep {
+  .table-th-green > thead > tr > th,.p-datatable-thead > tr > th {
+    background-color: var(--ab-secondary-default) !important;
+    background-color: #789187 !important;
+    color: var(--ab-white) !important;
+    padding: 12px 7px !important;
+    white-space: nowrap !important;
+    // background-color: var(--ab-primary-200);
+    // color: c.$txt-3 !important;
+    font-weight: 600 !important;
+  }
+  .table-th-green tr th:first-child {
+    border-top-left-radius: 6px !important;
+  }
+  .table-th-green tr th:last-child {
+    border-top-right-radius: 6px !important;
+  }
+  .table-th-green > tbody > tr > td {
+    padding: 15px 9px !important;
+    border-bottom: 1px solid #e2e3e4 !important;
+  }
+}
+
+.input-error ,.debug-invalid{
+  border: 1px solid #ff0000  !important;
+}

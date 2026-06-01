@@ -1,0 +1,119 @@
+@if (tasks.length > 0) {
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 3px">
+    <div class="card flex flex-row justify-end gap-4 mt-4">
+      <div class="flex items-center">
+        <p-badge class="status-green w-3 h-3" />
+        <span class="text-gray-700 ml-3 text-xs">Completed / Completed on Time </span>
+      </div>
+      <div class="flex items-center">
+        <p-badge class="status-orange w-3 h-3" />
+        <span class="text-gray-700 ml-3 text-xs">In Progress </span>
+      </div>
+      <!-- <div class="flex items-center">
+        <p-badge class="status-ash w-3 h-3" />
+        <span class="text-gray-700 ml-3 text-xs">Pending</span>
+      </div> -->
+      <div class="flex items-center">
+        <p-badge class="status-red w-3 h-3" />
+        <span class="text-gray-700 ml-3 text-xs">Completed with Delay</span>
+      </div>
+    </div>
+    <div class="main-container">
+      <div class="task-list">
+        <div class="task-list-header"></div>
+        <div *ngFor="let task of tasks" class="task-row-list" [class.group-task-row]="task.isGroup">
+          {{ task.name }}
+        </div>
+      </div>
+      <div class="gantt-chart-container">
+        <div class="gantt-header">
+          <div class="timeline-header">
+            <div *ngFor="let month of months" class="month-header">
+              <div class="py-2 bg-[#E7EAEB] text-black font-semibold border-r-[#CBCAC6] border-r">
+                {{ month.name }}
+              </div>
+              <div class="days-container">
+                <div *ngFor="let day of month.days" class="day-header">{{ day }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gantt-body">
+          <!-- Task list -->
+          <!-- Timeline -->
+          <div class="timeline-body">
+            <div *ngFor="let task of tasks" class="task-row">
+              @if (task.start) {
+                <div class="task-bar-wrapper">
+                  <!-- Planned Bar -->
+                  <div
+                    class="task-bar planned-bar absolute cursor-pointer"
+                    [style.left]="getPlannedPosition(task).left"
+                    [style.width]="getPlannedPosition(task).width"
+                    (click)="addNewcontainerFn($event, task.id)"
+                  ></div>
+
+                  <!-- Actual Bar -->
+                  <div
+                    class="task-bar actual-bar absolute cursor-pointer"
+                    [style.left]="getActualPosition(task).left"
+                    [style.width]="getActualPosition(task).width"
+                    [style.background-color]="task.color"
+                    (mouseenter)="addNewcontainerFn($event, task.id)"
+                    (mouseleave)="closeContainer()"
+                    #taskBarElement
+                  >
+                    <span class="progress-label">{{ task.progress }}</span>
+                  </div>
+
+                  <!-- Tooltip -->
+                  <div
+                    *ngIf="activeTaskId === task.id"
+                    class="bg-white AddNewcontainer fixed z-50 shadow-xl border p-3 rounded-lg"
+                    [style.left]="menuPosition.left"
+                    [style.top]="menuPosition.top"
+                    [style.width.px]="MENU_WIDTH"
+                    [style.height.px]="MENU_HEIGHT"
+                    #modalElement
+                  >
+                    <ul style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 0">
+                      <li class="text-[#71706E]">
+                        Actual Start Date:
+                        <span class="text-black">{{ task?.start }}</span>
+                      </li>
+                      <li class="text-[#71706E]">
+                        Actual End Date:
+                        <span class="text-black">{{ task?.actualEndDate }}</span>
+                      </li>
+                      <li class="text-[#71706E]">
+                        Target Start Date:
+                        <span class="text-black">{{ task?.targetStartDate }}</span>
+                      </li>
+                      <li class="text-[#71706E]">
+                        Target End Date:
+                        <span class="text-black">{{ task?.targetEndDate }}</span>
+                      </li>
+                      <li class="text-[#71706E]">
+                        Duration:
+                        <span class="text-black">{{ task?.duration }}</span>
+                      </li>
+                      <li class="text-[#71706E]">
+                        Progress:
+                        <span class="text-black">{{ task?.progress }}</span>
+                      </li>
+                      <li class="text-[#71706E]">
+                        Status:
+                        <span class="text-black">{{ task?.status }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,40 @@
+<main>
+  <form [formGroup]="DocTypeForm">
+    <div class="mb-3 flex justify-between items-center">
+      <div class="font-bold text-2xl">Phases</div>
+      <div class="flex items-center gap-3">
+        <p-button [label]="isEditMode ? 'Update' : 'Save'" variant="outlined" icon="pi pi-check" (click)="onSubmit()" />
+        <p-button label="Cancel" variant="outlined" severity="danger" icon="pi pi-times" (click)="clearForm()" />
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-5">
+      <p-floatlabel variant="on">
+        <input class="w-full" pInputText id="cPhaseName" formControlName="cPhaseName" [ngClass]="{
+            'input-error': DocTypeForm.get('cPhaseName')?.invalid && DocTypeForm.get('cPhaseName')?.touched,
+          }" />
+        <label> Phase Name <span class="text-danger">*</span></label>
+      </p-floatlabel>
+      <p-floatlabel variant="on">
+        <input class="w-full" pInputText id="cPhaseDescription" formControlName="cPhaseDescription" type="text"
+          [ngClass]="{
+            'input-error':
+              DocTypeForm.get('cPhaseDescription')?.invalid && DocTypeForm.get('cPhaseDescription')?.touched,
+          }" />
+        <label> Description <span class="text-danger">*</span></label>
+      </p-floatlabel>
+      <div class="flex items-center gap-3">
+        <p-checkbox id="bActive" formControlName="bActive" binary="true" size="large" />
+        <label for="bActive">Active</label>
+      </div>
+    </div>
+  </form>
+  @if (listItems?.length) {
+  <section class="w-100">
+    <data-table [show_pdf]="false" [show_excel]="false" [table_search]="true" [show_column_filter]="true"
+      [enable_row_click]="true" [show_action_column]="action_fields" [show_image_column]="image_colum"
+      [action_position]="position" [show_button_column]="button_colum" (selected_row_data)="recive_data($event)"
+      [data]="listItems" export_title="Phase" [table_pagination]="true" [table_header]="'Phase List'">
+    </data-table>
+  </section>
+  }
+</main>

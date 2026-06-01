@@ -1,0 +1,44 @@
+%iconsCard {
+  font-size: 2rem;
+  padding: 10px 9px;
+  border-radius: 5px;
+}
+.iconsCardAll {
+  @extend %iconsCard;
+  color: var(--ab-ash-primary-default);
+  background-color: #e7eaeb;
+}
+.iconsNew {
+  @extend %iconsCard;
+  color: #73847b;
+  background-color: #f1f3f2;
+}
+.iconsCardIcons {
+  @extend %iconsCard;
+  color: var(--ab-ash-primary-default);
+}
+.iconsActive {
+  @extend %iconsCard;
+  color: #1ab366;
+  background-color: #e6f7ee;
+}
+.iconsInActive {
+  @extend %iconsCard;
+  color: #c80c0c;
+  background-color: #fae7e7;
+}
+.truncate{
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
+
+.custom-dropdown-crm {
+  position: fixed;
+  background: #fff;
+  z-index: 10000;
+}
+
+.input-error {
+  border: 1px solid #ef4444 !important;
+}

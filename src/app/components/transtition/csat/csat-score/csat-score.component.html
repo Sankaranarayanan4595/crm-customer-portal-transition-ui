@@ -1,0 +1,273 @@
+<div class="flex items-center gap-3 mb-4 w-full justify-content-between">
+  <div class="flex items-center gap-3">
+    <div
+      class="rounded-full bg-white flex items-center justify-center w-[28px] h-[28px] backBtn-edit cursor-pointer"
+      (click)="toProdServices()"
+    >
+      <i class="pi pi-arrow-left text-xl block cursor-pointer"> </i>
+    </div>
+    <div class="text-2xl font-bold inline-block">CSAT Score</div>
+  </div>
+</div>
+
+<div class="shadowBg flex flex-column items-stretch gap-5 p-4 bg-white mb-4" #htmlSection>
+  <div class="w-full">
+    <p-floatlabel variant="on">
+      <p-select
+        [options]="subClassList"
+        optionLabel="name"
+        optionValue="_id"
+        [filter]="false"
+        filterBy="name"
+        [showClear]="false"
+        class="w-[200px]"
+        (onChange)="onChangeSubClass($event)"
+      >
+      </p-select>
+      <label for="on_label">Sub Class</label>
+    </p-floatlabel>
+  </div>
+  <div class="flex gap-4">
+    <div class="shadowBg grow bg-white p-3">
+      <div class="font-medium text-base">Number of Responses</div>
+      <div class="font-extrabold text-[50px] text-center mt-10">{{ numberOfResponses }}</div>
+    </div>
+    <div class="shadowBg grow bg-white p-3">
+      <div class="font-medium text-base">Responses Rate</div>
+      <div class="font-extrabold text-[50px] text-center mt-10">{{ responseRate }}</div>
+    </div>
+    <div class="shadowBg grow bg-white p-3">
+      <div class="font-medium text-base">CSAT(Customer Satisfaction Score)</div>
+      <div class="d-flex gap-10 justify-content-center">
+        <div>
+          <p-chart type="doughnut" [data]="data" [options]="options" class="md:w-[20rem]" />
+        </div>
+        <div class="me-5">
+          <div class="font-extrabold text-[50px] text-center mt-7">{{ csatScore.toFixed(0) }}%</div>
+          <div class="font-medium text-base">{{ getParticipantStatus(csatScore) }}</div>
+        </div>
+        <div class="d-flex flex-col justify-center">
+          <div class="legend-item flex items-center gap-2 mb-2">
+            <div class="w-3 h-3 bg-[#0d3133] rounded-full"></div>
+            <span class="text-xs font-medium text-gray-700">80-100% Exceeds Expectation</span>
+          </div>
+          <div class="legend-item flex items-center gap-2 mb-2">
+            <div class="w-3 h-3 bg-[#e69f50] rounded-full"></div>
+            <span class="text-xs font-medium text-gray-700">16-79% Met Expectation</span>
+          </div>
+          <div class="legend-item flex items-center gap-2 mb-2">
+            <div class="w-3 h-3 bg-[#b5b3b0] rounded-full"></div>
+            <span class="text-xs font-medium text-gray-700">0-15% Needs Improvement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+<p-accordion value="0" class="shadowBg">
+  @for (participant of surveyScores?.recipients_response; track participant.email; let i = $index) {
+    <p-accordion-panel [value]="i">
+      <p-accordion-header class="border-t border-[#a5a5a5]">
+        <div>
+          <div class="flex items-center text-base font-normal">
+            <span class="mr-3 font-semibold">
+              Participant {{ i + 1 }}
+              @if (participant.isSubmitted) {
+                <span class="mx-2">|</span>
+                {{
+                  surveyScores?.companyProductDetails?.companyName ||
+                    surveyScores?.companyProductDetails?.parentCompanyName
+                }}
+              }
+            </span>
+
+            @if (participant.isSubmitted) {
+              <span [ngClass]="getScoreText(getParticipantScore(participant.response))">
+                {{ getParticipantStatus(getParticipantScore(participant.response)) }}
+              </span>
+            }
+
+            @if (participant.isSubmitted) {
+              <span class="ml-3 px-2 py-1 font-base rounded-sm border border-[#CBCAC6] text-[#CBCAC6]">
+                Score:
+                <span class="text-black">
+                  {{ getParticipantScoreDetails(participant.response).total }}/{{
+                    getParticipantScoreDetails(participant.response).max
+                  }}
+                </span>
+              </span>
+            }
+          </div>
+          <div class="flex items-center text-base font-normal flex-wrap gap-5 mt-4">
+            <div class="d-flex">
+              Survey Status:
+              <span class="font-semibold ml-1 flex items-center gap-1">
+                @if (participant.isSubmitted) {
+                  Completed <i class="pi pi-check-circle text-green-500 ml-1"></i>
+                } @else {
+                  Pending <i class="pi pi-exclamation-circle text-red-500 ml-1"></i>
+                }
+              </span>
+            </div>
+            <div>
+              Survey Completion Date:
+              <span class="font-semibold ml-1">
+                @if (participant.isSubmitted) {
+                  {{ participant.response?.survey_field_4 | date }}
+                }
+              </span>
+            </div>
+            <div>
+              Surveyor's Name:
+              <span class="font-semibold ml-1">
+                {{ getParticipantClientName(participant).name }}
+              </span>
+            </div>
+            <div>
+              Surveyor's Mail ID:
+              <span class="font-semibold ml-1">{{ participant.email }}</span>
+            </div>
+            <div>
+              Engagement Service:
+              <span class="font-semibold ml-1">
+                @if (participant.isSubmitted) {
+                  {{
+                    surveyScores?.companyProductDetails?.productName || getParticipantClientName(participant).product
+                  }}
+                }
+              </span>
+            </div>
+          </div>
+        </div>
+      </p-accordion-header>
+
+      <p-accordion-content>
+        @if (participant.isSubmitted) {
+          <div class="border-t">
+            <div>
+              <div class="d-flex justify-content-between">
+                <div class="text-xl font-bold inline-block my-3">CSAT Details</div>
+                <div class="mt-3">
+                  <p-button
+                    icon="pi pi-refresh"
+                    label="Resend"
+                    styleClass="ml-auto align-left"
+                    (click)="showConfirmModalPop(participant)"
+                    [outlined]="true"
+                  ></p-button>
+                </div>
+              </div>
+              <ol class="list-decimal pl-4">
+                @for (entry of getRatingEntries(participant.formattedResponses); track entry.label) {
+                  <li class="mb-2">
+                    <div>{{ entry.label }}</div>
+                    <div class="font-semibold mt-1">{{ entry.value }}</div>
+                  </li>
+                }
+              </ol>
+            </div>
+          </div>
+        } @else {
+          <div class="border-t">
+            <div class="text-xl font-bold inline-block my-3">CSAT Details</div>
+            <p class="text-gray-500">Survey not yet completed</p>
+          </div>
+        }
+      </p-accordion-content>
+    </p-accordion-panel>
+  }
+</p-accordion> -->
+
+<!-- Confirmation Modal -->
+<p-dialog
+  [(visible)]="showConfirmModal"
+  [modal]="true"
+  [style]="{ width: '40rem' }"
+  position="center"
+  [draggable]="false"
+  [resizable]="false"
+  [showHeader]="false"
+>
+  <div class="d-flex flex-column align-items-center mt-5">
+    <i class="bi bi-exclamation-circle before:text-[55px] !text-[#0d3133] mb-5"></i>
+    <h4 class="text-2xl font-semibold text-center mb-3">Confirm Resend</h4>
+    <p class="text-gray-600 text-center mb-5">
+      Are you sure you want to re-send the CSAT Transition Survey to
+      <strong>{{ selectedParticipant?.email }}</strong
+      >?
+    </p>
+    <div class="flex gap-3 justify-content-center">
+      <p-button label="Confirm Resend" icon="pi pi-check" (click)="confirmResend()"></p-button>
+      <p-button
+        icon="pi pi-times"
+        label="Cancel"
+        severity="danger"
+        variant="outlined"
+        (click)="cancelResend()"
+        [outlined]="true"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Success Modal -->
+<p-dialog
+  [(visible)]="showSuccessModal"
+  [modal]="true"
+  [style]="{ width: '40rem' }"
+  position="center"
+  [draggable]="false"
+  [resizable]="false"
+  panelStyleClass="custom-dialog"
+>
+  <div class="d-flex justify-content-center">
+    <i class="bi bi-check-circle-fill circle-icon"></i>
+  </div>
+  <div class="text-center mt-6 mb-5">
+    <h4 class="text-primary text-2xl">CSAT Transition Survey Send Successfully</h4>
+  </div>
+  <div class="flex justify-content-center">
+    <p-button label="OK" (click)="closeSuccessModal()"></p-button>
+  </div>
+</p-dialog>
+
+<div class="flex flex-column mt-6 mb-4 w-full">
+  <div class="manual-table-option">
+    <div>
+      <p-button
+        class="bg-white"
+        (click)="menu.toggle($event)"
+        variant="outlined"
+        id="Export"
+        label="Export"
+        icon="pi pi-angle-down"
+        iconPos="right"
+      />
+      <p-menu #menu [model]="excelItems" [popup]="true" />
+    </div>
+    <p-iconfield iconPosition="left">
+      <p-inputicon>
+        <i class="pi pi-search"></i>
+      </p-inputicon>
+      <input pInputText type="text" placeholder="Search" (input)="onAllSearchUnique($event)" [value]="searchTerm" />
+      @if (searchTerm) {
+        <p-inputicon>
+          <i class="pi pi-times cursor-pointer text-gray-500 hover:text-gray-700" (click)="clearSearch()"></i>
+        </p-inputicon>
+      }
+    </p-iconfield>
+  </div>
+  <ag-grid-datatable
+    [themeClass]="themeClass"
+    [pagination]="true"
+    [table_header]="''"
+    [columnsData]="listItemsColumnData"
+    [tableData]="listItems"
+    [export_title]="'CSAT Score'"
+    [paginationPageSize]="10"
+    [dashboardView]="false"
+    [searchBox]="false"
+    [reportsLink]="true"
+  ></ag-grid-datatable>
+</div>

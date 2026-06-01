@@ -1,0 +1,15 @@
+<div class="action-wrapper">
+  <!-- @if (params.data?.isNew) {
+    <button type="button" class="btn btn-primary btn-sm px-2" (click)="onViewClick()">
+      <i class="bi bi-arrow-right"></i> Start Transition
+    </button>
+  } @else {
+    <button type="button" class="btn btn-primary btn-sm px-2" (click)="onViewClick()">
+      <i class="bi bi-eye"></i> View Transition
+    </button>
+  } -->
+
+  <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (click)="menu.toggle($event)" styleClass="ms-2" />
+
+  <p-menu #menu [model]="menuItems" [popup]="true" appendTo="body" />
+</div>

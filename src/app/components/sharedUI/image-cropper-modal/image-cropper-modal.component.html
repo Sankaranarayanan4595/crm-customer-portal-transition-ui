@@ -1,0 +1,45 @@
+<div class="modal bg-modal-blur d-block" tabindex="-1" role="dialog">
+  <div
+    class="modal-dialog"
+    role="document"
+    id="imgCrop"
+    style="z-index: 100; position: fixed; left: 0; right: 0; top: 0px"
+  >
+    <div class="modal-content px-4 py-6">
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [imageURL]="imageURL"
+        [maintainAspectRatio]="false"
+        [containWithinAspectRatio]="containWithinAspectRatio"
+        [aspectRatio]="aspectRatio"
+        [cropperMinWidth]="40"
+        [onlyScaleDown]="true"
+        [roundCropper]="false"
+        [canvasRotation]="canvasRotation"
+        [(transform)]="transform"
+        [alignImage]="'center'"
+        [allowMoveImage]="allowMoveImage"
+        [hidden]="hidden"
+        imageAltText="image"
+        output="blob"
+        format="png"
+        (cropperReady)="cropperReady($event)"
+        (loadImageFailed)="loadImageFailed()"
+        (imageCropped)="imageCropped($event)"
+      >
+      </image-cropper>
+      <!-- (imageLoaded)="imageLoaded()" -->
+      <!-- [style.display]="showCropper ? null : 'none'" -->
+      @if (loading) {
+        <div class="loader fw-semibold">Loading...</div>
+      }
+      <div class="text-end mt-5">
+        <button type="button" class="btn-cancel me-2" (click)="cancelCropping()">
+          <i class="bi bi-x fs-1"></i>
+          Cancel
+        </button>
+        <button type="button" class="btn-olt" (click)="cropImage()"><i class="bi bi-check2"></i>Save & Crop</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+.timeframe-floating-label {
+    top: -6px;
+    left: 9px;
+    z-index: 10;
+    color: var(--ab-ash-ash-240);
+    // background-color: #f5f5f5;
+}
+.datePickerOuter ::ng-deep .input-group input{
+  background-color: transparent !important;
+}
+::ng-deep {
+//   .p-ripple, .accordioncontent,.p-accordion .p-accordioncontent{
+//  overflow: visible !important;
+// }
+.input-group.border-line{
+  background-color: transparent !important;
+  height: 33px !important;
+  border: 1px solid #a5a5a5 !important;
+}
+.p-badge-dot{
+width: 12px !important;
+height: 12px !important;
+}
+}
+
+.input-error {
+  border: 1px solid #ef4444 !important;
+}
+
+.logs-link{
+  font-weight: bold;
+  color: #0D3133;
+}

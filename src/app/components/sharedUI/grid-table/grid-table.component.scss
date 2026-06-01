@@ -1,0 +1,17 @@
+.view-item-group {
+  .more-actions-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover {
+    .more-actions-btn {
+      opacity: 1;
+    }
+  }
+}
+
+/* Ensure the button stays visible when the menu is open or if hovered */
+.more-actions-btn:focus-within {
+  opacity: 1 !important;
+}

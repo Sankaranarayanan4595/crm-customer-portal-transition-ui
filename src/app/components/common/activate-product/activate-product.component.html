@@ -1,0 +1,47 @@
+<main>
+  <div class="text-center full-container">
+    <h2 class="mt-5">Product Activation</h2>
+
+    <div class="mt-5">
+      <table class="table table-bordered table-striped left-allign">
+        <thead>
+          <tr>
+            <th scope="col">Description</th>
+            <th scope="col">Client Information</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Company Name</th>
+            <td>{{ companyName }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Product Name</th>
+            <td>{{ productName }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>{{ statusName }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Portal Name</th>
+            <td>{{ portalName }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Category Name</th>
+            <td>{{ categoryName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fs-4 mt-20 d-flex align-items-center">
+      Go to Login
+      <span
+        class="ms-2 rounded-circle bg-white d-flex align-items-center justify-content-center backBtn-edit cursor-pointer"
+      >
+        <i class="fs-1 d-block bi bi-arrow-right-short" style="line-height: unset" (click)="redirectToLogin()"></i>
+      </span>
+    </div>
+  </div>
+</main>

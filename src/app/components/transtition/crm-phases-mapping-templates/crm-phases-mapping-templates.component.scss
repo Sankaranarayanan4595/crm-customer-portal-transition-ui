@@ -1,0 +1,21 @@
+// .textareaForBulk {
+//   // width: 300px;
+//   // min-width: 300px;
+//   // max-width: 300px;
+
+//   height: 38px;
+//   min-height: 38px;
+//   max-height: 100px;
+
+//   resize: vertical;
+//   overflow: auto;
+
+//   align-content: center;
+// }
+
+::ng-deep .input-error{
+  border-color: red !important;
+}
+::ng-deep .mappedCol{
+  line-height: 1.5 !important;
+}

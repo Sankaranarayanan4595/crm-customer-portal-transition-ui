@@ -1,0 +1,49 @@
+<div class="pt-6 pb-10">
+  <!-- Invoice Info -->
+  <div class="flex flex-wrap items-center px-6 gap-6 mt-4 text-sm text-gray-700">
+    <div>
+      <span class="text-gray-500">Invoice Number:</span>
+      <span class="font-semibold ml-1">99</span>
+    </div>
+    <div>
+      <span class="text-gray-500">Company Name:</span>
+      <span class="font-semibold ml-1">99</span>
+    </div>
+    <div>
+      <span class="text-gray-500">Invoice Amount:</span>
+      <span class="font-semibold ml-1">99</span>
+    </div>
+  </div>
+
+  <!-- Confirmation Text -->
+  <div class="px-6 mt-6">
+    <h3 class="text-lg font-semibold text-gray-800">
+      Are you sure you want to reject the requested changes to this invoice?
+    </h3>
+  </div>
+
+  <!-- Textarea -->
+  <div class="px-6 mt-6">
+    <label for="cNotes" class="block text-gray-700 font-semibold mb-2"
+      >Reason <span class="text-red-500">*</span></label
+    >
+    <textarea
+      id="cNotes"
+      placeholder="Reason for rejection"
+      class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      rows="4"
+    ></textarea>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex justify-end px-6 mt-8 space-x-3">
+    <p-button
+      label="Cancel"
+      severity="danger"
+      variant="outlined"
+      icon="pi pi-times"
+      (click)="dismissMdlFn()"
+    ></p-button>
+    <p-button label="Yes" variant="outlined" icon="pi pi-check" (click)="dismissMdlFn()"></p-button>
+  </div>
+</div>

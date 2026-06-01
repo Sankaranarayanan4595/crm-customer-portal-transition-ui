@@ -1,0 +1,151 @@
+<section [formGroup]="CommentForm">
+  <div [ngClass]="verticalPos ? 'flex-col' : 'grid grid-cols-[40%_60%]'" class="gap-4">
+    <section>
+      @if (showToggleCommentBox) {
+        <input
+          id="commentInput"
+          formControlName="cDescription"
+          class="w-full"
+          pInputText
+          placeholder="Add Comments"
+          (focus)="commentInputFocus()"
+          [ngClass]="{ 'input-error': isFieldInvalid('cDescription') }"
+        />
+      } @else {
+        <div class="relative" (click)="onMentionClick($event)">
+          <p-editor
+            formControlName="cDescription"
+            #editorRef
+            [style]="{ height: '160px' }"
+            class="no-toolbar"
+            [modules]="editorModules"
+            placeholder="Enter Comments"
+            (keydown)="onEditorKeydown($event)"
+          ></p-editor>
+
+          <!-- Mention popup -->
+          <div
+            *ngIf="showUserList"
+            #mentionPopup
+            class="absolute bg-white border rounded shadow-md mt-10 ms-5 w-48 z-50"
+            [ngStyle]="{
+              'max-height': '200px',
+              overflow: 'auto',
+              top: popupPosition.top + 'px',
+              left: popupPosition.left + 'px',
+              position: 'absolute',
+            }"
+          >
+            @for (user of filteredUsers; track $index) {
+              <div class="px-3 py-2 hover:bg-blue-100 cursor-pointer" (click)="insertMention(user)">
+                {{ user.loginName }}
+              </div>
+            }
+            <div *ngIf="filteredUsers.length === 0" class="px-3 py-2 text-gray-400">No users found</div>
+          </div>
+        </div>
+      }
+
+      <!-- Error Messages -->
+      @if (isFieldInvalid("cDescription")) {
+        <div class="error-messages mt-1">
+          <small class="text-red-500">{{ getFieldError("cDescription") }}</small>
+        </div>
+      }
+
+      <div class="flex mt-3 justify-end gap-3">
+        <p-button
+          variant="outlined"
+          [label]="isEditing ? 'Update Comment' : 'Add Comment'"
+          [icon]="isEditing ? 'pi pi-check' : 'pi pi-plus'"
+          (onClick)="addComment(showToggleCommentBox)"
+        />
+        <p-button label="Cancel" icon="pi pi-times" variant="outlined" severity="danger" (onClick)="clearComment()" />
+      </div>
+      @if (isEditing) {
+        <div class="flex justify-end mt-2">
+          <p-button
+            label="Cancel Edit"
+            icon="pi pi-times"
+            variant="text"
+            severity="secondary"
+            (onClick)="cancelEdit()"
+          />
+        </div>
+      }
+    </section>
+    <section [ngClass]="verticalPos ? 'mt-3 border-t-[1px] border-t-[var(--abg-form-field-border-color)]' : ''">
+      <div class="flex justify-between mb-2 mt-3 items-center mx-2">
+        <div class="text-lg font-semibold">All Comments ({{ filteredComments.length }})</div>
+        <div [ngClass]="verticalPos ? 'flex' : 'flex flex-row-reverse'" class="gap-3 items-center">
+          <div>
+            <p-dropdown
+              [options]="commentTypeOptions"
+              optionLabel="label"
+              placeholder="All"
+              class="w-36"
+              [(ngModel)]="selectedCommentType"
+              (onChange)="onCommentTypeChange()"
+              [ngModelOptions]="{ standalone: true }"
+            />
+          </div>
+          @if (hidesearch) {
+            <p-iconfield iconPosition="left">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                placeholder="Search"
+                class="w-43"
+                [(ngModel)]="searchText"
+                (input)="onSearchChange()"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              @if (searchText) {
+                <p-inputicon>
+                  <i class="pi pi-times cursor-pointer text-gray-500 hover:text-gray-700" (click)="clearSearch()"></i>
+                </p-inputicon>
+              }
+            </p-iconfield>
+          }
+          <div class="font-semibold cursor-pointer flex items-center" (click)="toggleSortOrder()">
+            Sort by {{ sortNewestFirst ? "New" : "Old" }} <i class="bi bi-filter text-lg ml-1"></i>
+          </div>
+        </div>
+      </div>
+      <section
+        dynamicHeight
+        [isHeight]="setCommentHeight"
+        [offset]="0"
+        [ngStyle]="!setCommentHeight ? { 'max-height': '40vh', overflow: 'auto' } : {}"
+      >
+        @for (comment of filteredComments; track $index; let i = $index; let last = $last) {
+          <div class="p-3 mb-4 mt-2 mx-2 rounded-lg shadowBg" [ngClass]="{ '!mb-10': last }">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-4">
+                <div class="text-base font-semibold text-600">{{ comment.cCreatedBy }}</div>
+                <div class="text-[#6F7579] text-sm font-normal">
+                  <span>{{ comment.formattedDate }}</span>
+                  <span class="mx-2">at</span>
+                  <span>{{ comment.formattedTime }}</span>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <!-- <i class="bi bi-pencil fs-5 cursor-pointer text-primary" title="Edit" (click)="editComment(i)"></i> -->
+                <!-- <i class="bi bi-trash3 fs-5 cursor-pointer text-danger" title="Delete" (click)="deleteComment(i)"></i> -->
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div [innerHTML]="sanitizeHtml(comment.cDescription)" class="comment-html-preview"></div>
+            </div>
+          </div>
+        } @empty {
+          <div class="p-3 text-center text-gray-500 bg-gray-100 rounded border">No comments yet.</div>
+        }
+      </section>
+    </section>
+  </div>
+</section>

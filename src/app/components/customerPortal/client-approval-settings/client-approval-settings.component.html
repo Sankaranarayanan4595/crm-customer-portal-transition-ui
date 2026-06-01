@@ -1,0 +1,375 @@
+<section class="shadowBg p-4 mb-5">
+  <div class="flex justify-content-between align-items-center">
+    <div class="text-xl font-semibold mb-3">Transition Settings</div>
+    <div class="manual-table-option">
+      <div>
+        <p-button
+          class="bg-white"
+          (click)="menu.toggle($event)"
+          variant="outlined"
+          id="Export"
+          label="Export"
+          icon="pi pi-angle-down"
+          iconPos="right"
+        />
+        <p-menu #menu [model]="excelItems" [popup]="true" />
+      </div>
+      <p-iconfield iconPosition="left">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input pInputText type="text" placeholder="Search" (input)="onAllSearchUnique($event)" [value]="searchTerm" />
+        @if (searchTerm) {
+          <p-inputicon>
+            <i class="pi pi-times cursor-pointer text-gray-500 hover:text-gray-700" (click)="clearSearch()"></i>
+          </p-inputicon>
+        }
+      </p-iconfield>
+    </div>
+  </div>
+
+  <form [formGroup]="clientApprovalSetting">
+    <div class="flex gap-4 mt-5">
+      <div class="w-[250px]">
+        <p-floatlabel variant="on">
+          <p-select
+            [options]="approvalOptions"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="approvalType"
+            [appendTo]="'body'"
+            class="w-full"
+            id="approvalType"
+            (onChange)="onChangeType($event)"
+            [ngClass]="{ 'input-error': isFieldCompany('approvalType') }"
+            [disabled]="editingApprovalId !== null"
+          ></p-select>
+          <label for="approvalType"> Type <span class="text-red-700">*</span> </label>
+        </p-floatlabel>
+      </div>
+
+      <div class="w-[250px]" *ngIf="approvalTypeValue === 'transition_wise'">
+        <p-floatlabel variant="on">
+          <p-multiselect
+            [maxSelectedLabels]="1"
+            [options]="transitionOptions"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="transitionWise"
+            [appendTo]="'body'"
+            class="w-full"
+            id="transitionWise"
+            [showClear]="true"
+            (onChange)="onChangeTransitionWise($event)"
+            [ngClass]="{ 'input-error': isFieldCompany('transitionWise') }"
+          ></p-multiselect>
+          <label for="transitionWise"> Transition <span class="text-red-700">*</span> </label>
+        </p-floatlabel>
+      </div>
+
+      <div class="flex gap-3 pb-1">
+        @if (showCompanyLevelApprovals) {
+          <p-button
+            [disabled]="listItemsApprovers.length === 0"
+            [label]="editingApprovalId ? 'Update' : 'Save'"
+            icon="pi pi-check"
+            (onClick)="saveApprovalSettings()"
+            [loading]="isSaving"
+          ></p-button>
+        } @else {
+          <p-button (onClick)="openApprovalModal()" label="Set Configuration" icon="pi pi-plus"></p-button>
+        }
+        <p-button
+          label="Clear"
+          icon="pi pi-times"
+          severity="danger"
+          variant="outlined"
+          (onClick)="cancelApprovalSettings()"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+
+  @if (showCompanyLevelApprovals) {
+    <hr class="my-4" />
+    <form [formGroup]="clientApprovalForm">
+      <div class="flex items-center justify-between mb-4 border-gray-200 pb-2 border-b">
+        <div class="font-bold text-xl">Role Configuration</div>
+      </div>
+
+      <div class="flex gap-4 mt-5">
+        <div class="w-[250px]">
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="roleOptions"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="role"
+              [appendTo]="'body'"
+              class="w-full"
+              id="role"
+              [ngClass]="{ 'input-error': isFieldInvalidCompany('role') }"
+            ></p-select>
+            <label for="role" [ngClass]="{ 'text-danger': isFieldInvalidCompany('role') }">
+              Roles <span class="text-red-700">*</span>
+            </label>
+          </p-floatlabel>
+        </div>
+
+        <div class="w-[250px]">
+          <p-floatlabel variant="on">
+            <p-multiselect
+              [options]="users"
+              optionLabel="empName"
+              optionValue="_id"
+              [filter]="true"
+              [appendTo]="'body'"
+              formControlName="approvers"
+              [showClear]="true"
+              [ngClass]="{ 'input-error': isFieldInvalidCompany('approvers') }"
+              class="w-full select-dropdown"
+              [panelStyle]="{ 'min-width': '250px', 'max-width': '250px' }"
+            >
+              <ng-template let-user pTemplate="item">
+                <div class="dropdown-option">
+                  {{ user.empName }}
+                </div>
+              </ng-template>
+            </p-multiselect>
+            <label for="approvers" [ngClass]="{ 'text-danger': isFieldInvalidCompany('approvers') }"
+              >Set Users <span class="text-red-700">*</span>
+            </label>
+          </p-floatlabel>
+        </div>
+
+        <div class="flex gap-2 items-center">
+          <p-button
+            variant="outlined"
+            icon="pi pi-plus"
+            (onClick)="addApprovalLevel()"
+            [loading]="isSaving"
+            [disabled]="!clientApprovalForm.valid"
+            pTooltip="Add Role"
+            tooltipPosition="top"
+          />
+        </div>
+      </div>
+
+      <div class="mt-7" style="max-height: 250px; overflow: auto">
+        @if (listItemsApprovers.length) {
+          @for (item of listItemsApprovers; track item.id; let i = $index) {
+            <div class="flex gap-4 mt-5">
+              <div class="w-[250px]">
+                <p-floatlabel variant="on">
+                  <p-select
+                    [options]="roleOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [appendTo]="'body'"
+                    class="w-full"
+                    [ngModel]="item.role"
+                    (onChange)="updateTempRole(item, $event)"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></p-select>
+                  <label>Role</label>
+                </p-floatlabel>
+              </div>
+
+              <div class="w-[250px]">
+                <p-floatlabel variant="on">
+                  <p-multiselect
+                    [options]="users"
+                    optionLabel="empName"
+                    optionValue="_id"
+                    [filter]="true"
+                    [appendTo]="'body'"
+                    class="w-full select-dropdown"
+                    [panelStyle]="{ 'min-width': '250px', 'max-width': '250px' }"
+                    [ngModel]="item.approvers"
+                    (ngModelChange)="updateTempApprovers(item, $event)"
+                    [ngModelOptions]="{ standalone: true }"
+                    [showClear]="true"
+                  >
+                    <ng-template let-user pTemplate="item">
+                      <div class="dropdown-option">
+                        {{ user.empName }}
+                      </div>
+                    </ng-template>
+                  </p-multiselect>
+                  <label>Set Users <span class="text-red-700">*</span></label>
+                </p-floatlabel>
+              </div>
+
+              <div class="flex gap-2 items-center">
+                <p-button
+                  pTooltip="Delete Role"
+                  tooltipPosition="top"
+                  icon="pi pi-trash"
+                  variant="outlined"
+                  severity="danger"
+                  (onClick)="deleteApprover(item.id)"
+                />
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </form>
+  }
+
+  <div class="mt-5">
+    @if (filteredTableData?.length > 0) {
+      <ag-grid-datatable
+        [themeClass]="'ag-theme-alpine'"
+        [pagination]="true"
+        [columnsData]="mainTableColumns"
+        [tableData]="filteredTableData"
+        [export_title]="'CompanyLevelApprovalList'"
+        [dashboardView]="false"
+        [reportsLink]="true"
+        [searchBox]="false"
+        [paginationPageSize]="50"
+        [gridOptions]="gridOptions"
+        [paginationPageSizeSelector]="paginationPageSizeSelector"
+      >
+      </ag-grid-datatable>
+      <!-- <p-table
+        [value]="filteredTableData"
+        [paginator]="true"
+        [rows]="50"
+        [rowsPerPageOptions]="paginationPageSizeSelector"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        sortMode="multiple"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th
+              *ngFor="let col of mainTableColumns"
+              [pSortableColumn]="col.field"
+              [pSortableColumnDisabled]="!col.sortable"
+            >
+              {{ col.header }}
+              <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td *ngFor="let col of mainTableColumns">
+              <ng-container *ngIf="col.field === 'actions'">
+                <div class="flex gap-2">
+                  <button
+                    pButton
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-success"
+                    (click)="openApprovalModal(rowData)"
+                  ></button>
+                  <button
+                    pButton
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-danger"
+                    (click)="deleteApprovalConfiguration(rowData)"
+                  ></button>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="col.field !== 'actions'">
+                {{ rowData[col.field] }}
+              </ng-container>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="mainTableColumns.length" class="text-center">No records found</td>
+          </tr>
+        </ng-template>
+      </p-table> -->
+    } @else {
+      <div class="items-center flex justify-center flex-column bg-white mt-8">
+        <svg width="164" height="110" viewBox="0 0 164 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M49.5647 13.8263L17.8418 35.0469L49.0887 81.7582L80.8116 60.5376L49.5647 13.8263Z" fill="#F4F4F4" />
+          <path d="M64.419 58.3357L64.0599 60.5636L48.2891 58.2904L48.6481 56.0625L64.419 58.3357Z" fill="#E0E0E0" />
+          <path d="M56.4765 50.3828L58.7384 50.708L56.2305 66.2357L53.9658 65.9077L56.4765 50.3828Z" fill="#E0E0E0" />
+          <path
+            d="M41.9646 30.641C41.9872 30.6721 38.8093 32.8407 34.8651 35.4758C30.921 38.1108 27.7063 40.2257 27.6837 40.1918C27.6611 40.1578 30.839 37.9921 34.7832 35.3542C38.7273 32.7163 41.9278 30.6071 41.9646 30.641Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M53.6187 27.719C53.6413 27.7529 48.3542 31.3267 41.8117 35.7034C35.2693 40.0801 29.9369 43.6001 29.92 43.569C29.903 43.5379 35.1788 39.9585 41.7297 35.5818C48.2807 31.2051 53.5961 27.6851 53.6187 27.719Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M55.9566 31.219C55.9792 31.2529 50.6921 34.8295 44.1496 39.2062C37.6072 43.5829 32.2748 47.103 32.2579 47.069C32.2409 47.0351 37.5224 43.4614 44.0676 39.0818C50.6129 34.7023 55.934 31.1851 55.9566 31.219Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M58.295 34.7112C58.3177 34.7451 53.0305 38.3217 46.4881 42.6956C39.9456 47.0695 34.6133 50.5951 34.6133 50.5612C34.6133 50.5273 39.8749 46.9507 46.4202 42.574C52.9655 38.1973 58.2724 34.6773 58.295 34.7112Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M60.6246 38.2034C60.6472 38.2373 55.3601 41.811 48.8177 46.1878C42.2752 50.5645 36.9429 54.0845 36.9287 54.0506C36.9146 54.0167 42.1989 50.4429 48.7498 46.0662C55.3008 41.6895 60.6246 38.1694 60.6246 38.2034Z"
+            fill="#E0E0E0"
+          />
+          <path d="M113.493 15.548L84.4229 0L61.5289 42.8047L90.5989 58.3527L113.493 15.548Z" fill="#F4F4F4" />
+          <path
+            d="M97.584 16.5766C97.5613 16.619 94.6153 15.0866 90.9991 13.1556C87.3829 11.2245 84.4736 9.62139 84.4962 9.57898C84.5188 9.53657 87.4678 11.069 91.0839 13.0001C94.7001 14.9311 97.6066 16.5314 97.584 16.5766Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M104.562 24.2871C104.539 24.3295 99.6591 21.7623 93.6623 18.5561C87.6655 15.3499 82.8251 12.7148 82.8477 12.6724C82.8704 12.63 87.7475 15.1944 93.7443 18.4034C99.7411 21.6124 104.584 24.2447 104.562 24.2871Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M102.848 27.4746C102.825 27.517 97.9452 24.9526 91.9484 21.7436C85.9516 18.5346 81.1112 15.9023 81.1339 15.8599C81.1565 15.8175 86.0336 18.3847 92.0304 21.5909C98.0272 24.7971 102.87 27.4322 102.848 27.4746Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M101.135 30.6907C101.112 30.7331 96.2323 28.1687 90.2355 24.9625C84.2388 21.7564 79.3984 19.1298 79.421 19.0789C79.4436 19.028 84.3207 21.6008 90.3175 24.807C96.3143 28.0132 101.158 30.6483 101.135 30.6907Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M99.4211 33.9014C99.3984 33.9439 94.5185 31.3795 88.5217 28.1733C82.5249 24.9671 77.6817 22.332 77.7071 22.2896C77.7326 22.2472 82.6069 24.8116 88.6037 28.0178C94.6004 31.224 99.4437 33.859 99.4211 33.9014Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M163.233 109.683C163.233 109.722 126.69 109.756 81.6195 109.756C36.549 109.756 0 109.731 0 109.683C0 109.635 36.5376 109.609 81.6195 109.609C126.701 109.609 163.233 109.64 163.233 109.683Z"
+            fill="#263238"
+          />
+          <path
+            d="M9.0356 91.9716C9.51362 92.0061 9.97979 92.1365 10.4063 92.3551C10.8328 92.5737 11.2109 92.876 11.518 93.2439C12.1287 93.9841 12.5611 94.8547 12.7818 95.7885C13.2596 97.5754 12.9656 99.6874 12.4567 101.466C10.5228 100.773 9.32682 98.7091 8.78114 97.6234C7.93294 95.9101 7.42685 92.2911 9.02712 91.9688"
+            fill="#0B6631"
+          />
+          <path
+            d="M15.2414 103.633C14.951 103.183 14.7849 102.664 14.7601 102.129C14.7353 101.593 14.8525 101.061 15.1 100.586C15.3552 100.115 15.7017 99.6995 16.1192 99.3641C16.5367 99.0286 17.0168 98.7797 17.5315 98.6319C18.0037 98.4849 18.5522 98.4255 18.9622 98.6997C19.147 98.8395 19.2909 99.0263 19.3789 99.2406C19.4669 99.455 19.4958 99.689 19.4626 99.9183C19.3884 100.378 19.1932 100.809 18.8971 101.168C17.9556 102.443 16.8134 103.503 15.2216 103.633"
+            fill="#0B6631"
+          />
+          <path
+            d="M15.4565 109.62C15.4146 109.5 15.3852 109.375 15.3689 109.249C15.318 108.984 15.2501 108.641 15.1681 108.232C14.9144 107.109 14.8437 105.953 14.9589 104.808C15.0922 103.657 15.5305 102.563 16.2284 101.638C16.4416 101.362 16.6875 101.112 16.9607 100.895C17.0349 100.836 17.1123 100.781 17.1925 100.731C17.218 100.709 17.2466 100.692 17.2773 100.68C16.9197 100.985 16.593 101.325 16.3019 101.695C15.6408 102.62 15.2245 103.698 15.0918 104.827C14.9109 106.145 15.1342 107.352 15.2643 108.22C15.3321 108.653 15.3887 109.003 15.4198 109.247C15.442 109.37 15.4543 109.495 15.4565 109.62Z"
+            fill="#263238"
+          />
+          <path
+            d="M9.65723 94.6875C9.68951 94.7321 9.7161 94.7805 9.73639 94.8317C9.78728 94.9448 9.85514 95.0862 9.93431 95.2643C10.1068 95.6403 10.3471 96.186 10.6383 96.8617C11.2207 98.216 12.0011 100.099 12.8154 102.197C13.6296 104.295 14.3223 106.209 14.7945 107.603C15.0376 108.298 15.2271 108.864 15.36 109.257C15.4193 109.443 15.4646 109.593 15.5013 109.709C15.5215 109.761 15.5357 109.815 15.5437 109.87C15.5151 109.822 15.4923 109.771 15.4759 109.718C15.4335 109.605 15.3798 109.458 15.3091 109.274L14.7125 107.634C14.2064 106.251 13.4996 104.34 12.6881 102.245C11.8767 100.15 11.1076 98.2613 10.5478 96.8985C10.2651 96.2284 10.0474 95.6827 9.88624 95.2841C9.81273 95.1031 9.75336 94.9589 9.70812 94.843C9.68688 94.7927 9.66986 94.7407 9.65723 94.6875Z"
+            fill="#263238"
+          />
+          <path
+            d="M13.1577 105.664C12.5759 104.695 11.772 103.879 10.8123 103.283C9.85262 102.687 8.76479 102.327 7.63873 102.235C7.07326 102.195 6.37773 102.291 6.12327 102.8C5.86881 103.309 6.20809 103.931 6.59827 104.344C7.42726 105.211 8.49443 105.813 9.66527 106.075C10.8361 106.337 12.0582 106.246 13.1775 105.814"
+            fill="#0B6631"
+          />
+          <path
+            d="M8.50978 103.76C8.62965 103.754 8.74981 103.759 8.86885 103.774C9.00824 103.782 9.14704 103.798 9.28447 103.822C9.44562 103.854 9.63506 103.871 9.83297 103.927C10.0542 103.974 10.2723 104.034 10.4861 104.108C10.7337 104.188 10.9764 104.282 11.2127 104.391C11.7562 104.634 12.2704 104.939 12.7451 105.298C13.2144 105.666 13.6395 106.088 14.0118 106.554C14.1725 106.757 14.3208 106.969 14.4557 107.19C14.5776 107.381 14.6889 107.578 14.7893 107.781C14.8742 107.946 14.9497 108.116 15.0155 108.29C15.0722 108.418 15.1203 108.551 15.1597 108.686C15.2015 108.798 15.2328 108.915 15.253 109.033C15.2219 109.033 15.0862 108.547 14.7045 107.823C14.6005 107.629 14.4863 107.44 14.3624 107.258C14.2246 107.044 14.0755 106.837 13.9156 106.639C13.1761 105.725 12.233 104.997 11.1618 104.512C10.9158 104.405 10.6812 104.303 10.4522 104.23C10.2419 104.153 10.0277 104.088 9.81035 104.035C9.0187 103.817 8.50695 103.791 8.50978 103.76Z"
+            fill="#263238"
+          />
+          <path
+            d="M60.1287 51.6432L50.1199 103.044L48.8193 109.773L115.544 109.451C118.541 109.437 121.199 106.776 122.158 102.824L133.993 54.298C134.725 51.2982 133.119 48.1769 130.846 48.1797L63.2953 48.2504C61.8251 48.2475 60.5075 49.6386 60.1287 51.6432Z"
+            fill="black"
+          />
+          <path
+            d="M109.152 99.5501L102.084 42.6048C101.801 40.2722 99.9376 38.5306 97.7407 38.5391L82.2469 38.5872C81.6711 38.5936 81.1027 38.7173 80.5763 38.9506C80.0498 39.184 79.5764 39.522 79.1849 39.9443L71.8339 47.7675L28.7453 47.9994C26.113 48.0135 24.0887 50.5072 24.4364 53.3063L30.9987 105.937C31.2814 108.267 33.1446 110.006 35.3358 110.003L110.444 109.853C118.807 110.025 119.607 107.557 119.607 107.557C110.006 109.68 109.152 99.5643 109.152 99.5501Z"
+            fill="#1D4B4E"
+          />
+        </svg>
+        <div class="text-lg font-semibold text-primary mt-4 mb-6">No data available</div>
+      </div>
+    }
+  </div>
+</section>

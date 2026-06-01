@@ -1,0 +1,219 @@
+<main class="container-fluid">
+  <div class="card">
+    <div class="card-body shadowBg">
+      <h6 class="fs-4 mb-6" hidden>Billing Cycle Details</h6>
+      <form [formGroup]="billingForm">
+        <div class="row" hidden>
+          <div class="col-12 col-md-3">
+            <div class="form-floating">
+              <select formControlName="cBillingCycle" class="form-select mt-2" data-control="select2"
+                (change)="onDropdownChange($event)" [value]="selectedValue" data-placeholder="Select an option">
+                <option value="company">Company</option>
+                <option value="product">Product</option>
+              </select>
+              <label class="m-floating-label">
+                Bill Against Company/Product ? <span class="text-danger">*</span>
+              </label>
+            </div>
+            @if (billingForm.controls["cBillingCycle"]?.invalid && billingForm.controls["cBillingCycle"]?.touched) {
+            <div class="errorMsg-client text-danger">Billing Cycle is required.</div>
+            }
+          </div>
+          @if (selectedValue === "company") {
+          <div class="col-12 col-md-9">
+            <div class="d-md-flex align-items-center gap-4 pt-4 billingFreq">
+              <div class="fw-semibold fs-4 me-1 billingFreq_txt">Billing Frequency :</div>
+              <div class="d-md-flex flex-md-nowrap flex-wrap gap-4">
+                @for (frequency of companyFrequencies; track frequency) {
+                <div class="form-check">
+                  <input formControlName="cCompanyFrequency" class="form-check-input" type="radio"
+                    [value]="frequency.value" id="frequency-{{ frequency.value }}" />
+                  <label class="form-check-label radioTxt" [for]="'frequency-' + frequency.value">{{
+                    frequency.label
+                    }}</label>
+                </div>
+                }
+              </div>
+            </div>
+            @if (
+            billingForm.controls["cCompanyFrequency"]?.invalid && billingForm.controls["cCompanyFrequency"]?.touched
+            ) {
+            <div class="errorMsg-client text-danger">Company Frequency is required.</div>
+            }
+          </div>
+          }
+        </div>
+        <h6 class="mt-7 fs-4" hidden>Additional Charges</h6>
+        <!-- <div class="card border border-1 border-secondary border-rounded mt-5">
+                    <div class="card-body px-5">
+                        <div class="d-flex col-gap-2 align-items-start">
+                            <div class="">
+                                <svg width="37" height="31" viewBox="0 0 37 31" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M2.11204 7.62C1.65728 7.80341 1.24284 8.08731 0.901865 8.45756C0.268523 9.14534 -0.0554953 10.0685 0.00780122 11.0069L1.10381 27.3343C1.22362 29.1164 2.68359 30.5 4.44497 30.5H32.4778C34.2392 30.5 35.6995 29.1164 35.819 27.3343L36.9154 11.0069C36.9783 10.0685 36.6546 9.14534 36.0213 8.45756C35.6799 8.08731 35.2655 7.80341 34.8107 7.62V6.54784C34.8107 4.67212 33.3116 3.15137 31.4617 3.15137H19.7514C19.2149 3.15137 18.6912 2.98402 18.2515 2.67184C17.7444 2.31191 17.1378 1.88128 16.6307 1.52096C15.6944 0.856497 14.5796 0.5 13.4368 0.5H5.4611C4.57269 0.5 3.7212 0.858025 3.09313 1.49498C2.46506 2.13194 2.11204 2.99586 2.11204 3.89646V7.62ZM35.4418 10.9053C35.4769 10.3807 35.296 9.86444 34.9419 9.48005C34.5881 9.09605 34.0926 8.87787 33.5738 8.87787H3.34896C2.83053 8.87787 2.33508 9.09605 1.98092 9.48005C1.62714 9.86444 1.44591 10.3807 1.48133 10.9053C1.7462 14.8512 2.32679 23.5023 2.57734 27.2327C2.64403 28.2288 3.46048 29.0022 4.44497 29.0022H32.4778C33.4623 29.0022 34.2787 28.2288 34.3454 27.2327C34.596 23.5023 35.177 14.8512 35.4418 10.9053ZM18.4614 13.0244C16.4378 11.373 13.6309 11.6783 12.0861 12.9885C10.2796 14.5214 9.95704 17.5775 11.755 20.643C12.8201 22.56 15.4834 24.5293 17.7421 25.8071C18.1894 26.06 18.7338 26.06 19.181 25.8071C21.4431 24.5274 24.1106 22.5539 25.1727 20.6346C26.9661 17.5798 26.644 14.5222 24.8366 12.9885C23.2923 11.6779 20.4854 11.373 18.4614 13.0244ZM18.4614 15.2887C19.8181 12.9862 22.532 12.9862 23.8887 14.1374C25.2458 15.2887 25.2458 17.5912 23.8887 19.8937C22.9392 21.6204 20.4967 23.3475 18.4614 24.4988C16.4261 23.3475 13.9839 21.6204 13.0341 19.8937C11.677 17.5912 11.677 15.2887 13.0341 14.1374C14.3908 12.9862 17.1047 12.9862 18.4614 15.2887ZM15.1417 19.6889H16.4698C16.7317 19.6889 16.9739 19.5483 17.1065 19.3191L17.57 18.519L18.4169 21.4435C18.4998 21.7301 18.7428 21.9391 19.0348 21.9758C19.3272 22.0125 19.6132 21.8692 19.762 21.6116L20.8761 19.6889H21.7811C22.1887 19.6889 22.5195 19.3535 22.5195 18.94C22.5195 18.5266 22.1887 18.1911 21.7811 18.1911H20.4533C20.1915 18.1911 19.9492 18.3317 19.8166 18.5606L19.3532 19.3607L18.5062 16.4361C18.423 16.1499 18.1803 15.9406 17.888 15.9043C17.5956 15.8676 17.31 16.0105 17.1608 16.268L16.0471 18.1911H15.1417C14.7344 18.1911 14.4033 18.5266 14.4033 18.94C14.4033 19.3535 14.7344 19.6889 15.1417 19.6889ZM33.3338 7.38005V6.54784C33.3338 5.49898 32.4959 4.6492 31.4617 4.6492H19.7514C18.9116 4.6492 18.0925 4.38708 17.4046 3.89876C16.8974 3.53882 16.2908 3.1082 15.7837 2.74826C15.0957 2.25994 14.2767 1.99782 13.4368 1.99782H5.4611C4.96453 1.99782 4.48829 2.19804 4.13715 2.55416C3.78638 2.91027 3.58896 3.39286 3.58896 3.89646V7.38005H33.3338Z"
+                                        fill="#3D5A5C" />
+                                </svg>
+                            </div>
+                            <div class="w-100">
+                                <div class="text-secondary">Life Insurance</div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-start">
+                                        <h6 class="added-newcolor fs-3 mt-2 mb-2 fw-bold">Summarization</h6>
+                                    </div>
+                                    @if(selectedValue==='product'){
+                                    <div class="d-flex justify-content-end">
+                                        <div class="d-flex align-items-center gap-4 pt-1">
+                                            <h6 class="fw-semibold fs-4 mb-1">Billing Frequency :</h6>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefaultn"
+                                                    id="flexRadioDefaultn1">
+                                                <label class="form-check-label radioTxt" for="flexRadioDefaultn1">
+                                                    Monthly
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefaultn"
+                                                    id="flexRadioDefaultn7" checked>
+                                                <label class="form-check-label radioTxt" for="flexRadioDefaultn7">
+                                                    Bi-monthly
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefaultn"
+                                                    id="flexRadioDefaultn2">
+                                                <label class="form-check-label radioTxt" for="flexRadioDefaultn2">
+                                                    Quarterly
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefaultn"
+                                                    id="flexRadioDefaultn3" checked>
+                                                <label class="form-check-label radioTxt" for="flexRadioDefaultn3">
+                                                    Semi-annual
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefaultn"
+                                                    id="flexRadioDefaultn4" checked>
+                                                <label class="form-check-label radioTxt" for="flexRadioDefaultn4">
+                                                    Annual
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  }
+                                </div>
+                                <p><span class="text-secondary"> Base Price</span> :<a class="fw-bold"> $125.00
+                                        USD</a><span class="text-secondary d-inline-block ms-4"> Negotiated Price </span>:<a
+                                        class="fw-bold"> $120.00 USD</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+        @for (product of AddedProducts; track $index) {
+        <div class="card border border-1 border-secondary border-rounded mt-5">
+          <div class="card-body px-4 py-4 w-100">
+            <div class="d-flex col-gap-2 align-items-start w-100">
+              <div>
+                <svg width="37" height="31" viewBox="0 0 37 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M2.11204 7.62C1.65728 7.80341 1.24284 8.08731 0.901865 8.45756C0.268523 9.14534 -0.0554953 10.0685 0.00780122 11.0069L1.10381 27.3343C1.22362 29.1164 2.68359 30.5 4.44497 30.5H32.4778C34.2392 30.5 35.6995 29.1164 35.819 27.3343L36.9154 11.0069C36.9783 10.0685 36.6546 9.14534 36.0213 8.45756C35.6799 8.08731 35.2655 7.80341 34.8107 7.62V6.54784C34.8107 4.67212 33.3116 3.15137 31.4617 3.15137H19.7514C19.2149 3.15137 18.6912 2.98402 18.2515 2.67184C17.7444 2.31191 17.1378 1.88128 16.6307 1.52096C15.6944 0.856497 14.5796 0.5 13.4368 0.5H5.4611C4.57269 0.5 3.7212 0.858025 3.09313 1.49498C2.46506 2.13194 2.11204 2.99586 2.11204 3.89646V7.62ZM35.4418 10.9053C35.4769 10.3807 35.296 9.86444 34.9419 9.48005C34.5881 9.09605 34.0926 8.87787 33.5738 8.87787H3.34896C2.83053 8.87787 2.33508 9.09605 1.98092 9.48005C1.62714 9.86444 1.44591 10.3807 1.48133 10.9053C1.7462 14.8512 2.32679 23.5023 2.57734 27.2327C2.64403 28.2288 3.46048 29.0022 4.44497 29.0022H32.4778C33.4623 29.0022 34.2787 28.2288 34.3454 27.2327C34.596 23.5023 35.177 14.8512 35.4418 10.9053ZM18.4614 13.0244C16.4378 11.373 13.6309 11.6783 12.0861 12.9885C10.2796 14.5214 9.95704 17.5775 11.755 20.643C12.8201 22.56 15.4834 24.5293 17.7421 25.8071C18.1894 26.06 18.7338 26.06 19.181 25.8071C21.4431 24.5274 24.1106 22.5539 25.1727 20.6346C26.9661 17.5798 26.644 14.5222 24.8366 12.9885C23.2923 11.6779 20.4854 11.373 18.4614 13.0244ZM18.4614 15.2887C19.8181 12.9862 22.532 12.9862 23.8887 14.1374C25.2458 15.2887 25.2458 17.5912 23.8887 19.8937C22.9392 21.6204 20.4967 23.3475 18.4614 24.4988C16.4261 23.3475 13.9839 21.6204 13.0341 19.8937C11.677 17.5912 11.677 15.2887 13.0341 14.1374C14.3908 12.9862 17.1047 12.9862 18.4614 15.2887ZM15.1417 19.6889H16.4698C16.7317 19.6889 16.9739 19.5483 17.1065 19.3191L17.57 18.519L18.4169 21.4435C18.4998 21.7301 18.7428 21.9391 19.0348 21.9758C19.3272 22.0125 19.6132 21.8692 19.762 21.6116L20.8761 19.6889H21.7811C22.1887 19.6889 22.5195 19.3535 22.5195 18.94C22.5195 18.5266 22.1887 18.1911 21.7811 18.1911H20.4533C20.1915 18.1911 19.9492 18.3317 19.8166 18.5606L19.3532 19.3607L18.5062 16.4361C18.423 16.1499 18.1803 15.9406 17.888 15.9043C17.5956 15.8676 17.31 16.0105 17.1608 16.268L16.0471 18.1911H15.1417C14.7344 18.1911 14.4033 18.5266 14.4033 18.94C14.4033 19.3535 14.7344 19.6889 15.1417 19.6889ZM33.3338 7.38005V6.54784C33.3338 5.49898 32.4959 4.6492 31.4617 4.6492H19.7514C18.9116 4.6492 18.0925 4.38708 17.4046 3.89876C16.8974 3.53882 16.2908 3.1082 15.7837 2.74826C15.0957 2.25994 14.2767 1.99782 13.4368 1.99782H5.4611C4.96453 1.99782 4.48829 2.19804 4.13715 2.55416C3.78638 2.91027 3.58896 3.39286 3.58896 3.89646V7.38005H33.3338Z"
+                    fill="#3D5A5C" />
+                </svg>
+              </div>
+              <div class="product-body">
+                <div class="text-secondary">{{ product.cCategory_Name }}</div>
+
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex justify-content-start">
+                    <div class="added-newcolor fs-3 mt-2 mb-2 fw-bold">{{ product.cDisplayName }}</div>
+                  </div>
+                  @if (!product.FTE || !product.Subscription) {
+                  @if (selectedValue === "product") {
+                  <div class="d-flex justify-content-end">
+                    <div class="d-flex align-items-center gap-4 pt-1">
+                      <h6 class="fw-semibold fs-4 me-1">Billing Frequency :</h6>
+                      <div class="d-flex gap-4">
+                        @for (frequency of productFrequencies; track frequency) {
+                        <div class="form-check">
+                          <input formControlName="cProductFrequency_{{ product._id }}" class="form-check-input"
+                            type="radio" [value]="frequency.value"
+                            id="frequency-{{ frequency.value }}_{{ product._id }}" />
+                          <label class="form-check-label radioTxt"
+                            [for]="'frequency-' + frequency.value + '_' + product._id">{{ frequency.label }}</label>
+                        </div>
+                        }
+                      </div>
+                      @if (
+                      billingForm.controls["cProductFrequency_" + product?._id]?.invalid &&
+                      billingForm.controls["cProductFrequency_" + product?._id]?.touched
+                      ) {
+                      <div class="errorMsg-client text-danger">Product Frequency is required.</div>
+                      }
+                    </div>
+                  </div>
+                  }
+                  }
+                </div>
+                @if (product.FTE || product.Subscription) {
+                <section class="w-100 mt-3">
+                  <data-table [show_pdf]="false" [show_excel]="false" [show_print]="false" [show_csv]="false"
+                    [show_copy]="false" [table_search]="false" [show_column_filter]="false" [enable_row_click]="false"
+                    [show_action_column]="action_fields" [show_image_column]="image_colum" [action_position]="position"
+                    [show_button_column]="button_colum" (selected_row_data)="recive_data($event)"
+                    [data]="productListItems[product?._id]" [table_pagination]="false" [merge_column]="false"
+                    [export_title]="''" [show_checkbox_column]="false" [checkBox_positions]="'front'">
+                    <!-- (isAnyCheckBoxChecked)="generateInvoiceBatchFn($event)" -->
+                    >
+                  </data-table>
+                </section>
+                }
+                @if (!product.FTE && !product.Subscription) {
+                <div>
+                  <span class="text-secondary">Base Price</span>:
+                  <a class="fw-bold">{{ product.cCurrencySymbol }}{{ product.cBasePrice }} </a>
+                  <span class="text-secondary d-inline-block ms-4">Negotiated Price</span>:
+                  <a class="fw-bold">{{ product.cCurrencySymbol }}{{ product.price }} </a>
+                </div>
+
+                <div class="d-flex align-items-center gap-5 mt-3">
+                  @for (charge of product.additionalCharges; track $index) {
+                  <label for="{{ charge.charge }}_{{ product._id }}" class="fs-5">{{ charge.charge }}: </label>
+                  <div class="">
+                    <input formControlName="{{ charge.charge }}_{{ product._id }}" [value]="charge.value"
+                      placeholder="{{ charge.value ? charge.value : 'Enter ' + charge.charge }}"
+                      [innerText]="charge.value" [innerHTML]="charge.value" (input)="validateInput($event)" type="text"
+                      class="form-control" id="{{ charge.charge }}_{{ product._id }}" />
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <section class="mb-3 mt-4 d-flex justify-content-end">
+          @if (hidebtnsNextPrev) {
+          <button type="button" class="btn-plain me-3" (click)="showProdfromBilling()">
+            <i class="fas fa-chevron-left me-2"></i>
+            Back
+          </button>
+          }
+          @if (showSaveInBilling) {
+          <div class="">
+            <button class="btn-main" (click)="saveBillingFn()"><i class="bi bi-check2 fs-3"></i> Save</button>
+          </div>
+          } @else {
+          <button type="button" class="btn-main" (click)="confirmToBillingFn()">
+            Confirm & Proceed <i class="fas fa-chevron-right ms-2"></i>
+          </button>
+          }
+        </section>
+      </form>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,109 @@
+@import url("../../../sharedUI/products/products.component.scss");
+.ash-txt {
+  color: #71706e;
+}
+.existingProdContainer {
+  .cardproduct-existing {
+    border: 1px solid #9eadad;
+  }
+  .commonBadge {
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 4px 12px;
+  }
+  .new {
+    @extend .commonBadge;
+    color: #3a423e;
+    background-color: #e3e6e5;
+  }
+  .activationRequested {
+    @extend .commonBadge;
+    color: #0466c8;
+    background-color: #e6f0fa;
+  }
+  .activationProgress {
+    @extend .commonBadge;
+    color: #ff6d00;
+    background-color: #fff0e6;
+  }
+  .active {
+    @extend .commonBadge;
+    color: #00ab55;
+    background-color: #e6f7ee;
+  }
+  .inactive {
+    @extend .commonBadge;
+    color: #c80c0c;
+    background-color: #fae7e7;
+  }
+}
+.circle-icon {
+  font-size: 84px;
+  color: #fb9c2e;
+}
+.txt-dashBoard {
+  color: #fb9c2e;
+}
+
+.popTitle {
+  color: #171616;
+}
+.menuProd-icon {
+  font-size: 20px;
+}
+
+ ::ng-deep {.p-dialog-header {
+  padding-top: 9px !important;
+  padding-bottom: 7px !important;
+  border-bottom: 1px solid #e1e1e1;
+}
+.p-dialog-content{
+  padding-inline: 0 !important;
+}
+ }
+.commonBadge {
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.status-green {
+  @extend .commonBadge;
+  color: #00ab55;
+  background-color: #e6f7ee;
+}
+.status-orange {
+  @extend .commonBadge;
+  color: #ff6d00;
+  background-color: #fff0e6;
+}
+.status-ash {
+  @extend .commonBadge;
+  color: #3a423e;
+  background-color: #e3e6e5;
+}
+
+::ng-deep .p-tag-label {
+  // max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.input-error ,.debug-invalid{
+  border: 1px solid #ff0000  !important;
+}
+
+/* filter popup */
+::ng-deep .ag-popup {
+  z-index: 1200 !important;
+}
+
+/* filter popup */
+::ng-deep .ag-popup {
+  z-index: 1200 !important;
+}

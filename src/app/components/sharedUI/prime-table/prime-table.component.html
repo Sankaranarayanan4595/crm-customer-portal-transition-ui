@@ -1,0 +1,108 @@
+<div class="primeFilterTable mt-4">
+  @if (showGlobalFilter) {
+    <div class="flex justify-end mb-3">
+      <p-iconfield iconPosition="left">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          pInputText
+          type="text"
+          [placeholder]="placeholder"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          class="w-full md:w-80"
+        />
+      </p-iconfield>
+    </div>
+  }
+  <p-table
+    #dt
+    columnResizeMode="expand"
+    [columns]="columns"
+    [value]="data"
+    filterDisplay="row"
+    [paginator]="paginator"
+    [rows]="rows"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [rowHover]="true"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [scrollable]="true"
+    [scrollHeight]="tableHeight"
+    [resizableColumns]="true"
+    [reorderableColumns]="true"
+    bbTableDynamicHeight
+    [heightOffset]="heightOffset"
+    (heightChange)="tableHeight = $event"
+    styleClass="p-datatable-gridlines"
+    [globalFilterFields]="globalFilterFields"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        @for (col of columns; track col.field) {
+          <th
+            [pSortableColumn]="col.sortable ? col.field : null"
+            pResizableColumn
+            pReorderableColumn
+            [style.text-align]="col.align || 'left'"
+            class="min-w-100px"
+            [style.width]="col.width ? col.width + 'px' : 'auto'"
+          >
+            <div class="flex items-center">
+              @if (col.filter && col.filter !== "false" && col.field !== "actions") {
+                <p-columnFilter [field]="col.field" display="menu"></p-columnFilter>
+              }
+              <span class="truncate-text" [title]="col.headerName">{{ col.headerName }}</span>
+              @if (col.sortable) {
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              }
+            </div>
+          </th>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <tr (click)="onRowClick(rowData)">
+        @for (col of columns; track col.field) {
+          <td [style.text-align]="col.align || 'left'">
+            @if (col.field === "actions") {
+              <div class="flex gap-2">
+                @if (actionTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="actionTemplate; context: { $implicit: rowData, index: rowIndex }"
+                  ></ng-container>
+                } @else {
+                  <i
+                    class="bi bi-pencil-square fs-5 text-primary cursor-pointer"
+                    title="Edit"
+                    (click)="onAction('edit', rowData, $event)"
+                  ></i>
+                  <i
+                    class="bi bi-trash3 fs-5 text-danger cursor-pointer"
+                    title="Delete"
+                    (click)="onAction('delete', rowData, $event)"
+                  ></i>
+                }
+              </div>
+            } @else {
+              @if (col.useHtml) {
+                <span [innerHTML]="resolveFieldData(rowData, col)" class="truncate-text"></span>
+              } @else {
+                <span class="truncate-text">
+                  {{ resolveFieldData(rowData, col) }}
+                </span>
+              }
+            }
+          </td>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="columns.length" class="text-center">No matches found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

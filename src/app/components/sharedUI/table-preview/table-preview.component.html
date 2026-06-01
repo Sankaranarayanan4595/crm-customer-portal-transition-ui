@@ -1,0 +1,33 @@
+<main class="px-5">
+  <section class="d-flex align-items-center justify-content-between mb-2">
+    <div class="d-flex align-items-center mt-6">
+      <div class="rounded-circle bg-white d-flex align-items-center justify-content-center backBtn-edit cursor-pointer">
+        <i (click)="tablePreviewBackFn()" class="fs-1 d-block bi bi-arrow-left-short" style="line-height: unset"></i>
+      </div>
+      <div class="ms-1 text-primary">
+        <span class="fs-3 text-black-1 fw-bold ms-2 d-inline-block">Supporting File</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="w-100">
+    <data-table
+      [show_pdf]="fileData?.length > 0"
+      [show_excel]="fileData?.length > 0"
+      [table_search]="false"
+      [show_column_filter]="false"
+      [enable_row_click]="false"
+      [show_action_column]="action_fields"
+      [show_image_column]="image_colum"
+      [action_position]="position"
+      [show_button_column]="button_colum"
+      (selected_row_data)="recive_data($event)"
+      [data]="fileData"
+      [table_pagination]="true"
+      [merge_column]="false"
+      [export_title]="'Client Details'"
+      [show_status_column]="columnStatus"
+    >
+    </data-table>
+  </div>
+</main>

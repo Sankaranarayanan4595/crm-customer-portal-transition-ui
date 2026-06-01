@@ -1,0 +1,74 @@
+
+.status-ash {
+  // color: #3a423e !important;
+  background-color: #3a423e !important;
+}
+.status-blue {
+  // color: #0466c8 !important;
+  background-color: #0466c8 !important;
+}
+.status-orange {
+  // color: #ff6d00 !important;
+  background-color: #ff6d00 !important;
+}
+.status-green {
+  // color: #00ab55 !important;
+  background-color: #00ab55 !important;
+}
+.status-red {
+  // color: #8c0000 !important;
+  background-color: #8c0000 !important;
+}
+.status-purple {
+  // color: #6700ef !important;
+  background-color: #6700ef !important;
+}
+.status-yellow {
+  // color: #c9b000 !important;
+  background-color: #c9b000 !important;
+}
+.status-lightBlue {
+  // color: #009fbd !important;
+  background-color: #009fbd !important;
+}
+.status-voilet {
+  // color: #e400ff !important;
+  background-color: #e400ff !important;
+}
+.status-lightblack {
+  // color: #000000 !important;
+  background-color: #000000 !important;
+}
+.timeframe-floating-label {
+    top: -6px;
+    left: 9px;
+    z-index: 10;
+    color: var(--ab-ash-ash-240);
+    background-color: #f5f5f5;
+}
+.datePickerOuter ::ng-deep .input-group input{
+  background-color: transparent !important;
+}
+::ng-deep {
+//   .p-ripple, .accordioncontent,.p-accordion .p-accordioncontent{
+//  overflow: visible !important;
+// }
+.input-group.border-line{
+  background-color: transparent !important;
+  height: 33px !important;
+  border: 1px solid #a5a5a5 !important;
+}
+.p-badge-dot{
+width: 12px !important;
+height: 12px !important;
+}
+}
+
+.kpi-header{
+  background-color: #E7EAEB;
+}
+
+.right{
+  font-size: medium;
+  padding-right: 15px !important;
+}

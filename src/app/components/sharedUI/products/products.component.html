@@ -1,0 +1,215 @@
+<main class="mx-2 mt-4 p-6 shadowBg bg-white">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="rounded-3 produt_height px-4 py-5">
+        <!-- <h4 class="text-primary">Choose Products</h4> -->
+
+        @if (products.length > 0) {
+          <section>
+            <div class="d-flex align-items-start flex-column menuOuter mt-4">
+              <div
+                (click)="onAllClick()"
+                class="text-primary fw-semibold rounded-pill menu-product d-flex align-items-center active-menu-product"
+                [ngClass]="{ 'active-menu-product': selectedCategory === 'All' }"
+              >
+                <div><i class="bi bi-grid menuProd-icon"></i></div>
+                <div class="menuProd-txt">All Industries</div>
+              </div>
+              @for (categorie of categories; track $index) {
+                <div
+                  (click)="onCategoryClick(categorie.cCategory_Name)"
+                  [ngClass]="{ 'active-menu-product': selectedCategory === categorie.cCategory_Name }"
+                  class="text-primary fw-semibold rounded-pill menu-product d-flex align-items-center active-menu-product"
+                >
+                  @if (categorie.iconDetails.iconName) {
+                    <div><i [class]="categorie.iconDetails.iconName"></i></div>
+                  }
+                  <div class="menuProd-txt">{{ categorie.cCategory_Name }}</div>
+                </div>
+              }
+            </div>
+          </section>
+        } @else {
+          <div class="fw-semibold fs-5 mt-15 d-flex flex-center">No Products Available</div>
+        }
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <div class="scroll_pg">
+        @for (product of filteredProducts; track $index) {
+          <div class="mt-6">
+            <h4 class="text-primary">{{ product.cCategory_Name }}</h4>
+            <div class="d-flex align-items-center justify-content-md-between flex-wrap outer-cardproduct">
+              @for (pro of product.ProductList; track $index) {
+                <div class="cardproduct p-4 rounded-3">
+                  <div class="d-md-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                      <div><i class="{{ pro.cssClass }} menuProd-icon"></i></div>
+                      <div>
+                        <div class="text-primary fs-4 fw-semibold">{{ pro.cDisplayName }}</div>
+                        <div class="prodSub fs-7">{{ product.cCategory_Name }}</div>
+                        @if (!pro.bIsFTE || !pro.bIsSubscription) {
+                          @if (pro?.cBasePrice[0]?.basePrice) {
+                            <div class="fs-6 mt-2 text-primary fw-semibold">
+                              Base Price
+                              @if (pro?.cBasePrice[0]?.CountryCurrencyDetails?.countries_id === countries?._id) {
+                                <span class="fw-semibold">
+                                  {{ pro?.cBasePrice[0]?.CountryCurrencyDetails?.cCurrencySymbol
+                                  }}{{ pro?.formattedBasePrice }}
+                                  <!-- {{ pro?.cBasePrice[0]?.basePrice }} -->
+                                </span>
+                              } @else {
+                                <span class="fw-semibold">
+                                  {{
+                                    countries?.country_details?.cCurrencySymbol ??
+                                      pro?.cBasePrice[0]?.CountryCurrencyDetails?.cCurrencySymbol
+                                  }}{{ pro?.formattedBasePrice }}
+                                  <!-- {{ pro?.cBasePrice[0]?.basePrice }} -->
+                                </span>
+                              }
+                            </div>
+                          }
+                        }
+                      </div>
+                    </div>
+                    <!-- <button class="btn btn-primary d-block fs-4 h-40px" type="button" (click)="addProdutsToList($event, pro.product_ID)">
+                  Add <i class="bi bi-plus-lg addIcon fs-3"></i>
+                    </button> -->
+                    <!-- <button class="btn btn-ash d-block fs-4 h-40px" type="button" ((click)="removeProdutsFromList($event, pro.product_ID)")><i class="bi bi-dash fs-1"></i>Remove</button> -->
+
+                    <!-- @if(isProductInList(pro.product_ID)){
+                <button class="btn btn-ash d-block fs-4 h-40px" (click)="removeProdutsFromList($event, pro.product_ID)">
+                  Remove <i class="bi bi-dash fs-1"></i></button
+                >} @if(!isProductInList(pro.product_ID)){<button
+                  class="btn btn-primary d-block fs-4 h-40px"
+                  (click)="addProdutsToList($event, pro.product_ID)">
+                  Add <i class="bi bi-plus-lg addIcon fs-3"></i></button
+                >} -->
+                    <div class="d-flex align-items-center">
+                      @if (!pro.bIsFTE && !pro.bIsSubscription) {
+                        <div
+                          class="form-floating me-3"
+                          [hidden]="
+                            isProductInList(pro.product_ID)
+                              ? checkProductAlreadyInList(pro.product_ID)
+                                ? true
+                                : false
+                              : false
+                          "
+                        >
+                          <input
+                            id="{{ pro.product_ID }}_{{ $index }}"
+                            type="text"
+                            class="form-control form-control-input"
+                            placeholder="Enter Negotiated price"
+                            step="0.001"
+                            value="{{ ProductPrice(pro.product_ID) }}"
+                            [disabled]="
+                              isProductInList(pro.product_ID)
+                                ? checkProductAlreadyInList(pro.product_ID)
+                                  ? true
+                                  : true
+                                : false
+                            "
+                            (input)="onValueInput(pro.product_ID, $index, pro?.cBasePrice[0]?.basePrice ? true : false)"
+                          />
+                          <label class="m-floating-label">
+                            Enter Negotiated price <span class="text-danger">*</span>
+                          </label>
+                        </div>
+                      }
+
+                      <button
+                        class="nowrap"
+                        type="button"
+                        [ngClass]="{
+                          'btn-cancel': isProductInList(pro.product_ID) && !checkProductAlreadyInList(pro.product_ID),
+                          'btn-olt': !isProductInList(pro.product_ID),
+                          'btn-plain cursour-notallowed':
+                            isProductInList(pro.product_ID) && checkProductAlreadyInList(pro.product_ID),
+                        }"
+                        (click)="
+                          isProductInList(pro.product_ID)
+                            ? removeProdutsFromList($event, pro.product_ID, $index, pro.bIsFTE)
+                            : addProdutsToList(
+                                $event,
+                                pro.product_ID,
+                                $index,
+                                pro.bIsFTE,
+                                product.cCategory_Id,
+                                pro.bIsSubscription
+                              )
+                        "
+                      >
+                        @if (!checkProductAlreadyInList(pro.product_ID)) {
+                          <i
+                            class="bi fs-3 btn-icon"
+                            [class.bi-dash]="isProductInList(pro.product_ID)"
+                            [class.cursour-notallowed]="isProductInList(pro.product_ID)"
+                            [class.bi-plus-lg]="!isProductInList(pro.product_ID)"
+                          >
+                          </i>
+                        }
+
+                        {{
+                          isProductInList(pro.product_ID)
+                            ? checkProductAlreadyInList(pro.product_ID)
+                              ? "Subscribed"
+                              : "Remove"
+                            : "Add"
+                        }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (showNextBackSkipBtn) {
+        <section class="mb-3 mt-4 d-flex justify-content-end">
+          <button type="button" class="btn-plain me-3" (click)="backToCustomerAddCustomer()">
+            <i class="fas fa-chevron-left me-2"></i>Back
+          </button>
+          @if (this.productList.length <= 0) {
+            <button type="button" class="btn-main" (click)="productsPgSkipFn()">
+              Skip <i class="fas fa-chevron-right ms-2"></i>
+            </button>
+          }
+          @if (this.productList.length > 0) {
+            <button type="button" (click)="productsPgNextFn()" class="btn-main">
+              Next <i class="fas fa-chevron-right ps-1 ms-2"></i>
+            </button>
+          }
+        </section>
+      }
+      @if (showSaveBtn && products.length > 0) {
+        <div class="text-end mt-6">
+          <button class="btn-main" (click)="productsSaveFn()">Next <i class="fas fa-chevron-right"></i></button>
+        </div>
+      }
+    </div>
+  </div>
+</main>
+
+<!-- @if (showFteContract) {
+  <app-fte-contract
+    [categoryId]="categoryId"
+    [category_name]="category_name"
+    [fteproductid]="fteproductid"
+    (onCloseFteModl)="onCloseFteModlFn($event)"
+  ></app-fte-contract>
+} -->
+
+<!-- @if (showSubscriptionContract) {
+  <app-subscription-contract
+    [categoryId]="categoryId"
+    [category_name]="category_name"
+    [subscriptionproductid]="subscriptionproductid"
+    (onCloseSubscriptionModl)="onCloseSubscriptionModl($event)"
+  ></app-subscription-contract>
+} -->
+
+<!-- <button class="btn-primary btn" (click)="fteContractModalfn()">Show FTE</button> -->

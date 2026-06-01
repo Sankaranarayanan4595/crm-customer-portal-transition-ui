@@ -1,0 +1,13 @@
+::ng-deep .p-chart {
+  height: 150px !important; /* fixed height */
+}
+::ng-deep p-chart canvas {
+  height: 150px !important; /* match wrapper height */
+}
+
+.manual-table-option{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    
+}

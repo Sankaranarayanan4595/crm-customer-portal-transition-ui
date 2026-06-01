@@ -1,0 +1,35 @@
+p-editor ::ng-deep .ql-editor.ql-blank::before {
+  font-style: normal !important;
+}
+::ng-deep {
+  .p-drawer-header {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+  .p-drawer-content {
+    overflow-y: visible !important;
+  }
+  .p-drawer-title {
+    font-size: 15px !important;
+  }
+  .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+    right: -6px !important;
+  }
+}
+
+::ng-deep .no-toolbar {
+  .p-editor-toolbar {
+    display: none !important;
+  }
+
+  .p-editor-content {
+    border-top: 1px solid #e5e7eb !important;
+  }
+}
+
+.comment-html-preview {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}

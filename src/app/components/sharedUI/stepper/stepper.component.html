@@ -1,0 +1,51 @@
+<main [ngClass]="verticalPos ? 'd-flex align-items-top' : ''">
+  <section class="stepper" [ngClass]="[verticalPos ? 'stepper-yaxis' : 'stepper']">
+    @for (step of steps; let i = $index; track $index) {
+      <div
+        class="step"
+        [ngClass]="[i < steps.length - 1 ? 'w-100' : 'w-auto']"
+        [class.active]="i === currentStep"
+        [class.completed]="step.completed"
+        [class.disabled]="step.disabled"
+        (click)="!step.disabled && goToStep(i)"
+      >
+        <div class="d-flex align-items-center">
+          <div class="step-index">
+            @if (step.completed) {
+              <span>done</span>
+            }
+            @if (!step.completed) {
+              @if (i === currentStep) {
+                <i class="bi bi-pencil-fill fs-7"></i>
+              } @else if (step.icon) {
+                <i [ngClass]="step.icon" class="fs-7"></i>
+              } @else {
+                <span>{{ i + 1 }}</span>
+              }
+            }
+          </div>
+          <div class="step-label">{{ step.label }}</div>
+        </div>
+        @if (i < steps.length - 1) {
+          <div class="step-line"></div>
+        }
+      </div>
+    }
+  </section>
+  <section class="stepper-content">
+    <ng-content></ng-content>
+  </section>
+</main>
+<div class="stepper-actions">
+  @if (currentStep > 0) {
+    <button type="button" class="btn-plain" (click)="back()"><i class="bi bi-chevron-left btn-icon"></i>Back</button>
+  }
+  @if (currentStep < steps.length - 1) {
+    <button type="button" class="btn-main" (click)="next()">Next <i class="bi bi-chevron-right btn-icon"></i></button>
+  }
+  @if (currentStep === steps.length - 1) {
+    <button type="button" class="btn-main" (click)="complete()">
+      {{ completeLabel }} <i class="bi bi-check2 btn-icon"></i>
+    </button>
+  }
+</div>

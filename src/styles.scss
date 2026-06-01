@@ -1,0 +1,1141 @@
+// /* You can add global styles to this file, and also import other style files */
+@use "../../CommonLibrary-UI/BBLayout-mongo/src/lib/assets/styles/base/interTypography" as t;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// @import "../../CommonLibrary-UI/BBLayout-mongo/src/lib/bb-theme.scss";
+
+* {
+  font-family: t.$font-family;
+}
+
+html,
+body {
+  background-color: #ffffff !important;
+}
+
+//!used only common class
+//col-gap classes
+@for $i from 1 through 20 {
+  .col-gap-#{$i} {
+    column-gap: #{$i * 2}px;
+  }
+}
+
+//row-gap classes
+@for $i from 1 through 20 {
+  .row-gap-#{$i} {
+    row-gap: #{$i * 2}px;
+  }
+}
+
+//font size f-9
+@for $i from 1 through 50 {
+  .f-#{$i} {
+    font-size: #{$i * 1}px;
+  }
+}
+
+// primeng
+::ng-deep .p-accordionheader {
+  color: inherit !important;
+}
+
+p-editor ::ng-deep .ql-editor.ql-blank::before {
+  font-style: normal !important;
+}
+
+// !Common btns
+.btn-ash {
+  border: 1px solid var(--ab-primary) !important;
+}
+
+.btn-disable {
+  background-color: #e2e0dc;
+  color: #888684;
+}
+
+.btn-disable:hover {
+  background-color: #e2e0dc !important;
+  color: #888684 !important;
+}
+
+.backBtn-edit {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #c7ceca;
+}
+
+// !Common table style
+.table-th-green>thead>tr>th {
+  background-color: var(--ab-secondary-default);
+  background-color: #789187;
+  color: var(--ab-white) !important;
+  padding: 12px 7px;
+  white-space: nowrap;
+  // background-color: var(--ab-primary-200);
+  // color: c.$txt-3 !important;
+  font-weight: 600 !important;
+}
+
+.table-th-green tr th:first-child {
+  border-top-left-radius: 6px;
+}
+
+.table-th-green tr th:last-child {
+  border-top-right-radius: 6px;
+}
+
+.table-th-green>tbody>tr>td {
+  padding: 15px 9px;
+  border-bottom: 1px solid #e2e3e4;
+}
+
+// !Success popup style
+.circle-icon {
+  font-size: 84px !important;
+  color: #fb9c2e;
+}
+
+.txt-dashBoard {
+  color: #fb9c2e;
+}
+
+.modal-Manual-wrapper,
+.viewWrapper {
+  // background-color: #00313399;
+  background-color: #00000086;
+}
+
+.badge-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.view_area {
+  .bi-x-lg::before {
+    content: "\f659";
+    font-weight: 700 !important;
+  }
+}
+
+.bg-modal-blur {
+  background-color: #00000086;
+  // backdrop-filter: blur(1px);
+}
+
+.text-black-1 {
+  color: #171616;
+}
+
+.border-1 {
+  border-bottom: 1px solid #878787;
+}
+
+// !For Masters only:start
+.lable-txt-colour {
+  color: var(--ab-ash-270);
+}
+
+.Master_h {
+  font-size: 18px !important;
+}
+
+::ng-deep .clearIcon .p-select-clear-icon {
+  margin-top: -6px !important;
+}
+
+.chk-box {
+  border: 1px solid var(--ab-ash-240) !important;
+}
+
+.txt-client {
+  color: #171616;
+  margin-bottom: 0 !important;
+}
+
+// !For Masters only:end
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
+// !autofill remover
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--ab-white) inset !important;
+}
+
+.dropdown-list {
+  overflow: hidden !important;
+}
+
+//Common Badges
+.commonBadge {
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.status-disabled {
+  @extend .commonBadge;
+  color: #979797;
+  background-color: #d5d5d5;
+}
+
+.status-lightOrange {
+  @extend .commonBadge;
+  color: #e69f50;
+  background-color: #fbefe3;
+}
+
+.status-lightGreen {
+  @extend .commonBadge;
+  background-color: #dee2df;
+  color: #73847d;
+}
+
+.status-default {
+  @extend .commonBadge;
+  background-color: #f1f1f1;
+  // border: 1px solid #CBCAC6;
+  color: #171616;
+}
+
+.status-active {
+  @extend .commonBadge;
+  background-color: #dce0de;
+  // border: 1px solid #CBCAC6;
+  color: #171616;
+}
+
+.status-lightRed {
+  @extend .commonBadge;
+  background-color: #f2d0aa;
+  color: #bf7840;
+}
+
+.status-ash {
+  @extend .commonBadge;
+  color: #3a423e;
+  background-color: #e3e6e5;
+}
+
+.status-blue {
+  @extend .commonBadge;
+  color: #0466c8;
+  background-color: #e6f0fa;
+}
+
+.status-orange {
+  @extend .commonBadge;
+  color: #ff6d00;
+  background-color: #fff0e6;
+}
+
+.status-green {
+  @extend .commonBadge;
+  color: #00ab55;
+  background-color: #e6f7ee;
+}
+
+.status-red {
+  @extend .commonBadge;
+  color: #8c0000;
+  background-color: #fae7e7;
+}
+
+.status-purple {
+  @extend .commonBadge;
+  color: #6700ef;
+  background-color: #6e00ff40;
+}
+
+.status-yellow {
+  @extend .commonBadge;
+  color: #c9b000;
+  background-color: rgb(255 236 99 / 46%);
+}
+
+.status-lightBlue {
+  @extend .commonBadge;
+  color: #009fbd;
+  background-color: #b9f4ff70;
+}
+
+.status-voilet {
+  @extend .commonBadge;
+  color: #e400ff;
+  background-color: #ffd2ff;
+}
+
+.status-lightblack {
+  @extend .commonBadge;
+  color: #000000;
+  background-color: #e7e7e7;
+}
+
+.invoiceDisableBtn {
+  border: 1px solid var(--ab-primary) !important;
+  opacity: 0.4;
+  pointer-events: none !important;
+  background-color: var(--ab-white);
+  color: var(--ab-primary);
+}
+
+.invoiceEnableBtn {
+  background-color: var(--ab-primary);
+  color: var(--ab-white);
+}
+
+.invoiceEnableBtn:hover {
+  background-color: var(--ab-primary);
+  color: var(--ab-white);
+}
+
+.shadowBg {
+  // box-shadow: 0px 0px 8px 0px rgba(0, 27, 51, 0.1490196078) !important;
+  //  box-shadow:-2px 1px 11px 3px rgba(0, 27, 51, 0.1490196078) !important;
+  // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  // box-shadow: rgb(0 0 0 / 14%) 0px 1px 5px 2px !important;//dark
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 0px 6px 1px !important; //light
+  border-radius: 6px;
+}
+
+//ag grid header right aligned
+.ag-right-aligned-header-cell .ag-header-cell-label {
+  justify-content: end !important;
+}
+
+.form-check-input {
+  border: 1px solid var(--ab-ash-240);
+  color: #1e1e1e;
+  cursor: pointer;
+}
+
+.radioTxt {
+  color: #1e1e1e;
+  font-size: 14px;
+}
+
+.border_top {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.HCPName_serviceName_highlighter-1 {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  min-height: 45px;
+  border: 1px solid #e4e9e7;
+  border-radius: 5px;
+  background-color: #e4e9e7;
+  padding-left: 5px;
+}
+
+.checkPayment_highlighter-1 {
+  display: flex;
+  align-items: center;
+  width: 120px;
+  min-height: 45px;
+  border: 1px solid #e4e9e7;
+  border-radius: 5px;
+  background-color: #e4e9e7;
+  padding-left: 5px;
+}
+
+.rate_total_highlighter-1 {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  min-height: 45px;
+  border: 1px solid #e4e9e7;
+  border-radius: 5px;
+  background-color: #e4e9e7;
+  padding-left: 5px;
+}
+
+//checkbox changes
+::ng-deep #head {
+  border: 1px solid #a5a5a5 !important;
+}
+
+//for total color
+.bg_blue {
+  background-color: #e7ebeb;
+  border: 1px solid var(--ab-ash-210);
+}
+
+.componentWhiteBg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: white;
+}
+
+.wordbreak {
+  word-break: break-word;
+}
+
+.outerChooseFile {
+  border: 1px solid #a5a5a5;
+  height: 37px;
+  background-color: var(--ab-white) !important;
+}
+
+.imaglabel {
+  font-size: 11px !important;
+  top: -9px !important;
+  left: 18px !important;
+  font-weight: 400 !important;
+  z-index: 1;
+  color: rgba(var(--ab-body-color-rgb), 0.65);
+}
+
+.singleDatePickerLable {
+  top: -16px !important;
+  background-color: var(--ab-white) !important;
+  z-index: 20 !important;
+  font-size: 11px !important;
+  color: rgba(7, 20, 55, 0.65);
+}
+
+// dollar input
+.bi-currency-dollar::before {
+  content: "\f636";
+  font-weight: 700 !important;
+}
+
+.boderInputappend {
+  border: 1px solid #a5a5a5;
+  border-radius: unset;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.input-group-text {
+  border: unset !important;
+}
+
+.dollarSymbol {
+  height: 36px;
+  display: flex;
+  padding-left: 8px;
+  align-items: center;
+  font-size: 17px;
+  background-color: transparent;
+  color: #444342;
+}
+
+.boderForSymbol {
+  height: 38px;
+  border: 1px solid #a5a5a5 !important;
+}
+
+.focusTop {
+  top: -18px !important;
+  background-color: var(--ab-white) !important;
+  font-size: 11px !important;
+  z-index: 30 !important;
+}
+
+//img upload
+.file-div {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 11px;
+}
+
+.bg-grey {
+  max-width: 100%;
+  width: 148px;
+}
+
+//Modal height
+.modal-container {
+  top: 4% !important;
+}
+
+.ng-select,
+.form-select {
+  padding: 0px;
+  padding-left: 10px;
+  // cursor: pointer !important;
+}
+
+ng-deep.border-line {
+  border: 1px solid var(--ab-gray-500) !important;
+}
+
+.datePickerOuter ::ng-deep.input-group.date-right {
+  border: 1px solid #a5a5a5 !important;
+}
+
+////Transition Formio ///////
+
+/* Main Table Container */
+.transition-phase-table {
+  .commonBadge {
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 12px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+
+  .status-ash {
+    @extend .commonBadge;
+    color: #3a423e;
+    background-color: #e3e6e5;
+  }
+
+  .status-orange {
+    @extend .commonBadge;
+    color: #8f5614;
+    background-color: #f2d0ab;
+  }
+
+  .status-green {
+    @extend .commonBadge;
+    color: #0d3133;
+    background-color: #bdc5bf;
+  }
+
+  .status-red {
+    @extend .commonBadge;
+    color: #4c191b;
+    background-color: #db9496;
+  }
+
+  // border: 1px solid #e5e5e1 !important;
+  // border-radius: 12px !important;
+  word-break: unset !important;
+  // overflow-x: auto !important;
+  overflow-y: visible !important;
+  padding: 0px 0px 5px 0px;
+
+  // width: 100% !important;
+  /* Hide vertical scrollbar (Chrome, Safari, Opera) */
+  &::-webkit-scrollbar:vertical {
+    display: none;
+  }
+
+  /* Hide vertical scrollbar in Firefox */
+  // scrollbar-width: none;
+  /* affects both axes in Firefox */
+  /* Hide vertical scrollbar in IE/Edge */
+  // -ms-overflow-style: none;
+
+  tr {
+    padding: 8px !important;
+  }
+
+  table {
+    word-break: unset !important;
+    // width: 120% !important;
+  }
+
+  //small table
+  .table.fit-width-tble {
+    width: 100% !important;
+  }
+
+  table tbody tr:first-child td {
+    background-color: #0d3133 !important;
+    color: #000000;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    white-space: nowrap !important;
+    overflow: auto;
+    // max-width: 150px !important;
+  }
+
+  .task-description-cell {
+    min-width: 350px;
+  }
+
+  td {
+    margin: 0px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    // padding: 8px !important;
+    // border: 1px solid #e5e5e1 !important;
+    // max-width: 150px !important;
+  }
+
+  /* Milestone header row background */
+  table tbody .milestone-header-row td,
+  .phase_heading {
+    background-color: #dfe1e2 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+    --bs-table-accent-bg: transparent !important;
+    /* Catches newer Bootstrap 5 variables */
+  }
+
+  /* 🔥 The Customer Editable Row Highlight */
+  table tbody tr.customer-editable-row td {
+    background-color: #e8f5e9 !important;
+    /* Very light green */
+
+    /* 👇 This line disables the alternating table striping shadow */
+    box-shadow: none !important;
+    --bs-table-accent-bg: transparent !important;
+    /* Catches newer Bootstrap 5 variables */
+
+    transition: background-color 0.2s ease;
+  }
+
+  /* 3. Default all OTHER rows to white (Prevents conflicts!) */
+  table tbody tr:not(:first-child):not(.milestone-header-row):not(.customer-editable-row) td {
+    background-color: #ffffff !important;
+  }
+
+  .input-group-text {
+    background-color: transparent !important;
+  }
+
+  .form-control-no-label {
+    border: none !important;
+  }
+
+  /* Main container styling */
+  .custom-select-dropdown .choices {
+    position: relative;
+    // margin-bottom: 15px;
+  }
+
+  //removed multiselect border
+  .custom-select-dropdown .form-control:hover {
+    border: unset !important;
+  }
+
+  /* Input field styling */
+  .custom-select-dropdown .choices .form-control {
+    padding-right: 28px !important;
+    /* Make space for the dropdown icon */
+    background-color: transparent;
+    border: #f9f9f8;
+    // border-radius: none;
+    // min-height: 38px;
+    cursor: pointer;
+  }
+
+  // .choices[data-type*="select-one"]:after {
+  //   height: 30px !important;
+  // }
+  .choices__input {
+    background-color: transparent;
+  }
+
+  /* Dropdown arrow styling */
+  .custom-select-dropdown .choices:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    /* fixed from top — avoids 50% calc issues */
+    width: 8px;
+    height: 8px;
+    border: solid var(--ab-ash-290);
+    border-width: 0 1.5px 1.5px 0;
+    display: inline-block;
+    padding: 4px;
+    transform: rotate(45deg);
+    /* single transform — no duplicate */
+    pointer-events: none;
+  }
+
+  .score_status {
+    // text-align: center;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+  }
+
+  /* Open state styling */
+  // .custom-select-dropdown .choices.is-open:after {
+  //   content: "▲";
+  // }
+
+  /* Multiple selected items styling */
+  .custom-select-dropdown .choices__list--multiple .choices__item {
+    background-color: transparent !important;
+    border: none;
+    // max-width: 260px;
+    color: #343434 !important;
+    // margin: 2px;
+    margin-right: 8px;
+    // padding: 4px 8px;
+    border-radius: 3px;
+    line-height: 1.4;
+    /* Allow chip text to wrap — but keep cross button on same line */
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    /* vertically center text + cross button */
+    flex-wrap: nowrap;
+    /* prevent cross button from dropping to next line */
+  }
+
+  /* Text span inside each multi-select chip */
+  .choices__list--multiple .choices__item--selectable>span {
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Cross button in multi-select chip — stays right of text, never wraps */
+  .choices__list--multiple .choices__item--selectable .choices__button {
+    flex-shrink: 0;
+    align-self: center;
+    margin-left: 6px;
+  }
+
+  /* Multi-select container — allow height to grow with chips */
+  .choices[data-type*="select-multiple"] {
+    height: auto !important;
+  }
+
+  .choices[data-type*="select-multiple"] .form-control {
+    height: auto !important;
+    min-height: 30px;
+    overflow: visible !important;
+    white-space: normal !important;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .choices__list--multiple {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    white-space: normal !important;
+    overflow: visible !important;
+  }
+
+  /* ── Fix: selected text wrapping in single-select (FormIO/Choices.js) ──
+     DOM: .choices > .form-control(div) > .choices__list--single > .choices__item--selectable > span
+     Note: this build has NO .choices__inner — .form-control IS the inner container */
+
+  /* ── Fix: single-select wrapper needs overflow visible so the ::after arrow isn’t clipped */
+  .choices[data-type*="select-one"] {
+    height: auto !important;
+    position: relative;
+    /* ensure ::after is positioned relative to this */
+    overflow: visible !important;
+    /* prevent arrow from being clipped */
+  }
+
+  /* 2. The .form-control div acts as the inner container — let it grow */
+  .choices[data-type*="select-one"] .form-control {
+    height: auto !important;
+    min-height: 30px;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
+  /* 3. The single-item list */
+  .choices__list--single {
+    white-space: normal !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* 4. The selected item row — flex so text + cross sit side-by-side */
+  .choices__list--single .choices__item--selectable {
+    display: flex;
+    align-items: flex-start;
+    white-space: normal !important;
+    height: auto !important;
+    max-width: 100%;
+    gap: 4px;
+    /* gap between text and cross button */
+  }
+
+  /* 5. The actual text span — takes available width and wraps */
+  .choices__list--single .choices__item--selectable>span {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* 6. Single-select cross button — stays top-right, doesn’t push text */
+  .choices__list--single .choices__item--selectable .choices__button {
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 1px;
+  }
+
+  .custom-select-dropdown {
+    .choices__button {
+      // color: #343434 !important;
+      // filter: brightness(0) saturate(100%); /* turns any image to black */
+      filter: brightness(0) saturate(100%) invert(14%) sepia(96%) saturate(7485%) hue-rotate(1deg) brightness(99%) contrast(106%);
+    }
+  }
+
+  .choices[data-type*="select-multiple"] .choices__button {
+    border-left: unset !important;
+    color: #343434 !important;
+  }
+
+  .choices__input option {
+    color: #343434 !important;
+  }
+
+  // .formio-component-multiple:not(.is-invalid) {
+  //   // border-color:#343434 !important;
+  // }
+
+  .form-control .choices__item span {
+    color: #343434;
+    font-size: 13px;
+  }
+
+  .formio-choices[data-type="select-multiple"] .form-control {
+    // max-width: 290px;
+    // width: 100%;
+    width: 300px;
+  }
+
+  /* Cross button — uniform dark red × for both single and multi-select
+     background-image:none removes SVG; font-size:0 hides "Remove item" text;
+     ::before injects the visible × in dark red */
+  .custom-select-dropdown .choices__button {
+    border: none !important;
+    margin-left: 6px;
+    padding: 0 2px;
+    background-image: none;
+    background-color: transparent;
+    font-size: 0 !important;
+    color: #8b1a1a;
+
+    /* hide "Remove item" text */
+    cursor: pointer;
+
+    &::before {
+      content: "×";
+      font-size: 15px;
+      font-weight: 700;
+      color: #c0392b;
+      /* dark red */
+      line-height: 1;
+      display: block;
+    }
+
+    &:hover::before {
+      color: #c0392b;
+      /* brighter red on hover */
+    }
+  }
+
+  /* Dropdown menu styling */
+  .custom-select-dropdown .choices__list--dropdown {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+  }
+
+  /* Dropdown items styling */
+  .custom-select-dropdown .choices__item--choice,
+  .choices__item {
+    white-space: unset;
+    overflow: unset;
+    width: 100% !important;
+  }
+
+  .choices__item {
+    padding: 4px !important;
+  }
+
+  /* Highlighted item in dropdown */
+  .custom-select-dropdown .choices__item--selectable.is-highlighted {
+    background-color: var(--ab--primary-default) !important;
+  }
+
+  .form-control {
+    border: none !important;
+    background: transparent;
+  }
+
+  // .text-box-center div input {
+  //   text-align: center;
+  // }
+  .form-control:hover,
+  .form-control:active {
+    border: 1px solid #dbdbdb !important;
+  }
+
+  .icon-only-btn,
+  .btn,
+  .btn-primary {
+    background: none !important;
+    border: none !important;
+    cursor: pointer;
+    color: var(--ab-primary);
+    // text-align: center;
+    font-size: 1.1rem;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .icon-only-btn:hover,
+  .icon-only-btn:active,
+  .btn.btn-primary:hover:not(.btn-active):not(.btn-export),
+  .btn.btn-primary:hover:not(.btn-active):not(.btn-export),
+  .btn.btn-primary:active:not(.btn-active):not(.btn-export),
+  .btn.btn-primary:focus:not(.btn-active):not(.btn-export),
+  .btn.btn-primary:focus:not(.btn-active):not(.btn-export) {
+    background-color: transparent !important;
+    color: black;
+  }
+
+  .btn.btn-primary {
+    color: #000000 !important;
+    font-size: 20px;
+  }
+
+  .btn.btn-primary.phase-column-link {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #0352a0 !important;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: start;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-decoration: underline !important;
+  }
+
+  .flatpickr-day.selected {
+    background: var(--ab-primary) !important;
+    border-color: var(--ab-primary) !important;
+  }
+
+  .flatpickr-day.today {
+    border-color: var(--ab-primary) !important;
+  }
+
+  // only date
+  // .form-control-no-label {
+  .formio-form-group.formio-component.formio-component-datetime {
+    // width: 120px !important;
+    width: 145px !important;
+    margin-bottom: 0 !important;
+  }
+
+  // }
+
+  .commonBadge {
+    display: inline-block;
+    text-align: center;
+  }
+
+  //input and single char
+  .formio-component-textfield {
+    max-width: 80px !important;
+    // .formio-component-textfield .form-control{
+    //   width: 100%;
+    // }
+  }
+
+  //  .choices__list--dropdown,.choices__list{
+  //   visibility: visible !important;
+  //  }
+  .is-active.choices__list--dropdown {
+    z-index: 800 !important;
+  }
+
+  //   ::ng-deep .choices__list--dropdown {
+  //   z-index: 9999 !important;
+  //   position: fixed !important;
+  // }
+
+  //Hides calander icon
+  // .formio-component-datetime .input-group-text {
+  //   display: none;
+  // }
+
+  // table scroll
+  @media screen and (max-width: 1600px) {
+    .table {
+      width: 110% !important;
+    }
+  }
+
+  @media screen and (max-width: 1900px) {
+    .table {
+      width: 105% !important;
+    }
+  }
+
+  .icon-only-btn.with-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .badge-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    z-index: 5;
+    background: #cf8f48;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 50%;
+    line-height: 1;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  // .common-header-cell{
+  //   width: 105px !important;
+  // }
+  // .common-date-header-cell{
+  //   width: 40px !important;
+  // }
+  // .selectStatus .formio-choices .dropdown .choices__list--single .choices__item--selectable .choices__button {
+  //   display: none !important;
+  // }
+
+  .compliancestatus {
+    width: 210px !important;
+  }
+
+  tbody tr:first-child td {
+    position: sticky;
+    top: -1px !important;
+    // background-color: #ffffff;
+    z-index: 10;
+  }
+
+  .choices.is-disabled .choices__inner,
+  .choices.is-disabled .choices__input {
+    background-color: transparent;
+  }
+
+  .form-control:disabled {
+    background-color: transparent !important;
+    color: #000000;
+    opacity: 1;
+    font-weight: normal !important;
+  }
+
+  // tbody tr:first-child td {
+  //   // background-clip: padding-box;
+  // }
+  /* ── hide-cross-icon: hides the remove button on specific columns ──
+     Applied via FormIO customClass on: portal_action (Client Access) + status (Compliance Status)
+     Does NOT affect outcome / owner / stakeholder dropdowns */
+  .hide-cross-icon .choices__list--single .choices__button {
+    display: none !important;
+  }
+
+  .hide-cross-icon .choices__list--multiple .choices__item .choices__button {
+    display: none !important;
+  }
+
+  // tbody tr:first-child td {
+  //   // background-clip: padding-box;
+  // }
+}
+
+.pointer-cell {
+  cursor: pointer;
+}
+
+// .primeFilterTable {
+//   /* 1. Records per page dropdown - LEFT */
+//   .p-paginator-rpp-dropdown {
+//     order: 1;
+//     margin-right: auto;
+//   }
+
+//   /* 2. Display text - CENTER */
+//   .p-paginator-current {
+//     order: 2;
+//     position: absolute;
+//     left: 50%;
+//     transform: translateX(-50%);
+//   }
+
+//   /* 3. Pagination controls - RIGHT */
+//   .p-paginator-first,
+//   .p-paginator-prev,
+//   .p-paginator-pages,
+//   .p-paginator-next,
+//   .p-paginator-last {
+//     order: 3;
+//   }
+// }
+
+/* Truncation utility */
+.truncate-text {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  max-width: 100% !important;
+}
+
+/* Force td to respect column width and truncate */
+:host ::ng-deep .p-datatable table {
+  table-layout: fixed;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 0;
+  /* Critical: forces td to shrink with column */
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// /* Ensure resizable column handle still shows */
+// :host ::ng-deep .p-datatable .p-resizable-column .p-column-resizer {
+//   display: block;
+// }
+
+.ag-tooltip,
+.ag-tooltip-custom {
+  max-width: 350px !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}

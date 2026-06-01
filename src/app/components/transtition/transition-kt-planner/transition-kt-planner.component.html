@@ -1,0 +1,1003 @@
+<!-- Main Component -->
+<div
+  class="flex flex-col mt-5 p-3 bg-white rounded-lg shadow-sm border border-gray-200"
+  dynamicHeight
+  [isHeight]="true"
+>
+  <!-- Toolbar -->
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center space-x-2">
+      <h2 class="text-xl font-semibold text-gray-800">
+        @if (title === "kt-planner") {
+          Transition Planner
+        } @else if (title === "action-tracker") {
+          Transition Action Tracker
+        } @else if (title === "risk-logs") {
+          Transition Risk Logs
+        } @else if (title === "matrix") {
+          User Matrix
+        }
+      </h2>
+    </div>
+    <div class="flex items-center gap-3 justify-end">
+      @if (selectedRows.length > 0 || (selectedSections.size > 0 && checkEditable())) {
+        <p-button
+          icon="pi pi-trash"
+          (click)="showDeleteConfirm = true"
+          pTooltip="Delete Selected ({{ selectedRows.length + selectedSections.size }})"
+          tooltipPosition="top"
+          label="Delete"
+          severity="danger"
+          variant="outlined"
+        />
+      }
+      <!-- <p-button
+        icon="bi bi-layout-three-columns"
+        (click)="openColumnManagement()"
+        pTooltip="Manage Columns"
+        tooltipPosition="top"
+        label="Columns"
+        class="bg-white"
+        variant="outlined"
+      /> -->
+      @if (checkEditable()) {
+        <div>
+          <p-button
+            class="bg-white"
+            (click)="tableMenu.toggle($event)"
+            variant="outlined"
+            label="Layout"
+            icon="pi pi-angle-down"
+            iconPos="right"
+          />
+          <p-menu #tableMenu [model]="tableItems" [popup]="true" />
+        </div>
+        <p-button
+          icon="pi pi-upload"
+          (click)="openFileUploadModal()"
+          pTooltip="Import File"
+          tooltipPosition="top"
+          label="Import File"
+          class="bg-white"
+          variant="outlined"
+        />
+      }
+      <div>
+        <p-button
+          class="bg-white"
+          (click)="excelMenu.toggle($event)"
+          variant="outlined"
+          label="Export"
+          icon="pi pi-angle-down"
+          iconPos="right"
+        />
+        <p-menu #excelMenu [model]="excelItems" [popup]="true" />
+      </div>
+      <p-iconfield iconPosition="left">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input (input)="onChangeSearch($event)" pInputText type="text" placeholder="Search" [value]="searchTerm" />
+        @if (searchTerm) {
+          <p-inputicon>
+            <i class="pi pi-times cursor-pointer text-gray-500 hover:text-gray-700" (click)="clearSearch()"></i>
+          </p-inputicon>
+        }
+      </p-iconfield>
+      <!-- <button
+        pButton
+        label="Add Section"
+        icon="pi pi-folder"
+        (click)="addSection()"
+        class="p-button p-button-primary bg-blue-600 hover:bg-blue-700 border-blue-600"
+      ></button>
+      <button
+        pButton
+        label="Add Row"
+        icon="pi pi-plus"
+        (click)="addRow()"
+        class="p-button p-button-primary bg-blue-600 hover:bg-blue-700 border-blue-600"
+      ></button>
+      <button
+        pButton
+        label="Add Column"
+        icon="bi bi-layout-three-columns"
+        (click)="addColumn()"
+        class="p-button p-button-primary bg-blue-600 hover:bg-blue-700 border-blue-600"
+      ></button> -->
+    </div>
+  </div>
+
+  <!-- Table Container -->
+  <div class="flex-1 overflow-hidden bg-white rounded-lg border border-gray-200">
+    <div class="h-full overflow-auto">
+      <p-table
+        #dt
+        [value]="getCurrentPageRows()"
+        editMode="cell"
+        styleClass="p-datatable-gridlines p-datatable w-full"
+        [reorderableColumns]="canReorder()"
+        [resizableColumns]="canResize()"
+        [scrollable]="true"
+        scrollHeight="flex"
+        [columnResizeMode]="'expand'"
+        appAutoScroll
+      >
+        <ng-template pTemplate="header">
+          <tr class="sticky top-0 z-30" style="background-color: #bec7c8">
+            <!-- Checkbox column - now first column (non-resizable) -->
+            @if (canSelect()) {
+              <th
+                style="min-width: 50px; width: 50px; cursor: default; z-index: 30; height: 48px"
+                class="text-center p-4 border border-gray-300 sticky left-0"
+                [style.left.px]="0"
+              >
+                <div class="flex items-center justify-center">
+                  <p-checkbox
+                    (onChange)="toggleAllRows($event)"
+                    [ngModel]="isAllRowsSelected()"
+                    binary="true"
+                  ></p-checkbox>
+                </div>
+              </th>
+            }
+
+            <!-- Row Number Column (non-resizable) -->
+            <!-- <th
+              style="min-width: 40px; width: 40px; cursor: default; z-index: 30; height: 48px"
+              class="text-center p-4 border border-gray-300 sticky left-0"
+              [style.left.px]="50"
+            >
+              <span class="font-semibold text-[#070502]">#</span>
+            </th> -->
+
+            <!-- Dynamic Headers with Drag & Drop and Resize -->
+            @for (col of columns; track col.field; let colIndex = $index) {
+              @if (canReorder()) {
+                <th
+                  [draggable]="canReorder()"
+                  (dragstart)="columnDragStart($event, col)"
+                  (dragover)="columnDragOver($event)"
+                  (dragleave)="columnDragLeave($event)"
+                  (drop)="columnDrop($event, col)"
+                  pReorderableColumn
+                  pResizableColumn
+                  (dblclick)="onHeaderDoubleClick($event, col)"
+                  class="p-4 border border-gray-300"
+                  [style.min-width.px]="150"
+                  [style.max-width.px]="800"
+                  [style.width.px]="col.width || 150"
+                  [style.height.px]="48"
+                >
+                  <div class="flex items-center justify-between w-full h-full">
+                    <span class="mr-4 truncate" [pTooltip]="col.header" tooltipPosition="top">{{ col.header }}</span>
+                    <div class="flex items-center space-x-1 flex-shrink-0">
+                      @if (col.isCustom) {
+                        <i
+                          class="pi pi-times text-red-500 hover:text-red-700 cursor-pointer"
+                          style="font-size: 12px"
+                          (click)="openColumnConfirm(colIndex)"
+                          pTooltip="Delete Column"
+                          tooltipPosition="top"
+                        ></i>
+                      }
+                      <!-- Optional: keep drag handle for visual feedback -->
+                      <!-- <i class="pi pi-bars text-gray-600 cursor-move" style="font-size: 12px"></i> -->
+                    </div>
+                  </div>
+                  <!-- Resize indicator (optional) -->
+                  <!-- <span class="p-column-resizer"></span> -->
+                </th>
+              }
+              <!-- Read-only Header -->
+              @else {
+                <th
+                  draggable="false"
+                  class="p-4 border border-gray-300 opacity-60 cursor-default"
+                  [style.width.px]="col.width || 150"
+                  [style.height.px]="48"
+                >
+                  <div class="flex items-center justify-between w-full h-full">
+                    <span class="mr-4 truncate" [pTooltip]="col.header" tooltipPosition="top">{{ col.header }}</span>
+                  </div>
+                </th>
+              }
+            }
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+          <!-- Section Row -->
+          @if (row.isSection) {
+            <tr
+              class="bg-[#DFE1E2] font-semibold border-t-2 border-b-2 border-blue-300 h-[40px]"
+              [draggable]="canReorder()"
+              (dragstart)="rowDragStart($event, row)"
+              (dragover)="rowDragOver($event)"
+              (dragleave)="rowDragLeave($event)"
+              (drop)="rowDrop($event, row)"
+              (dblclick)="editSection(row)"
+              [attr.data-row-id]="row.sectionId"
+            >
+              <!-- Checkbox for section -->
+              @if (canSelect()) {
+                <td
+                  style="min-width: 50px; width: 50px; background-color: #dfe1e2"
+                  class="text-center p-3 border border-gray-200 sticky left-0"
+                  [style.left.px]="0"
+                >
+                  <div class="flex items-center justify-center">
+                    <p-checkbox
+                      (onChange)="toggleSectionSelection(row, $event)"
+                      [ngModel]="isSectionSelected(row)"
+                      binary="true"
+                    ></p-checkbox>
+                  </div>
+                </td>
+              }
+
+              <!-- Row Number (S for section) -->
+              <!-- <td
+                style="min-width: 40px; width: 40px; background-color: #dfe1e2"
+                class="text-center p-3 border border-gray-200 sticky left-0"
+                [style.left.px]="50"
+              >
+                <span class="font-bold">S</span>
+              </td> -->
+
+              <!-- Section Name (spans all columns) -->
+              <td [attr.colspan]="columns.length" class="p-3 border border-gray-200 bg-[#DFE1E2]">
+                <div class="flex items-center justify-center">
+                  <span class="font-bold truncate">{{ row.sectionName }}</span>
+                </div>
+              </td>
+            </tr>
+          }
+
+          <!-- Regular Data Rows -->
+          @if (!row.isSection) {
+            <tr
+              class="hover:bg-gray-50"
+              [draggable]="canReorder()"
+              (dragstart)="rowDragStart($event, row)"
+              (dragover)="rowDragOver($event)"
+              (dragleave)="rowDragLeave($event)"
+              (drop)="rowDrop($event, row)"
+              [attr.data-row-id]="row.id || rowIndex"
+            >
+              <!-- Checkbox -->
+              @if (canSelect()) {
+                <td
+                  style="min-width: 50px; width: 50px; background-color: white"
+                  class="text-center p-3 border border-gray-200 sticky left-0"
+                  [style.left.px]="0"
+                >
+                  <div class="flex items-center justify-center">
+                    <p-checkbox
+                      (onChange)="toggleRowSelection(row, $event)"
+                      [ngModel]="isRowSelected(row)"
+                      binary="true"
+                    ></p-checkbox>
+                  </div>
+                </td>
+              }
+
+              <!-- Row Number -->
+              <!-- <td
+                style="min-width: 40px; width: 40px; background-color: white"
+                class="text-center p-3 border border-gray-200 sticky left-0"
+                [style.left.px]="50"
+              >
+                <span class="text-gray-800 font-medium">{{ getDisplayRowNumber(row) }}</span>
+              </td> -->
+
+              <!-- Dynamic Cells -->
+              @for (col of columns; track col.field) {
+                <td
+                  pEditableColumn
+                  [pEditableColumnDisabled]="!canEditData() || templateData?.isActiveTransition"
+                  class="p-0 border border-gray-200"
+                  [style.width.px]="col.width"
+                >
+                  <p-cellEditor>
+                    @if (!templateData?.isActiveTransition && canEditData()) {
+                      <ng-template pTemplate="input">
+                        @if (col.type === "input") {
+                          <div class="h-full">
+                            <textarea
+                              pInputTextarea
+                              [autoResize]="true"
+                              [(ngModel)]="row[col.field]"
+                              (ngModelChange)="onCellValueChange()"
+                              [placeholder]="col.header"
+                              class="w-full px-3 py-2 border-0 focus:ring-0 resize-none"
+                              style="
+                                outline: none;
+                                box-shadow: none;
+                                display: block;
+                                background: transparent;
+                                min-height: 40px;
+                              "
+                            ></textarea>
+                          </div>
+                        }
+
+                        @if (col.type === "dropdown") {
+                          @if (col.type === "dropdown") {
+                            <div class="h-full w-full">
+                              <p-select
+                                [(ngModel)]="row[col.field]"
+                                (onChange)="onCellValueChange()"
+                                [options]="getDropdownOptions(col.field)"
+                                [placeholder]="'Select ' + col.header"
+                                appendTo="body"
+                                class="w-full"
+                                styleClass="w-full border-0"
+                              />
+                            </div>
+                          }
+                        }
+
+                        @if (col.type === "date") {
+                          <div class="h-full w-full relative">
+                            <p-datepicker
+                              [(ngModel)]="row[col.field]"
+                              (ngModelChange)="onCelDateValueChange(row[col.field])"
+                              [dateFormat]="getDateFormat()"
+                              [showIcon]="true"
+                              appendTo="body"
+                              class="w-full"
+                              inputStyleClass="w-full pr-8 border-0"
+                              styleClass="w-full"
+                            >
+                              <ng-template pTemplate="inputicon">
+                                <i class="pi pi-calendar"></i>
+                              </ng-template>
+                            </p-datepicker>
+                          </div>
+                        }
+                      </ng-template>
+                    }
+
+                    <!-- OUTPUT TEMPLATE -->
+                    <ng-template pTemplate="output">
+                      <div
+                        class="px-3 py-2"
+                        style="white-space: normal; word-break: break-word; overflow-wrap: break-word"
+                      >
+                        {{
+                          col.type === "date"
+                            ? row[col.field]
+                              ? formatDate(row[col.field])
+                              : ""
+                            : row[col.field] || ""
+                        }}
+                      </div>
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+              }
+            </tr>
+          }
+        </ng-template>
+
+        <!-- Empty State -->
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="columns.length + 2" class="text-center p-8">
+              <div class="flex flex-col items-center justify-center text-gray-500" style="margin-top: 10px">
+                <i class="pi pi-inbox text-4xl mb-2"></i>
+                <p class="text-lg">No Data Found​</p>
+                <p class="text-sm">Click "Add Section" to create a group or "Add Row" to create a new entry.</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <!-- Pagination - Compact Version -->
+  <div class="mt-4 flex items-center justify-between px-2">
+    <!-- Page Size Dropdown and Range Info -->
+    <div class="flex items-center gap-4">
+      <select
+        class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+        [(ngModel)]="rowsPerPage"
+        (change)="onRowsPerPageChange($event)"
+      >
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="75">75</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
+      </select>
+    </div>
+    <div>
+      <span class="text-sm text-gray-600">
+        {{ first + 1 }} to {{ Math.min(first + rowsPerPage, totalRecords) }} of {{ totalRecords }}
+      </span>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex items-center gap-1">
+      <!-- First Page -->
+      <button
+        class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="first === 0"
+        (click)="goToFirstPage()"
+        pTooltip="Go to First Page"
+        tooltipPosition="top"
+      >
+        <i class="pi pi-angle-double-left text-sm"></i>
+      </button>
+
+      <!-- Previous Page -->
+      <button
+        class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="first === 0"
+        (click)="goToPreviousPage()"
+        pTooltip="Go to Previous Page"
+        tooltipPosition="top"
+      >
+        <i class="pi pi-angle-left text-sm"></i>
+      </button>
+
+      <!-- Page Numbers -->
+      <span class="text-sm text-gray-700 mx-2"> Page {{ getCurrentPage() }} of {{ getTotalPages() }} </span>
+
+      <!-- Next Page -->
+      <button
+        class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="first + rowsPerPage >= totalRecords"
+        (click)="goToNextPage()"
+        pTooltip="Go to Next Page"
+        tooltipPosition="top"
+      >
+        <i class="pi pi-angle-right text-sm"></i>
+      </button>
+
+      <!-- Last Page -->
+      <button
+        class="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="first + rowsPerPage >= totalRecords"
+        (click)="goToLastPage()"
+        pTooltip="Go to Last Page"
+        tooltipPosition="top"
+      >
+        <i class="pi pi-angle-double-right text-sm"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- File Upload Modal -->
+<p-dialog
+  [(visible)]="uploadModal"
+  [modal]="true"
+  [style]="{ width: '60vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="cancelUpload()"
+>
+  <ng-template pTemplate="header">
+    <div class="font-semibold text-lg">
+      Import
+      @if (title === "kt-planner") {
+        Transition Planner
+      } @else if (title === "action-tracker") {
+        Action Tracker
+      } @else if (title === "risk-logs") {
+        Risk Logs
+      } @else if (title === "matrix") {
+        User Matrix
+      }
+    </div>
+  </ng-template>
+
+  <div class="flex flex-column gap-4">
+    <div>
+      <p-fileUpload
+        #fileUploader
+        name="file"
+        customUpload="true"
+        [multiple]="false"
+        accept=".xlsx,.xls,.csv"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        (onSelect)="onFileSelect($event)"
+        (onClear)="clearFileSelection()"
+        [auto]="false"
+      >
+        <ng-template pTemplate="content">
+          <div
+            class="flex flex-column items-center justify-center cursor-pointer rounded-lg p-6 hover:border-blue-500 transition-colors"
+            (click)="fileUploader.choose()"
+          >
+            <svg width="116" height="58" viewBox="0 0 116 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- SVG paths remain same -->
+              <path
+                d="M40.4584 2.42964L3.28906 21.0342L16.1311 43.5421L53.3005 24.9376L40.4584 2.42964Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M13.6722 12.8232L1.95703 18.6859L3.29086 21.0189L15.6729 14.8176L13.6722 12.8232Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M53.2199 24.9637L16.0416 43.5752L1.70703 24.2111L38.8773 5.59961L53.2199 24.9637Z"
+                fill="#EBEBEB"
+              />
+              <path
+                d="M11.9359 16.3369L0.220703 22.2071L1.7072 24.209L14.0973 18.0077L11.9359 16.3369Z"
+                fill="#EBEBEB"
+              />
+              <path
+                d="M115.782 18.3481C108.053 12.1468 100.392 6.03075 92.802 0C84.0679 8.37632 78.5397 20.3651 68.7852 27.5975C76.5149 33.7938 84.1723 39.9073 91.7574 45.9381C100.5 37.5617 106.02 25.573 115.782 18.3481Z"
+                fill="#EBEBEB"
+              />
+              <path
+                d="M74.9707 25.7772L87.5456 35.7566L88.1723 35.0567L75.6216 25.1074L74.9707 25.7772Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M76.6035 24.0674C80.7818 27.3838 84.9493 30.6826 89.1061 33.9639C89.315 33.7281 89.5159 33.4773 89.7087 33.2113L77.2303 23.375L76.6035 24.0674Z"
+                fill="#DBDBDB"
+              />
+              <path d="M78.168 22.2835L90.6143 32.1123L91.2009 31.3597L78.7786 21.576L78.168 22.2835Z" fill="#DBDBDB" />
+              <path
+                d="M79.6875 20.4626L97.8467 34.7617C98.0316 34.5059 98.2244 34.25 98.4173 34.0092L80.2821 19.71C80.0812 19.9734 79.9044 20.2217 79.6875 20.4626Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M81.166 18.5895L99.2771 32.8887C99.4699 32.6328 99.6547 32.3769 99.8476 32.1361L81.7445 17.8369L81.166 18.5895Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M82.6113 16.6761L100.706 30.9226L101.277 30.1701L83.1818 15.916C82.997 16.1719 82.8042 16.4202 82.6113 16.6761Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M84.0527 14.7584L102.148 29.005L102.718 28.2524L84.6152 14.0059L84.0527 14.7584Z"
+                fill="#DBDBDB"
+              />
+              <path d="M85.4805 12.8161L103.6 27.1153L104.178 26.3627L86.051 12.0635L85.4805 12.8161Z" fill="#DBDBDB" />
+              <path
+                d="M86.918 10.8981C92.9603 15.6545 99.0134 20.4209 105.077 25.1973L105.68 24.4447L87.4885 10.1455L86.918 10.8981Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M88.3789 9.00092C94.4266 13.7774 100.501 18.5739 106.602 23.3904L107.221 22.683L88.9655 8.25586L88.3789 9.00092Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M89.8691 7.14143C95.9544 11.943 102.058 16.7721 108.181 21.6288C108.398 21.3955 108.607 21.1697 108.824 20.9514C102.674 16.0697 96.557 11.2255 90.4718 6.41895L89.8691 7.14143Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M91.4102 5.32784L109.827 19.9356L110.501 19.2884C104.309 14.3614 98.1489 9.4746 92.0208 4.62793L91.4102 5.32784Z"
+                fill="#DBDBDB"
+              />
+              <path
+                d="M12.3047 37.9383C12.3046 40.6639 13.404 43.2889 15.3828 45.2875C17.3615 47.286 20.0735 48.5104 22.9753 48.7154H88.3004C91.7392 48.6499 95.0227 47.3626 97.4858 45.1141C99.949 42.8657 101.407 39.8244 101.566 36.6063C101.724 33.3883 100.571 30.2342 98.3387 27.7831C96.1068 25.332 92.9636 23.7672 89.5459 23.4058C89.3797 18.4415 87.3741 13.6861 83.8732 9.95555C80.3723 6.22503 75.5945 3.75197 70.3594 2.96071C65.1243 2.16945 59.7584 3.10931 55.1824 5.61904C50.6064 8.12877 47.1056 12.0519 45.2806 16.7153C43.4001 15.8247 41.3214 15.3631 39.2141 15.3681C35.7635 15.3677 32.4425 16.6 29.9283 18.8136C27.414 21.0273 25.8958 24.0557 25.6831 27.2816C25.0645 27.1839 24.4382 27.1361 23.8109 27.1386C20.7571 27.1446 17.8305 28.2851 15.6733 30.3097C13.5162 32.3344 12.3047 35.0779 12.3047 37.9383Z"
+                fill="#F9A952"
+              />
+              <path d="M64.0896 33.0234H50.0684V48.745H64.0896V33.0234Z" fill="white" />
+              <path d="M45.6836 35.3272H68.4791L57.0773 22.7891L45.6836 35.3272Z" fill="white" />
+              <path d="M89.0823 53.5459H26.6738V57.6475H89.0823V53.5459Z" fill="#DBDBDB" />
+              <path d="M73.2692 53.5459H26.6738V57.6475H73.2692V53.5459Z" fill="#F9A952" />
+            </svg>
+            <h6 class="mt-4 text-center font-semibold text-lg text-gray-700">
+              {{ "Click or Drag & Drop your files here" }}
+            </h6>
+            <small class="text-gray-500 mt-1">Max file size: {{ filesize }} MB</small>
+            <small class="text-gray-500">Supported format: .xlsx, .xls, .csv</small>
+          </div>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+
+    @if (selectedFile) {
+      <div class="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3">
+        <div class="flex items-center gap-3">
+          <i class="pi pi-file-excel text-green-600 text-xl"></i>
+          <div class="flex flex-col">
+            <span class="font-medium text-gray-800">{{ selectedFile.name }}</span>
+          </div>
+        </div>
+        <!-- <div class="flex items-center gap-3">
+          <button
+            (click)="downloadFile()"
+            class="text-green-600 hover:text-green-800 p-1 rounded transition-colors"
+            title="Download"
+          >
+            <i class="bi bi-download"></i>
+          </button>
+          <button
+            (click)="clearFileSelection()"
+            class="text-red-500 hover:text-red-700 p-1 rounded transition-colors"
+            title="Remove File"
+          >
+            <i class="pi pi-times"></i>
+          </button>
+        </div> -->
+      </div>
+    }
+    <!-- @else if (cFileNameKtPlanner) {
+      <div class="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3">
+        <div class="flex items-center gap-3">
+          <i class="pi pi-file-excel text-green-600 text-xl"></i>
+          <div class="flex flex-col">
+            <span class="font-medium text-gray-800">{{ cFileNameKtPlanner }}</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            (click)="downloadFile()"
+            class="text-green-600 hover:text-green-800 p-1 rounded transition-colors"
+            title="Download"
+          >
+            <i class="bi bi-download"></i>
+          </button>
+          <button
+            (click)="removeSelectedFile()"
+            class="text-red-500 hover:text-red-700 p-1 rounded transition-colors"
+            title="Remove File"
+          >
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+      </div>
+    } -->
+
+    <!-- @if (fileData?.length > 0) {
+      <div class="mt-2">
+        <ag-grid-datatable
+          [themeClass]=""
+          [pagination]="true"
+          [table_header]="''"
+          [columnsData]="listItemsColumnData"
+          [tableData]="fileData"
+          [export_title]="'pageTitle'"
+          [paginationPageSize]="5"
+          [dashboardView]="false"
+          [searchBox]="false"
+          [reportsLink]="true"
+        ></ag-grid-datatable>
+      </div>
+    } -->
+
+    <div class="flex justify-end gap-3 mt-4 pt-3 border-t border-gray-200">
+      <p-button
+        [disabled]="!selectedFile"
+        label="Import"
+        icon="pi pi-check"
+        (click)="confirmImport()"
+        styleClass="p-button-primary"
+      ></p-button>
+      <p-button
+        label="Cancel"
+        severity="danger"
+        variant="outlined"
+        icon="pi pi-times"
+        (click)="cancelUpload()"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Delete Confirmation Dialog -->
+<p-dialog
+  [(visible)]="showDeleteConfirm"
+  [modal]="true"
+  [style]="{ width: '23vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column items-center">
+    <i class="bi bi-exclamation-circle mb-5 !text-[var(--ab-primary)]" style="font-size: 60px"></i>
+    <h4 class="text-1xl font-semibold text-center mb-3">Confirm Delete</h4>
+    <p class="font-medium text-center">
+      Are you sure you want to delete {{ selectedRows.length + selectedSections.size }} selected item(s)?
+      @if (selectedSections.size > 0) {
+        <br /><span class="text-sm text-red-500">Sections will be deleted with all their rows.</span>
+      }
+    </p>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="w-full flex justify-center gap-2">
+      <p-button variant="outlined" (click)="deleteSelectedRows()" label="Yes" icon="pi pi-check"></p-button>
+      <p-button
+        (click)="showDeleteConfirm = false"
+        label="No"
+        severity="danger"
+        variant="outlined"
+        icon="pi pi-times"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Add/Edit Section Dialog -->
+<p-dialog
+  [(visible)]="showSectionDialog"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template pTemplate="header">
+    <div class="font-semibold text-lg">
+      {{ editingSection ? "Edit Section" : "Add New Section" }}
+    </div>
+  </ng-template>
+
+  <div class="flex flex-column gap-4">
+    <div class="mt-2">
+      <p-floatlabel variant="on">
+        <input
+          id="sectionName"
+          type="text"
+          pInputText
+          [(ngModel)]="sectionName"
+          class="w-full"
+          placeholder=" "
+          (blur)="trimSectionName()"
+          (keyup.enter)="saveSection()"
+          [ngClass]="{ 'input-error': showError }"
+        />
+        <label for="sectionName">Section Name <span class="text-red-600">*</span> </label>
+      </p-floatlabel>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button
+        [label]="editingSection ? 'Update' : 'Save'"
+        icon="pi pi-check"
+        (click)="saveSection()"
+        styleClass="p-button-primary"
+      ></p-button>
+
+      <p-button
+        label="Cancel"
+        severity="danger"
+        variant="outlined"
+        icon="pi pi-times"
+        (click)="cancelSection()"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Delete Column Confirmation Dialog -->
+<p-dialog
+  [(visible)]="showDeleteColumnConfirm"
+  [modal]="true"
+  [style]="{ width: '26vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column items-center">
+    <i class="bi bi-exclamation-circle mb-5 !text-[var(--ab-primary)]" style="font-size: 60px"></i>
+    <h4 class="text-1xl font-semibold text-center mb-3">Confirm Delete</h4>
+    <p class="font-medium text-center">
+      Are you sure you want to delete the
+      <span style="font-weight: 600">{{ columnIndexName }}</span> column?
+    </p>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="w-full flex justify-center gap-2">
+      <p-button variant="outlined" (click)="deleteColumn(columnIndex)" label="Yes" icon="pi pi-check"></p-button>
+      <p-button
+        (click)="cancelDeleteColumnConfirm()"
+        label="No"
+        severity="danger"
+        variant="outlined"
+        icon="pi pi-times"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Column Management Dialog -->
+<p-dialog
+  [(visible)]="showColumnDialog"
+  [modal]="true"
+  [style]="{ width: '80vw', maxWidth: '1200px' }"
+  [draggable]="false"
+  [resizable]="false"
+  header="Manage Columns"
+>
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-end gap-2">
+      <p-button variant="outlined" class="bg-white" label="Add New Column" icon="pi pi-plus" (click)="addNewColumn()" />
+    </div>
+    <!-- Column List Table -->
+    <p-table
+      [value]="columns"
+      [scrollable]="true"
+      class="column-table-container"
+      scrollHeight="400px"
+      styleClass="p-datatable-sm"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="p-4 border border-gray-300 sticky left-0" style="width: 30%">Column Name</th>
+          <th class="p-4 border border-gray-300 sticky left-0" style="width: 20%">Type</th>
+          <th class="p-4 border border-gray-300 sticky left-0" style="width: 40%">Options (for dropdown type)</th>
+          <th class="p-4 border border-gray-300 sticky left-0" style="width: 10%">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+        <tr>
+          <!-- Edit Mode -->
+          @if (editingColumnIndex === rowIndex) {
+            <td class="p-3 border border-gray-200 sticky left-0">
+              <input pInputText [(ngModel)]="editingColumn.header" class="w-full" placeholder="Column Name" />
+            </td>
+            <td class="p-3 border border-gray-200 sticky left-0">
+              <p-select
+                [(ngModel)]="editingColumn.type"
+                [options]="columnTypeOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Type"
+                class="w-full"
+                (onChange)="onColumnTypeChange($event)"
+                [appendTo]="'body'"
+              />
+            </td>
+            <td class="p-3 border border-gray-200 sticky left-0">
+              @if (editingColumn.type === "dropdown") {
+                <div class="flex flex-col gap-2">
+                  <!-- Existing Options List -->
+                  <div class="flex flex-wrap gap-2 mb-2">
+                    @for (option of getColumnOptions(editingColumn); track $index) {
+                      <span
+                        style="font-weight: 600"
+                        class="bg-[#E7EAEB] px-2 py-1 rounded-full text-sm flex items-center gap-3"
+                      >
+                        {{ option.label }}
+                        <i
+                          style="font-size: 8px; font-weight: 600"
+                          class="pi pi-times text-red-600 cursor-pointer hover:text-red-500"
+                          (click)="removeColumnOption(editingColumn, $index)"
+                        ></i>
+                      </span>
+                    } @empty {
+                      <span class="text-gray-400 text-sm">No options added yet</span>
+                    }
+                  </div>
+
+                  <!-- Add New Option -->
+                  <div class="flex gap-2">
+                    <input
+                      #newOptionInput
+                      pInputText
+                      [(ngModel)]="newOptionValue"
+                      placeholder="Add new option"
+                      class="flex-1"
+                      (keyup.enter)="addColumnOption(editingColumn)"
+                    />
+                    <p-button
+                      icon="pi pi-plus"
+                      (click)="addColumnOption(editingColumn)"
+                      [disabled]="!newOptionValue"
+                      severity="primary"
+                    />
+                  </div>
+                </div>
+              }
+            </td>
+            <td class="p-3 border border-gray-200 sticky left-0">
+              <div class="flex gap-2">
+                <p-button
+                  icon="pi pi-check"
+                  (click)="saveColumnEdit()"
+                  severity="success"
+                  [rounded]="true"
+                  [text]="true"
+                  [disabled]="!editingColumn.header?.trim()"
+                />
+                <p-button
+                  icon="pi pi-times"
+                  (click)="cancelColumnEdit()"
+                  severity="danger"
+                  [rounded]="true"
+                  [text]="true"
+                />
+              </div>
+            </td>
+          } @else {
+            <!-- Display Mode -->
+            <td class="p-3 border border-gray-200 sticky left-0">{{ col.header }}</td>
+            <td class="p-3 border border-gray-200 sticky left-0">
+              <span class="capitalize">{{ col.type }}</span>
+            </td>
+            <td class="p-3 border border-gray-200 sticky left-0">
+              @if (col.type === "dropdown") {
+                <div class="flex flex-wrap gap-2">
+                  @for (option of getColumnOptions(col); track $index) {
+                    <span
+                      style="font-weight: 600; font-size: 10px; padding: 5px"
+                      class="bg-[#E7EAEB] rounded-full text-sm"
+                    >
+                      {{ option.label }}
+                    </span>
+                  } @empty {
+                    <span class="text-gray-400 text-sm">No options</span>
+                  }
+                </div>
+              }
+            </td>
+            <td class="p-3 border border-gray-200 sticky left-0">
+              <div class="flex gap-2">
+                <p-button
+                  icon="pi pi-pencil"
+                  (click)="editColumn(col, rowIndex)"
+                  [rounded]="true"
+                  [text]="true"
+                  pTooltip="Edit Column"
+                />
+                @if (col.isCustom) {
+                  <p-button
+                    icon="pi pi-trash"
+                    (click)="openColumnConfirm(rowIndex)"
+                    severity="danger"
+                    [rounded]="true"
+                    [text]="true"
+                    pTooltip="Delete Column"
+                  />
+                }
+              </div>
+            </td>
+          }
+        </tr>
+      </ng-template>
+
+      <!-- Empty Message -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center p-4">No columns defined</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+<!-- Delete Confirmation Dialog -->
+<p-dialog
+  [(visible)]="replacConfirmeModal"
+  [modal]="true"
+  [style]="{ width: '28vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column items-center">
+    <i class="bi bi-exclamation-circle mb-5 !text-[var(--ab-primary)]" style="font-size: 50px"></i>
+    <h4 class="text-1xl font-semibold text-center mb-3">Confirm Replace & Import</h4>
+    <p class="font-medium text-center">
+      This import will replace all existing content and cannot be undone. Do you want to continue?
+    </p>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="w-full flex justify-center gap-2">
+      <p-button variant="outlined" (click)="uploadFile()" label="Replace and Import" icon="pi pi-check"></p-button>
+      <p-button
+        (click)="replacConfirmeModal = false"
+        label="Cancel"
+        severity="danger"
+        variant="outlined"
+        icon="pi pi-times"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-dialog>

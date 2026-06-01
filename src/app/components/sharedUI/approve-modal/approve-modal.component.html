@@ -1,0 +1,142 @@
+<!-- <div class="modal-content pt-4 pb-10">
+  <div class="d-flex align-items-center px-6 mt-4 col-gap-10">
+    <div class="fs-6">
+      <span class="subTxt">Invoice Number: </span>
+      <span class="fw-semibold">{{ invoiceNumber }}</span>
+    </div>
+    <div class="fs-6">
+      <span class="subTxt">Company Name: </span>
+      <span class="fw-semibold">{{ companyName }}</span>
+    </div>
+    <div class="fs-6">
+      <span class="subTxt">Invoice Amount: </span>
+      <span class="fw-semibold">{{ amount }}</span>
+    </div>
+  </div>
+  <div class="mx-6">
+    @if (appRej === "reject") {
+      <h3 class="fs-3 my-4">Do you want to reject the requested changes to this invoice?</h3>
+    }
+    @if (appRej === "approve") {
+      <h3 class="fs-3 my-4">Are you sure you want to {{ appRej }} the {{ actionType }} of this invoice?</h3>
+    }
+  </div>
+  <div class="text-left fw-semibold ash-2 mx-6 my-6">
+    <div class="form-floating">
+      <textarea
+        [(ngModel)]="reason"
+        class="form-control pt-5 cNotes_reject"
+        id="cNotes"
+        cols="25"
+        placeholder="Reason for rejection"
+        style="height: 100px"
+      ></textarea>
+      <label class="m-floating-label required"> Remarks </label>
+    </div>
+  </div>
+  <div class="text-end px-6 w-100">
+    <button class="btn-cancel me-3" (click)="dismissMdlFn()"><i class="bi bi-x btn-icon"></i>Cancel</button>
+    <button class="btn-olt" (click)="confirmAction()"><i class="bi bi-check2 fs-3"></i> Yes</button>
+  </div>
+</div> -->
+
+<div class="p-5">
+  <div class="flex flex-wrap items-center gap-4 mt-2 text-gray-700">
+    <!-- <div class="text-lg">
+      <span class="text-gray-500">Invoice Number:</span>
+      <span class="font-semibold ml-1">{{ invoiceNumber }}</span>
+    </div> -->
+    @if (type !== "transition") {
+      <div class="text-lg">
+        <span class="text-gray-700">Account Name:</span>
+        <span class="font-semibold ml-1 text-gray-800">{{ companyName }}</span>
+      </div>
+      <div class="text-lg">
+        <span class="text-gray-700">{{ data?._id?.isCreditMemo ? "Total Amount" : "Invoice Amount" }}:</span>
+        <span class="font-semibold ml-1 text-gray-800">{{ amount }}</span>
+      </div>
+    } @else {
+      <div class="d-flex flex-wrap gap-3 text-wrap">
+        <div class="font-normal min-w-0 break-words text-gray-800">
+          Account Name:
+          <span class="font-semibold ml-1 break-words">
+            {{ data?.accountName }}
+          </span>
+        </div>
+
+        <div class="font-normal min-w-0 break-words text-gray-800">
+          Opportunity Name:
+          <span class="font-semibold ml-1 break-words text-gray-800">
+            {{ data?.opportunityName }}
+          </span>
+        </div>
+
+        <div class="font-normal min-w-0 break-words text-gray-800">
+          Products:
+          <span class="font-semibold ml-1 break-words">
+            {{ getProductNames(data?.products) }}
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="mt-4">
+    @if (appRej === "reject") {
+      <h3 class="text-2xl font-semibold text-gray-900">
+        Do you want to reject the requested changes to this {{ type }}?
+      </h3>
+    }
+    @if (appRej === "approve" && !data?._id?.isLastLevel) {
+      <h3 class="text-2xl font-semibold text-gray-900">Are you sure you want to {{ appRej }} this {{ type }}?</h3>
+    }
+  </div>
+
+  @if (appRej !== "approve") {
+    <div class="mt-5">
+      <p-floatlabel variant="on">
+        <textarea
+          pTextarea
+          id="cNotes"
+          name="reason"
+          [(ngModel)]="reason"
+          #reasonModel="ngModel"
+          rows="5"
+          class="w-full"
+          required
+          [ngClass]="{
+            'p-invalid': reasonModel.invalid && (reasonModel.dirty || reasonModel.touched),
+          }"
+        >
+        </textarea>
+
+        <label
+          for="cNotes"
+          [ngClass]="{
+            '!text-red-600': reasonModel.invalid && (reasonModel.dirty || reasonModel.touched),
+          }"
+        >
+          Rejection Comments <span class="text-red-600">*</span>
+        </label>
+      </p-floatlabel>
+
+      <!-- <textarea
+      id="cNotes"
+      [(ngModel)]="reason"
+      placeholder="Reason for rejection"
+      class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      rows="4"
+      ></textarea> -->
+    </div>
+  }
+  <div class="flex justify-end mt-5 gap-3">
+    <p-button label="Yes" variant="outlined" icon="pi pi-check" (onClick)="confirmAction()"></p-button>
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      severity="danger"
+      variant="outlined"
+      (onClick)="dismissMdlFn()"
+    ></p-button>
+  </div>
+</div>

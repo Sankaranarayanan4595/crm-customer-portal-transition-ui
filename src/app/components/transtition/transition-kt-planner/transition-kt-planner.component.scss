@@ -1,0 +1,42 @@
+:host ::ng-deep {
+  .p-message-error{
+    display: none !important;
+  }
+  .p-datatable {
+    .p-datatable-thead > tr > th {
+      background-color: #bec7c8 !important;
+      color: #070502 !important;
+      font-weight: 600 !important;
+      height: 48px !important;
+    }
+  }
+  .p-dialog-header{
+    padding: 3px 10px 3px 10px !important;
+  }
+  .p-dialog-content,
+  .p-dialog-footer {
+    padding: 10px !important;
+  }
+}
+
+:host ::ng-deep {
+  .p-fileupload-header,
+  .p-progressbar,
+  .p-fileupload-file-list {
+    display: none !important;
+  }
+}
+
+/* Add to your component's SCSS file */
+tr[draggable="true"] {
+  cursor: grab;
+}
+
+tr[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.input-error,
+.debug-invalid {
+  border: 1px solid #ff0000 !important;
+}

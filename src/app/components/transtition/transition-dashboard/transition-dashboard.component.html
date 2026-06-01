@@ -1,0 +1,849 @@
+@if (showOpportunityTransition) {
+  <section class="mt-4">
+    <!-- <div class="flex items-center justify-between mb-4"> -->
+    <!-- <div class="flex items-center gap-2"> -->
+    <!-- <p-iconfield iconPosition="left">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+        </p-iconfield> -->
+    <!-- <div>
+          <p-button
+            class="bg-white"
+            (click)="opportunityMenu.toggle($event)"
+            variant="outlined"
+            id="Export"
+            label="Export"
+            icon="pi pi-angle-down"
+            iconPos="right"
+          />
+          <p-menu #opportunityMenu [model]="excelItems" [popup]="true" />
+        </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    @if (filteredOpportunityTransitionData.length === 0) {
+      <div class="items-center flex justify-center flex-column bg-white mt-8">
+        <svg width="164" height="110" viewBox="0 0 164 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M49.5647 13.8263L17.8418 35.0469L49.0887 81.7582L80.8116 60.5376L49.5647 13.8263Z" fill="#F4F4F4" />
+          <path d="M64.419 58.3357L64.0599 60.5636L48.2891 58.2904L48.6481 56.0625L64.419 58.3357Z" fill="#E0E0E0" />
+          <path d="M56.4765 50.3828L58.7384 50.708L56.2305 66.2357L53.9658 65.9077L56.4765 50.3828Z" fill="#E0E0E0" />
+          <path
+            d="M41.9646 30.641C41.9872 30.6721 38.8093 32.8407 34.8651 35.4758C30.921 38.1108 27.7063 40.2257 27.6837 40.1918C27.6611 40.1578 30.839 37.9921 34.7832 35.3542C38.7273 32.7163 41.9278 30.6071 41.9646 30.641Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M53.6187 27.719C53.6413 27.7529 48.3542 31.3267 41.8117 35.7034C35.2693 40.0801 29.9369 43.6001 29.92 43.569C29.903 43.5379 35.1788 39.9585 41.7297 35.5818C48.2807 31.2051 53.5961 27.6851 53.6187 27.719Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M55.9566 31.219C55.9792 31.2529 50.6921 34.8295 44.1496 39.2062C37.6072 43.5829 32.2748 47.103 32.2579 47.069C32.2409 47.0351 37.5224 43.4614 44.0676 39.0818C50.6129 34.7023 55.934 31.1851 55.9566 31.219Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M58.295 34.7112C58.3177 34.7451 53.0305 38.3217 46.4881 42.6956C39.9456 47.0695 34.6133 50.5951 34.6133 50.5612C34.6133 50.5273 39.8749 46.9507 46.4202 42.574C52.9655 38.1973 58.2724 34.6773 58.295 34.7112Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M60.6246 38.2034C60.6472 38.2373 55.3601 41.811 48.8177 46.1878C42.2752 50.5645 36.9429 54.0845 36.9287 54.0506C36.9146 54.0167 42.1989 50.4429 48.7498 46.0662C55.3008 41.6895 60.6246 38.1694 60.6246 38.2034Z"
+            fill="#E0E0E0"
+          />
+          <path d="M113.493 15.548L84.4229 0L61.5289 42.8047L90.5989 58.3527L113.493 15.548Z" fill="#F4F4F4" />
+          <path
+            d="M97.584 16.5766C97.5613 16.619 94.6153 15.0866 90.9991 13.1556C87.3829 11.2245 84.4736 9.62139 84.4962 9.57898C84.5188 9.53657 87.4678 11.069 91.0839 13.0001C94.7001 14.9311 97.6066 16.5314 97.584 16.5766Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M104.562 24.2871C104.539 24.3295 99.6591 21.7623 93.6623 18.5561C87.6655 15.3499 82.8251 12.7148 82.8477 12.6724C82.8704 12.63 87.7475 15.1944 93.7443 18.4034C99.7411 21.6124 104.584 24.2447 104.562 24.2871Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M102.848 27.4746C102.825 27.517 97.9452 24.9526 91.9484 21.7436C85.9516 18.5346 81.1112 15.9023 81.1339 15.8599C81.1565 15.8175 86.0336 18.3847 92.0304 21.5909C98.0272 24.7971 102.87 27.4322 102.848 27.4746Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M101.135 30.6907C101.112 30.7331 96.2323 28.1687 90.2355 24.9625C84.2388 21.7564 79.3984 19.1298 79.421 19.0789C79.4436 19.028 84.3207 21.6008 90.3175 24.807C96.3143 28.0132 101.158 30.6483 101.135 30.6907Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M99.4211 33.9014C99.3984 33.9439 94.5185 31.3795 88.5217 28.1733C82.5249 24.9671 77.6817 22.332 77.7071 22.2896C77.7326 22.2472 82.6069 24.8116 88.6037 28.0178C94.6004 31.224 99.4437 33.859 99.4211 33.9014Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M163.233 109.683C163.233 109.722 126.69 109.756 81.6195 109.756C36.549 109.756 0 109.731 0 109.683C0 109.635 36.5376 109.609 81.6195 109.609C126.701 109.609 163.233 109.64 163.233 109.683Z"
+            fill="#263238"
+          />
+          <path
+            d="M9.0356 91.9716C9.51362 92.0061 9.97979 92.1365 10.4063 92.3551C10.8328 92.5737 11.2109 92.876 11.518 93.2439C12.1287 93.9841 12.5611 94.8547 12.7818 95.7885C13.2596 97.5754 12.9656 99.6874 12.4567 101.466C10.5228 100.773 9.32682 98.7091 8.78114 97.6234C7.93294 95.9101 7.42685 92.2911 9.02712 91.9688"
+            fill="#0B6631"
+          />
+          <path
+            d="M15.2414 103.633C14.951 103.183 14.7849 102.664 14.7601 102.129C14.7353 101.593 14.8525 101.061 15.1 100.586C15.3552 100.115 15.7017 99.6995 16.1192 99.3641C16.5367 99.0286 17.0168 98.7797 17.5315 98.6319C18.0037 98.4849 18.5522 98.4255 18.9622 98.6997C19.147 98.8395 19.2909 99.0263 19.3789 99.2406C19.4669 99.455 19.4958 99.689 19.4626 99.9183C19.3884 100.378 19.1932 100.809 18.8971 101.168C17.9556 102.443 16.8134 103.503 15.2216 103.633"
+            fill="#0B6631"
+          />
+          <path
+            d="M15.4565 109.62C15.4146 109.5 15.3852 109.375 15.3689 109.249C15.318 108.984 15.2501 108.641 15.1681 108.232C14.9144 107.109 14.8437 105.953 14.9589 104.808C15.0922 103.657 15.5305 102.563 16.2284 101.638C16.4416 101.362 16.6875 101.112 16.9607 100.895C17.0349 100.836 17.1123 100.781 17.1925 100.731C17.218 100.709 17.2466 100.692 17.2773 100.68C16.9197 100.985 16.593 101.325 16.3019 101.695C15.6408 102.62 15.2245 103.698 15.0918 104.827C14.9109 106.145 15.1342 107.352 15.2643 108.22C15.3321 108.653 15.3887 109.003 15.4198 109.247C15.442 109.37 15.4543 109.495 15.4565 109.62Z"
+            fill="#263238"
+          />
+          <path
+            d="M9.65723 94.6875C9.68951 94.7321 9.7161 94.7805 9.73639 94.8317C9.78728 94.9448 9.85514 95.0862 9.93431 95.2643C10.1068 95.6403 10.3471 96.186 10.6383 96.8617C11.2207 98.216 12.0011 100.099 12.8154 102.197C13.6296 104.295 14.3223 106.209 14.7945 107.603C15.0376 108.298 15.2271 108.864 15.36 109.257C15.4193 109.443 15.4646 109.593 15.5013 109.709C15.5215 109.761 15.5357 109.815 15.5437 109.87C15.5151 109.822 15.4923 109.771 15.4759 109.718C15.4335 109.605 15.3798 109.458 15.3091 109.274L14.7125 107.634C14.2064 106.251 13.4996 104.34 12.6881 102.245C11.8767 100.15 11.1076 98.2613 10.5478 96.8985C10.2651 96.2284 10.0474 95.6827 9.88624 95.2841C9.81273 95.1031 9.75336 94.9589 9.70812 94.843C9.68688 94.7927 9.66986 94.7407 9.65723 94.6875Z"
+            fill="#263238"
+          />
+          <path
+            d="M13.1577 105.664C12.5759 104.695 11.772 103.879 10.8123 103.283C9.85262 102.687 8.76479 102.327 7.63873 102.235C7.07326 102.195 6.37773 102.291 6.12327 102.8C5.86881 103.309 6.20809 103.931 6.59827 104.344C7.42726 105.211 8.49443 105.813 9.66527 106.075C10.8361 106.337 12.0582 106.246 13.1775 105.814"
+            fill="#0B6631"
+          />
+          <path
+            d="M8.50978 103.76C8.62965 103.754 8.74981 103.759 8.86885 103.774C9.00824 103.782 9.14704 103.798 9.28447 103.822C9.44562 103.854 9.63506 103.871 9.83297 103.927C10.0542 103.974 10.2723 104.034 10.4861 104.108C10.7337 104.188 10.9764 104.282 11.2127 104.391C11.7562 104.634 12.2704 104.939 12.7451 105.298C13.2144 105.666 13.6395 106.088 14.0118 106.554C14.1725 106.757 14.3208 106.969 14.4557 107.19C14.5776 107.381 14.6889 107.578 14.7893 107.781C14.8742 107.946 14.9497 108.116 15.0155 108.29C15.0722 108.418 15.1203 108.551 15.1597 108.686C15.2015 108.798 15.2328 108.915 15.253 109.033C15.2219 109.033 15.0862 108.547 14.7045 107.823C14.6005 107.629 14.4863 107.44 14.3624 107.258C14.2246 107.044 14.0755 106.837 13.9156 106.639C13.1761 105.725 12.233 104.997 11.1618 104.512C10.9158 104.405 10.6812 104.303 10.4522 104.23C10.2419 104.153 10.0277 104.088 9.81035 104.035C9.0187 103.817 8.50695 103.791 8.50978 103.76Z"
+            fill="#263238"
+          />
+          <path
+            d="M60.1287 51.6432L50.1199 103.044L48.8193 109.773L115.544 109.451C118.541 109.437 121.199 106.776 122.158 102.824L133.993 54.298C134.725 51.2982 133.119 48.1769 130.846 48.1797L63.2953 48.2504C61.8251 48.2475 60.5075 49.6386 60.1287 51.6432Z"
+            fill="black"
+          />
+          <path
+            d="M109.152 99.5501L102.084 42.6048C101.801 40.2722 99.9376 38.5306 97.7407 38.5391L82.2469 38.5872C81.6711 38.5936 81.1027 38.7173 80.5763 38.9506C80.0498 39.184 79.5764 39.522 79.1849 39.9443L71.8339 47.7675L28.7453 47.9994C26.113 48.0135 24.0887 50.5072 24.4364 53.3063L30.9987 105.937C31.2814 108.267 33.1446 110.006 35.3358 110.003L110.444 109.853C118.807 110.025 119.607 107.557 119.607 107.557C110.006 109.68 109.152 99.5643 109.152 99.5501Z"
+            fill="#1D4B4E"
+          />
+        </svg>
+        <div class="text-lg font-semibold text-primary mt-4 mb-6">No data available</div>
+      </div>
+    } @else {
+      <div agGridDynamicHeight class="aggrid_customHeight">
+        <ag-grid-datatable
+          [themeClass]="themeClass"
+          [pagination]="true"
+          [table_header]="''"
+          [columnsData]="opportunityTransitionColumns"
+          [tableData]="filteredOpportunityTransitionData"
+          [export_title]="'Opportunity_Transition_Details'"
+          [gridOptions]="opportunityGridOptions"
+          [paginationPageSize]="10"
+          [dashboardView]="false"
+          [searchBox]="false"
+          [reportsLink]="true"
+          (gridReady)="onOpportunityGridReady($event)"
+          [paginationPageSizeSelector]="[10, 25, 50, 100]"
+        ></ag-grid-datatable>
+      </div>
+    }
+  </section>
+} @else {
+  @if (!showOpportunityTransition && !showcsatSurvey && !showcsatScore) {
+    <section>
+      <div class="flex items-center flex-wrap justify-between">
+        <div class="text-xl font-bold">Transition Management</div>
+        <div class="flex items-center justify-end gap-3 w-3/4">
+          @if (selectedViewCard == "cardViewContent") {
+            <div
+              data-bs-toggle="tooltip"
+              data-bs-custom-class="tooltip-inverse"
+              (click)="toggleContentView('tableViewContent')"
+              data-bs-placement="bottom"
+              title="Table view"
+            >
+              <div class="symbol-group symbol-hover">
+                <div class="symbol symbol-circle symbol-35px">
+                  <div class="symbol-label fs-5 fw-semibold bg-added text-dark">
+                    <span class="fs-4">
+                      <i class="bi bi-table fw-bold fs-5 cursor-pointer"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } @else if (selectedViewCard == "tableViewContent") {
+            <div
+              data-bs-toggle="tooltip"
+              data-bs-custom-class="tooltip-inverse"
+              (click)="toggleContentView('cardViewContent')"
+              data-bs-placement="bottom"
+              title="Card View"
+            >
+              <div class="symbol-group symbol-hover">
+                <div class="symbol symbol-circle symbol-35px">
+                  <div class="symbol-label fs-5 fw-semibold bg-added text-dark">
+                    <span class="fs-4">
+                      <i class="bi bi-card-heading fw-bold fs-3 cursor-pointer"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          <!-- @if (selectedViewCard == "cardViewContent") { -->
+          <div class="flex items-center justify-end gap-3">
+            <form [formGroup]="filterForm" class="">
+              <div class="flex gap-4">
+                <div>
+                  <p-floatlabel variant="on">
+                    <p-select
+                      [options]="accountList"
+                      optionLabel="accountName"
+                      optionValue="_id"
+                      [filter]="true"
+                      filterBy="accountName,cCompanyCode"
+                      [showClear]="false"
+                      class="w-[180px]"
+                      formControlName="account"
+                      [appendTo]="'body'"
+                      (onChange)="setDataForm($event.value, 'account')"
+                    >
+                    </p-select>
+                    <label for="on_label">Account Name<span class="text-red-700">*</span> </label>
+                  </p-floatlabel>
+                </div>
+                <div>
+                  <p-floatlabel variant="on">
+                    <p-select
+                      [options]="opportunityList"
+                      optionLabel="cOpportunityName"
+                      optionValue="_id"
+                      [filter]="true"
+                      filterBy="cOpportunityName"
+                      [showClear]="false"
+                      class="w-[180px]"
+                      formControlName="opportunity"
+                      [appendTo]="'body'"
+                      (onChange)="setDataForm($event.value, 'opportunity')"
+                    >
+                    </p-select>
+                    <label for="on_label">Opportunity Name<span class="text-red-700">*</span> </label>
+                  </p-floatlabel>
+                </div>
+                <!-- <div>
+                <p-floatlabel variant="on">
+                  <p-select
+                    [options]="statusList"
+                    optionLabel="statusName"
+                    optionValue="_id"
+                    [filter]="true"
+                    filterBy="statusName"
+                    [showClear]="false"
+                    class="w-[180px]"
+                    formControlName="status"
+                    [appendTo]="'body'"
+                  >
+                  </p-select>
+                  <label for="on_label">Status<span class="text-red-700">*</span> </label>
+                </p-floatlabel>
+              </div> -->
+                <div>
+                  <p-floatlabel variant="on">
+                    <p-select
+                      [options]="usersList"
+                      optionLabel="loginName"
+                      optionValue="_id"
+                      [filter]="true"
+                      filterBy="loginName"
+                      [showClear]="false"
+                      class="w-[180px]"
+                      formControlName="users"
+                      [appendTo]="'body'"
+                      (onChange)="setDataForm($event.value, 'users')"
+                    >
+                    </p-select>
+                    <label for="on_label">Transition Manager<span class="text-red-700">*</span> </label>
+                  </p-floatlabel>
+                </div>
+              </div>
+            </form>
+            <!-- <div class="flex justify-end gap-3">
+              <p-button label="Search" variant="outlined" (onClick)="setDataForm()" icon="pi pi-search" />
+              <p-button
+                label="Cancel"
+                (onClick)="resetFilter()"
+                variant="outlined"
+                severity="danger"
+                icon="pi pi-times"
+              />
+            </div> -->
+          </div>
+          <!-- } -->
+          <p-select
+            [options]="listView"
+            [(ngModel)]="selectedView"
+            optionLabel="name"
+            placeholder="Select a View"
+            class="md:w-36"
+            (onChange)="onChangeView($event)"
+          />
+          <div>
+            <p-button
+              class="bg-white"
+              (click)="menu.toggle($event)"
+              variant="outlined"
+              id="Export"
+              label="Export"
+              icon="pi pi-angle-down"
+              iconPos="right"
+            />
+            <p-menu #menu [model]="excelItems" [popup]="true" />
+          </div>
+          <p-iconfield iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              [value]="searchText?.target.value ?? ''"
+              pInputText
+              type="text"
+              placeholder="Search"
+              (input)="onSearchInput($event)"
+            />
+          </p-iconfield>
+        </div>
+      </div>
+    </section>
+    <section class="d-flex align-items-center justify-content-between gap-4 my-4">
+      <div
+        class="shadowBg w-full flex items-center p-4 borderActive-all bg-white cursor-pointer rounded-md"
+        (click)="onSearch('all')"
+      >
+        <i class="bi bi-people-fill iconsCardAll" style="font-size: 2rem; color: #003133"></i>
+        <div class="ms-3">
+          <h4 id="AllCount">{{ AllOpportunityCount }}</h4>
+          <div class="text-[#2D2D2C] text-lg font-medium">All</div>
+        </div>
+      </div>
+
+      @for (sts of status; track sts; let i = $index) {
+        <div
+          class="relative shadowBg w-full flex items-center rounded-md p-4 borderActive-all bg-white cursor-pointer"
+          [ngClass]="statusClass[sts.toLowerCase()]"
+        >
+          <div class="w-full flex justify-start gap-3" (click)="onSearch(sts)">
+            <i
+              [ngClass]="statusIconsMap[sts.toLowerCase()]"
+              [ngStyle]="{
+                'background-color': getBackgroundColor(sts),
+                color: getIconColor(sts),
+              }"
+              class="iconsCardIcons flex items-center justify-center"
+              [style.font-size]="fontSize"
+            >
+            </i>
+            <div class="w-full">
+              <h4>{{ statusCounts?.[sts.toLowerCase()] || 0 }}</h4>
+              <div class="flex items-center justify-between gap-4 w-full">
+                <div class="text-[#2D2D2C] text-lg font-medium">{{ sts }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </section>
+
+    @if (listItems?.length === 0) {
+      <div class="items-center flex justify-center flex-column bg-white mt-8">
+        <svg width="164" height="110" viewBox="0 0 164 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M49.5647 13.8263L17.8418 35.0469L49.0887 81.7582L80.8116 60.5376L49.5647 13.8263Z" fill="#F4F4F4" />
+          <path d="M64.419 58.3357L64.0599 60.5636L48.2891 58.2904L48.6481 56.0625L64.419 58.3357Z" fill="#E0E0E0" />
+          <path d="M56.4765 50.3828L58.7384 50.708L56.2305 66.2357L53.9658 65.9077L56.4765 50.3828Z" fill="#E0E0E0" />
+          <path
+            d="M41.9646 30.641C41.9872 30.6721 38.8093 32.8407 34.8651 35.4758C30.921 38.1108 27.7063 40.2257 27.6837 40.1918C27.6611 40.1578 30.839 37.9921 34.7832 35.3542C38.7273 32.7163 41.9278 30.6071 41.9646 30.641Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M53.6187 27.719C53.6413 27.7529 48.3542 31.3267 41.8117 35.7034C35.2693 40.0801 29.9369 43.6001 29.92 43.569C29.903 43.5379 35.1788 39.9585 41.7297 35.5818C48.2807 31.2051 53.5961 27.6851 53.6187 27.719Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M55.9566 31.219C55.9792 31.2529 50.6921 34.8295 44.1496 39.2062C37.6072 43.5829 32.2748 47.103 32.2579 47.069C32.2409 47.0351 37.5224 43.4614 44.0676 39.0818C50.6129 34.7023 55.934 31.1851 55.9566 31.219Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M58.295 34.7112C58.3177 34.7451 53.0305 38.3217 46.4881 42.6956C39.9456 47.0695 34.6133 50.5951 34.6133 50.5612C34.6133 50.5273 39.8749 46.9507 46.4202 42.574C52.9655 38.1973 58.2724 34.6773 58.295 34.7112Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M60.6246 38.2034C60.6472 38.2373 55.3601 41.811 48.8177 46.1878C42.2752 50.5645 36.9429 54.0845 36.9287 54.0506C36.9146 54.0167 42.1989 50.4429 48.7498 46.0662C55.3008 41.6895 60.6246 38.1694 60.6246 38.2034Z"
+            fill="#E0E0E0"
+          />
+          <path d="M113.493 15.548L84.4229 0L61.5289 42.8047L90.5989 58.3527L113.493 15.548Z" fill="#F4F4F4" />
+          <path
+            d="M97.584 16.5766C97.5613 16.619 94.6153 15.0866 90.9991 13.1556C87.3829 11.2245 84.4736 9.62139 84.4962 9.57898C84.5188 9.53657 87.4678 11.069 91.0839 13.0001C94.7001 14.9311 97.6066 16.5314 97.584 16.5766Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M104.562 24.2871C104.539 24.3295 99.6591 21.7623 93.6623 18.5561C87.6655 15.3499 82.8251 12.7148 82.8477 12.6724C82.8704 12.63 87.7475 15.1944 93.7443 18.4034C99.7411 21.6124 104.584 24.2447 104.562 24.2871Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M102.848 27.4746C102.825 27.517 97.9452 24.9526 91.9484 21.7436C85.9516 18.5346 81.1112 15.9023 81.1339 15.8599C81.1565 15.8175 86.0336 18.3847 92.0304 21.5909C98.0272 24.7971 102.87 27.4322 102.848 27.4746Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M101.135 30.6907C101.112 30.7331 96.2323 28.1687 90.2355 24.9625C84.2388 21.7564 79.3984 19.1298 79.421 19.0789C79.4436 19.028 84.3207 21.6008 90.3175 24.807C96.3143 28.0132 101.158 30.6483 101.135 30.6907Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M99.4211 33.9014C99.3984 33.9439 94.5185 31.3795 88.5217 28.1733C82.5249 24.9671 77.6817 22.332 77.7071 22.2896C77.7326 22.2472 82.6069 24.8116 88.6037 28.0178C94.6004 31.224 99.4437 33.859 99.4211 33.9014Z"
+            fill="#E0E0E0"
+          />
+          <path
+            d="M163.233 109.683C163.233 109.722 126.69 109.756 81.6195 109.756C36.549 109.756 0 109.731 0 109.683C0 109.635 36.5376 109.609 81.6195 109.609C126.701 109.609 163.233 109.64 163.233 109.683Z"
+            fill="#263238"
+          />
+          <path
+            d="M9.0356 91.9716C9.51362 92.0061 9.97979 92.1365 10.4063 92.3551C10.8328 92.5737 11.2109 92.876 11.518 93.2439C12.1287 93.9841 12.5611 94.8547 12.7818 95.7885C13.2596 97.5754 12.9656 99.6874 12.4567 101.466C10.5228 100.773 9.32682 98.7091 8.78114 97.6234C7.93294 95.9101 7.42685 92.2911 9.02712 91.9688"
+            fill="#0B6631"
+          />
+          <path
+            d="M15.2414 103.633C14.951 103.183 14.7849 102.664 14.7601 102.129C14.7353 101.593 14.8525 101.061 15.1 100.586C15.3552 100.115 15.7017 99.6995 16.1192 99.3641C16.5367 99.0286 17.0168 98.7797 17.5315 98.6319C18.0037 98.4849 18.5522 98.4255 18.9622 98.6997C19.147 98.8395 19.2909 99.0263 19.3789 99.2406C19.4669 99.455 19.4958 99.689 19.4626 99.9183C19.3884 100.378 19.1932 100.809 18.8971 101.168C17.9556 102.443 16.8134 103.503 15.2216 103.633"
+            fill="#0B6631"
+          />
+          <path
+            d="M15.4565 109.62C15.4146 109.5 15.3852 109.375 15.3689 109.249C15.318 108.984 15.2501 108.641 15.1681 108.232C14.9144 107.109 14.8437 105.953 14.9589 104.808C15.0922 103.657 15.5305 102.563 16.2284 101.638C16.4416 101.362 16.6875 101.112 16.9607 100.895C17.0349 100.836 17.1123 100.781 17.1925 100.731C17.218 100.709 17.2466 100.692 17.2773 100.68C16.9197 100.985 16.593 101.325 16.3019 101.695C15.6408 102.62 15.2245 103.698 15.0918 104.827C14.9109 106.145 15.1342 107.352 15.2643 108.22C15.3321 108.653 15.3887 109.003 15.4198 109.247C15.442 109.37 15.4543 109.495 15.4565 109.62Z"
+            fill="#263238"
+          />
+          <path
+            d="M9.65723 94.6875C9.68951 94.7321 9.7161 94.7805 9.73639 94.8317C9.78728 94.9448 9.85514 95.0862 9.93431 95.2643C10.1068 95.6403 10.3471 96.186 10.6383 96.8617C11.2207 98.216 12.0011 100.099 12.8154 102.197C13.6296 104.295 14.3223 106.209 14.7945 107.603C15.0376 108.298 15.2271 108.864 15.36 109.257C15.4193 109.443 15.4646 109.593 15.5013 109.709C15.5215 109.761 15.5357 109.815 15.5437 109.87C15.5151 109.822 15.4923 109.771 15.4759 109.718C15.4335 109.605 15.3798 109.458 15.3091 109.274L14.7125 107.634C14.2064 106.251 13.4996 104.34 12.6881 102.245C11.8767 100.15 11.1076 98.2613 10.5478 96.8985C10.2651 96.2284 10.0474 95.6827 9.88624 95.2841C9.81273 95.1031 9.75336 94.9589 9.70812 94.843C9.68688 94.7927 9.66986 94.7407 9.65723 94.6875Z"
+            fill="#263238"
+          />
+          <path
+            d="M13.1577 105.664C12.5759 104.695 11.772 103.879 10.8123 103.283C9.85262 102.687 8.76479 102.327 7.63873 102.235C7.07326 102.195 6.37773 102.291 6.12327 102.8C5.86881 103.309 6.20809 103.931 6.59827 104.344C7.42726 105.211 8.49443 105.813 9.66527 106.075C10.8361 106.337 12.0582 106.246 13.1775 105.814"
+            fill="#0B6631"
+          />
+          <path
+            d="M8.50978 103.76C8.62965 103.754 8.74981 103.759 8.86885 103.774C9.00824 103.782 9.14704 103.798 9.28447 103.822C9.44562 103.854 9.63506 103.871 9.83297 103.927C10.0542 103.974 10.2723 104.034 10.4861 104.108C10.7337 104.188 10.9764 104.282 11.2127 104.391C11.7562 104.634 12.2704 104.939 12.7451 105.298C13.2144 105.666 13.6395 106.088 14.0118 106.554C14.1725 106.757 14.3208 106.969 14.4557 107.19C14.5776 107.381 14.6889 107.578 14.7893 107.781C14.8742 107.946 14.9497 108.116 15.0155 108.29C15.0722 108.418 15.1203 108.551 15.1597 108.686C15.2015 108.798 15.2328 108.915 15.253 109.033C15.2219 109.033 15.0862 108.547 14.7045 107.823C14.6005 107.629 14.4863 107.44 14.3624 107.258C14.2246 107.044 14.0755 106.837 13.9156 106.639C13.1761 105.725 12.233 104.997 11.1618 104.512C10.9158 104.405 10.6812 104.303 10.4522 104.23C10.2419 104.153 10.0277 104.088 9.81035 104.035C9.0187 103.817 8.50695 103.791 8.50978 103.76Z"
+            fill="#263238"
+          />
+          <path
+            d="M60.1287 51.6432L50.1199 103.044L48.8193 109.773L115.544 109.451C118.541 109.437 121.199 106.776 122.158 102.824L133.993 54.298C134.725 51.2982 133.119 48.1769 130.846 48.1797L63.2953 48.2504C61.8251 48.2475 60.5075 49.6386 60.1287 51.6432Z"
+            fill="black"
+          />
+          <path
+            d="M109.152 99.5501L102.084 42.6048C101.801 40.2722 99.9376 38.5306 97.7407 38.5391L82.2469 38.5872C81.6711 38.5936 81.1027 38.7173 80.5763 38.9506C80.0498 39.184 79.5764 39.522 79.1849 39.9443L71.8339 47.7675L28.7453 47.9994C26.113 48.0135 24.0887 50.5072 24.4364 53.3063L30.9987 105.937C31.2814 108.267 33.1446 110.006 35.3358 110.003L110.444 109.853C118.807 110.025 119.607 107.557 119.607 107.557C110.006 109.68 109.152 99.5643 109.152 99.5501Z"
+            fill="#1D4B4E"
+          />
+        </svg>
+        <div class="text-lg font-semibold text-primary mt-4 mb-6">No data available</div>
+      </div>
+    } @else {
+      @if (selectedViewCard == "tableViewContent") {
+        <div [hidden]="selectedViewCard !== 'tableViewContent'" agGridDynamicHeight class="aggrid_customHeight">
+          <ag-grid-datatable
+            [themeClass]="themeClass"
+            [pagination]="true"
+            [table_header]="''"
+            [columnsData]="listItemsColumnData"
+            [tableData]="listItems"
+            [export_title]="'pageTitle'"
+            [gridOptions]="gridOptions"
+            [paginationPageSize]="50"
+            [dashboardView]="false"
+            [searchBox]="false"
+            [reportsLink]="true"
+            (gridReady)="onGridReady($event)"
+            [paginationPageSizeSelector]="paginationPageSizeSelector"
+          ></ag-grid-datatable>
+        </div>
+      } @else {
+        <!-- Pagination Bar -->
+        @if (listItems?.length > 0) {
+          <div>
+            <div
+              class="flex flex-column w-full shadowBg rounded-3 bg-white p-3 overflow-auto"
+              dynamicHeight
+              [isHeight]="true"
+              [offset]="60"
+            >
+              @for (task of this.listItems; track $index) {
+                <section class="bg-white border-[#979DA1] border-[1px] mb-3 p-2 rounded-lg">
+                  <!-- Top row -->
+                  <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
+                    <!-- Left side: Main identifiers -->
+                    <div class="flex flex-wrap items-center gap-y-2">
+                      <div
+                        class="flex items-center gap-1 mr-1 text-blue-500 underline cursor-pointer"
+                        [title]="task.transitionNo"
+                        (click)="ViewTranstion(task)"
+                      >
+                        <span class="text-sm md:text-base">Transition ID:</span>
+                        <span class="font-semibold max-w-[200px] truncate">{{ task.transitionNo }}</span>
+                      </div>
+                      <div class="hidden md:block border-l h-4 border-gray-300 mx-1"></div>
+
+                      <div
+                        class="flex items-center gap-1 mr-1 text-blue-500 underline cursor-pointer"
+                        [title]="task.cTransition_Name"
+                        (click)="ViewTranstion(task)"
+                      >
+                        <span class="text-sm md:text-base">Transition Name:</span>
+                        <span class="font-semibold max-w-[200px] truncate">{{ task.cTransition_Name }}</span>
+                      </div>
+                      <div class="hidden md:block border-l h-4 border-gray-300 mx-1"></div>
+                      <div class="flex items-center gap-1 ml-1 mr-1" [title]="task.accountName">
+                        <span class="text-gray-600 text-sm md:text-base">Account Name:</span>
+                        <span class="font-semibold text-black max-w-[200px] truncate">{{ task.accountName }}</span>
+                      </div>
+                      <div class="hidden md:block border-l h-4 border-gray-300 mx-1"></div>
+
+                      <div class="flex items-center gap-1 ml-1 mr-1" [title]="task.opportunityName">
+                        <span class="text-gray-600 text-sm md:text-base">Opportunity Name:</span>
+                        <span class="font-semibold text-black max-w-[200px] truncate">{{ task.opportunityName }}</span>
+                      </div>
+                      <div class="hidden md:block border-l h-4 border-gray-300 mx-1"></div>
+
+                      <div class="flex items-center gap-1 ml-1" [title]="classNames(task)">
+                        <span class="text-gray-600 text-sm md:text-base">Class:</span>
+                        <span class="font-semibold text-black max-w-[200px] truncate">{{ this.classNames(task) }}</span>
+                      </div>
+                    </div>
+
+                    <!-- Right side: Status badge -->
+                    <div class="mt-2 md:mt-0">
+                      <div class="{{ task.transitionClassName }} px-3 py-1 rounded-full text-sm font-medium">
+                        {{ task.transitionStatus }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom row -->
+                  <div class="flex flex-col md:flex-row md:items-start justify-between gap-3">
+                    <!-- Left side: Details -->
+                    <div class="flex flex-wrap items-center gap-y-2 flex-1">
+                      <div class="flex items-center gap-1 mr-1" [title]="subClassNames(task)">
+                        <span class="text-gray-600 text-sm md:text-base">Subclass:</span>
+                        <span class="font-semibold text-black max-w-[200px] truncate">{{
+                          this.subClassNames(task)
+                        }}</span>
+                      </div>
+
+                      @if (task.mappedProcess) {
+                        <div class="hidden md:block border-l h-4 border-gray-300 mx-1"></div>
+                        <div class="flex items-center gap-1 ml-1 mr-1" [title]="task.mappedProcess">
+                          <span class="text-gray-600 text-sm md:text-base">Template:</span>
+                          <span class="font-semibold text-black max-w-[200px] truncate">{{ task.mappedProcess }}</span>
+                        </div>
+                      }
+
+                      <div class="hidden md:block border-l h-4 border-gray-300 mx-1"></div>
+                      <div
+                        class="flex items-start md:items-center gap-1 flex-1 min-w-0 ml-1"
+                        [title]="productNames(task)"
+                      >
+                        <span class="text-gray-600 text-sm md:text-base whitespace-nowrap">Products:</span>
+                        <span class="font-semibold text-black truncate md:max-w-[400px] lg:max-w-[500px]">{{
+                          productNames(task)
+                        }}</span>
+                      </div>
+                    </div>
+
+                    <!-- Right side: Action buttons -->
+                    <div class="flex flex-wrap items-center justify-end gap-2 mt-2 md:mt-0">
+                      @if (task.isSurvey) {
+                        <p-button [link]="true" class="underline" (click)="csatScore(task.surveyMappedId)">
+                          <ng-template pTemplate="content">
+                            @if (getProductCSATDisplay(task).icon === "happy") {
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M20.4861 0H3.51397C2.58201 0 1.68822 0.370221 1.02922 1.02922C0.370221 1.68821 0 2.58201 0 3.51397V20.486C0 21.418 0.370221 22.3118 1.02922 22.9708C1.68822 23.6298 2.58201 24 3.51397 24H20.4861C21.418 24 22.3118 23.6298 22.9708 22.9708C23.6298 22.3118 24 21.418 24 20.486V3.51393C24 2.58198 23.6298 1.6882 22.9708 1.02921C22.3118 0.370216 21.418 0 20.4861 0ZM16.4219 7.21176C16.7966 7.21176 17.1629 7.32287 17.4744 7.53105C17.786 7.73922 18.0288 8.0351 18.1722 8.38128C18.3156 8.72746 18.3531 9.10839 18.28 9.47589C18.2069 9.84339 18.0264 10.181 17.7615 10.4459C17.4965 10.7109 17.159 10.8913 16.7915 10.9644C16.424 11.0375 16.043 11 15.6968 10.8566C15.3507 10.7132 15.0548 10.4703 14.8466 10.1588C14.6385 9.84723 14.5273 9.48094 14.5274 9.10624C14.5274 8.60379 14.727 8.12192 15.0823 7.76664C15.4375 7.41136 15.9194 7.21176 16.4219 7.21176ZM7.5782 7.21176C7.9529 7.21176 8.31919 7.32287 8.63074 7.53105C8.94229 7.73922 9.18511 8.0351 9.3285 8.38128C9.47189 8.72746 9.50941 9.10839 9.43631 9.47589C9.3632 9.84339 9.18277 10.181 8.91781 10.4459C8.65285 10.7109 8.31528 10.8913 7.94778 10.9644C7.58028 11.0375 7.19935 11 6.85317 10.8566C6.507 10.7132 6.21112 10.4703 6.00295 10.1588C5.79478 9.84723 5.68368 9.48094 5.68368 9.10624C5.68368 8.85745 5.73268 8.61109 5.82789 8.38124C5.92309 8.15139 6.06264 7.94254 6.23857 7.76662C6.41449 7.5907 6.62334 7.45115 6.8532 7.35595C7.08305 7.26075 7.32941 7.21175 7.5782 7.21176ZM19.4008 17.0344C19.2902 17.1944 16.6394 20.954 12 20.954C7.36061 20.954 4.70968 17.1944 4.5991 17.0344C4.52295 16.9218 4.4943 16.7836 4.51937 16.65C4.54444 16.5164 4.62121 16.3981 4.73301 16.3207C4.8448 16.2433 4.9826 16.2132 5.11649 16.2368C5.25037 16.2605 5.36953 16.3359 5.4481 16.4469C5.47219 16.4815 7.91276 19.9215 12.0001 19.9215C16.0874 19.9215 18.5276 16.4815 18.5518 16.4469C18.6303 16.3359 18.7495 16.2605 18.8834 16.2368C19.0173 16.2132 19.1551 16.2433 19.2669 16.3207C19.3787 16.3981 19.4554 16.5164 19.4805 16.65C19.5056 16.7836 19.4769 16.9217 19.4008 17.0344Z"
+                                  fill="#0D3133"
+                                />
+                              </svg>
+                            } @else if (getProductCSATDisplay(task).icon === "neutral") {
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M20.4861 0H3.51397C2.58201 0 1.68822 0.370221 1.02922 1.02922C0.370221 1.68821 0 2.58201 0 3.51397V20.486C0 21.418 0.370221 22.3118 1.02922 22.9708C1.68822 23.6298 2.58201 24 3.51397 24H20.4861C21.418 24 22.3118 23.6298 22.9708 22.9708C23.6298 22.3118 24 21.418 24 20.486V3.51393C24 2.58198 23.6298 1.6882 22.9708 1.02921C22.3118 0.370216 21.418 0 20.4861 0ZM16.4219 7.21176C16.7966 7.21176 17.1629 7.32287 17.4744 7.53105C17.786 7.73922 18.0288 8.0351 18.1722 8.38128C18.3156 8.72746 18.3531 9.10839 18.28 9.47589C18.2069 9.84339 18.0264 10.181 17.7615 10.4459C17.4965 10.7109 17.159 10.8913 16.7915 10.9644C16.424 11.0375 16.043 11 15.6968 10.8566C15.3507 10.7132 15.0548 10.4703 14.8466 10.1588C14.6385 9.84723 14.5273 9.48094 14.5274 9.10624C14.5274 8.60379 14.727 8.12192 15.0823 7.76664C15.4375 7.41136 15.9194 7.21176 16.4219 7.21176ZM7.5782 7.21176C7.9529 7.21176 8.31919 7.32287 8.63074 7.53105C8.94229 7.73922 9.18511 8.0351 9.3285 8.38128C9.47189 8.72746 9.50941 9.10839 9.43631 9.47589C9.3632 9.84339 9.18277 10.181 8.91781 10.4459C8.65285 10.7109 8.31528 10.8913 7.94778 10.9644C7.58028 11.0375 7.19935 11 6.85317 10.8566C6.507 10.7132 6.21112 10.4703 6.00295 10.1588C5.79478 9.84723 5.68368 9.48094 5.68368 9.10624C5.68368 8.85745 5.73268 8.61109 5.82789 8.38124C5.92309 8.15139 6.06264 7.94254 6.23857 7.76662C6.41449 7.5907 6.62334 7.45115 6.8532 7.35595C7.08305 7.26075 7.32941 7.21175 7.5782 7.21176ZM18.9759 17.2572H5.02394C4.88702 17.2572 4.75571 17.2028 4.65889 17.106C4.56207 17.0092 4.50768 16.8779 4.50768 16.741C4.50768 16.6041 4.56207 16.4728 4.65889 16.3759C4.75571 16.2791 4.88702 16.2247 5.02394 16.2247H18.9759C19.1128 16.2247 19.2441 16.2791 19.3409 16.3759C19.4378 16.4728 19.4921 16.6041 19.4921 16.741C19.4921 16.8779 19.4378 17.0092 19.3409 17.106C19.2441 17.2028 19.1128 17.2572 18.9759 17.2572Z"
+                                  fill="#E69F50"
+                                />
+                              </svg>
+                            } @else {
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M20.486 0H3.51396C2.582 0 1.68821 0.370221 1.02922 1.02922C0.37022 1.68821 0 2.58201 0 3.51397V20.486C0 21.418 0.37022 22.3118 1.02922 22.9708C1.68821 23.6298 2.582 24 3.51396 24H20.486C21.418 24 22.3118 23.6298 22.9708 22.9708C23.6298 22.3118 24 21.418 24 20.486V3.51393C24 2.58198 23.6298 1.6882 22.9708 1.02921C22.3118 0.370216 21.418 0 20.486 0ZM16.4218 7.21176C16.7965 7.21176 17.1628 7.32287 17.4744 7.53105C17.7859 7.73922 18.0288 8.0351 18.1722 8.38128C18.3155 8.72746 18.3531 9.10839 18.28 9.47589C18.2069 9.84339 18.0264 10.181 17.7615 10.4459C17.4965 10.7109 17.1589 10.8913 16.7914 10.9644C16.4239 11.0375 16.043 11 15.6968 10.8566C15.3506 10.7132 15.0548 10.4703 14.8466 10.1588C14.6384 9.84723 14.5273 9.48094 14.5273 9.10624C14.5273 8.60379 14.7269 8.12192 15.0822 7.76664C15.4375 7.41136 15.9194 7.21176 16.4218 7.21176ZM7.57819 7.21176C7.95289 7.21176 8.31917 7.32287 8.63073 7.53105C8.94228 7.73922 9.1851 8.0351 9.32849 8.38128C9.47188 8.72746 9.5094 9.10839 9.43629 9.47589C9.36319 9.84339 9.18275 10.181 8.9178 10.4459C8.65284 10.7109 8.31527 10.8913 7.94777 10.9644C7.58027 11.0375 7.19934 11 6.85316 10.8566C6.50699 10.7132 6.21111 10.4703 6.00294 10.1588C5.79477 9.84723 5.68367 9.48094 5.68367 9.10624C5.68367 8.85745 5.73267 8.61109 5.82788 8.38124C5.92308 8.15139 6.06263 7.94254 6.23856 7.76662C6.41448 7.5907 6.62333 7.45115 6.85319 7.35595C7.08304 7.26075 7.3294 7.21175 7.57819 7.21176ZM18.9759 17.2572H5.02394C4.88702 17.2572 4.75571 17.2028 4.65889 17.106C4.56207 17.0092 4.50768 16.8779 4.50768 16.741C4.50768 16.6041 4.56207 16.4728 4.65889 16.3759C4.75571 16.2791 4.88702 16.2247 5.02394 16.2247H18.9759C19.1128 16.2247 19.2441 16.2791 19.3409 16.3759C19.4378 16.4728 19.4921 16.6041 19.4921 16.741C19.4921 16.8779 19.4378 17.0092 19.3409 17.106C19.2441 17.2028 19.1128 17.2572 18.9759 17.2572Z"
+                                  fill="#B5B3B0"
+                                />
+                              </svg>
+                            }
+                            <span class="font-bold text-blue-500 underline cursor-pointer">{{
+                              getProductCSATDisplay(task).text
+                            }}</span>
+                          </ng-template>
+                        </p-button>
+                      }
+                      @if (!task.isSurvey && task?.transition_completed) {
+                        <p-button
+                          variant="outlined"
+                          icon="pi pi-check"
+                          label="Initiate CSAT Survey"
+                          (click)="csatSurvey(task._id, task._id)"
+                        />
+                      } @else if (task?.surveyResponse?.length > 0) {
+                        <p-button
+                          variant="outlined"
+                          icon="pi pi-check"
+                          label="ReInitiate CSAT Survey"
+                          (click)="csatSurvey(task._id, task._id)"
+                        />
+                      }
+                      @if (task.isNew) {
+                        <p-button
+                          id="startTransitionBtn"
+                          variant="outlined"
+                          icon="bi bi-arrow-right"
+                          label="Start Transition"
+                          (click)="unsavedmodal(unsavedChgModal, task)"
+                        />
+                      }
+                      <!-- @else {
+                      <p-button
+                        variant="outlined"
+                        icon="pi pi-check"
+                        label="View Transition"
+                        (click)="ViewTranstion(task)"
+                      />
+                    } -->
+                    </div>
+                  </div>
+                </section>
+              }
+            </div>
+            <div class="flex items-center justify-between mt-3 px-4 py-2">
+              <!-- Records per page selector -->
+              <div class="flex items-center gap-2">
+                <select
+                  class="border border-gray-300 rounded px-2 py-1 text-base"
+                  [(ngModel)]="pageSize"
+                  (change)="onPageSizeChange($event)"
+                >
+                  <option *ngFor="let size of [25, 50, 75, 100, 150, 200]" [value]="size">{{ size }}</option>
+                </select>
+                <span class="text-base text-gray-600">records per page</span>
+              </div>
+              <!-- Displaying records info -->
+              <div class="text-base text-gray-700">
+                Displaying {{ (page - 1) * pageSize + 1 }} to {{ total() }} of {{ totalRecords }}
+              </div>
+              <!-- Pagination controls -->
+              <nav class="inline-flex gap-1">
+                <button
+                  class="px-2 py-1 rounded border border-gray-300 disabled:opacity-50"
+                  [disabled]="page === 1"
+                  (click)="goToFirst()"
+                  aria-label="First page"
+                >
+                  «
+                </button>
+                <button
+                  class="px-2 py-1 rounded border border-gray-300 disabled:opacity-50"
+                  [disabled]="page === 1"
+                  (click)="goToPrev()"
+                  aria-label="Previous page"
+                >
+                  ‹
+                </button>
+                <button class="px-3 py-1 rounded bg-gray-900 text-white" aria-current="page">
+                  {{ page }}
+                </button>
+                <button
+                  class="px-2 py-1 rounded border border-gray-300 disabled:opacity-50"
+                  [disabled]="page === totalPages"
+                  (click)="goToNext()"
+                  aria-label="Next page"
+                >
+                  ›
+                </button>
+                <button
+                  class="px-2 py-1 rounded border border-gray-300 disabled:opacity-50"
+                  [disabled]="page === totalPages"
+                  (click)="goToLast()"
+                  aria-label="Last page"
+                >
+                  »
+                </button>
+              </nav>
+            </div>
+          </div>
+        }
+      }
+    }
+  }
+
+  @if (showcsatScore) {
+    <app-csat-score
+      (onChangeTaskComponent)="onChangeComponent($event)"
+      [transitionId]="transitionId"
+      [surveyMappedId]="surveyMappedId"
+    ></app-csat-score>
+  }
+  @if (showcsatSurvey) {
+    <app-csat-survey
+      [subClassList]="subClassList"
+      (onChangeTaskComponent)="onChangeComponent($event)"
+      [transitionId]="transitionId"
+    ></app-csat-survey>
+  }
+
+  <ng-template #unsavedChgmodal let-close="close" let-dismiss="dismiss">
+    <form [formGroup]="confirmForm" class="p-6">
+      <!-- Title -->
+      <div class="d-flex flex-wrap gap-3 text-wrap">
+        <div class="font-normal min-w-0 break-words">
+          Account Name:
+          <span class="font-semibold ml-1 break-words">
+            {{ transitionDetails?.AccountName }}
+          </span>
+        </div>
+
+        <div class="font-normal min-w-0 break-words">
+          Opportunity Name:
+          <span class="font-semibold ml-1 break-words">
+            {{ transitionDetails?.cOpportunityName }}
+          </span>
+        </div>
+
+        <div class="font-normal min-w-0 break-words">
+          productsArray:
+          <span class="font-semibold ml-1 break-words">
+            {{ transitionDetails.productName }}
+          </span>
+        </div>
+      </div>
+      <div class="fs-3 fw-bold text-start mt-5 mb-5">
+        Are you sure you want to start this transition and move it to In Progress?
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <p-floatlabel variant="on">
+          <textarea
+            (input)="removeSpace()"
+            id="cNotes"
+            pInputTextarea
+            rows="5"
+            formControlName="reason"
+            class="w-full"
+          ></textarea>
+          <!-- [ngClass]="{
+            'input-error': confirmForm.get('reason')?.touched && confirmForm.get('reason')?.invalid,
+          }" -->
+          <label for="cNotes"> Comment <span class="text-red-600"></span> </label>
+        </p-floatlabel>
+      </div>
+
+      <div class="flex gap-3 justify-end mt-5">
+        <p-button label="Yes" variant="outlined" icon="pi pi-check" (click)="confirmNavigate(dismiss)" />
+        <p-button
+          label="Cancel"
+          cancel
+          variant="outlined"
+          severity="danger"
+          icon="pi pi-times"
+          (click)="cancelModel(dismiss)"
+        />
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #unsavedChgmodalTransionComplete let-close="close" let-dismiss="dismiss">
+    <form [formGroup]="confirmForm" class="p-6">
+      <div class="d-flex flex-wrap gap-3 text-wrap">
+        <div class="font-normal min-w-0 break-words">
+          Account Name:
+          <span class="font-semibold ml-1 break-words">
+            {{ transitionData?.accountName }}
+          </span>
+        </div>
+
+        <div class="font-normal min-w-0 break-words">
+          Opportunity Name:
+          <span class="font-semibold ml-1 break-words">
+            {{ transitionData?.opportunityName }}
+          </span>
+        </div>
+
+        <div class="font-normal min-w-0 break-words">
+          Products:
+          <span class="font-semibold ml-1 break-words">
+            {{ productNamesList(transitionData) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="fs-3 fw-bold text-start mt-5 mb-5">Are you sure you want to complete the transition?</div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <!-- Transition Process -->
+        <!-- @if (actionText === "Change Template") {
+        <p-floatlabel variant="on">
+          <p-select
+            formControlName="mappedPhase"
+            [options]="mapped_transition_phases"
+            optionLabel="cGroupName"
+            optionValue="_id"
+            [filter]="true"
+            filterBy="cGroupName"
+            class="w-full"
+            [ngClass]="{
+              'input-error': confirmForm.get('mappedPhase')?.touched && confirmForm.get('mappedPhase')?.invalid,
+            }"
+          ></p-select>
+          <label for="targetCloseDate">Transition Template <span class="text-red-600">*</span> </label>
+        </p-floatlabel>
+      } -->
+        <!-- @if (actionText !== "Complete") { -->
+        <!-- Comments -->
+        <p-floatlabel variant="on">
+          <textarea
+            id="cNotes"
+            pInputTextarea
+            rows="5"
+            formControlName="reason"
+            class="w-full"
+            [ngClass]="{
+              'input-error': confirmForm.get('reason')?.touched && confirmForm.get('reason')?.invalid,
+            }"
+          ></textarea>
+          <label for="cNotes"> Comment <span class="text-red-600">*</span> </label>
+        </p-floatlabel>
+        <!-- } -->
+      </div>
+
+      <div class="flex gap-3 justify-end mt-5">
+        <p-button label="Yes" variant="outlined" icon="pi pi-check" (click)="confirmNavigate(dismiss)" />
+        <p-button
+          label="Cancel"
+          cancel
+          variant="outlined"
+          severity="danger"
+          icon="pi pi-times"
+          (click)="cancelModel(dismiss)"
+        />
+      </div>
+    </form>
+  </ng-template>
+
+  <p-dialog
+    [(visible)]="successForm"
+    [modal]="true"
+    [style]="{ width: '40rem' }"
+    position="center"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="d-flex justify-content-center">
+      <i class="bi bi-check-circle-fill circle-icon"></i>
+    </div>
+    <div class="text-center mt-6 mb-5">
+      <h4 class="text-primary text-2xl">Transition is Successfully Completed</h4>
+    </div>
+  </p-dialog>
+}

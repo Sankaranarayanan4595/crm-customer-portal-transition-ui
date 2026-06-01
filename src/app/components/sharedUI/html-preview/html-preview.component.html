@@ -1,0 +1,36 @@
+<!-- !view modal -->
+<div class="modal d-block bg-modal-blur" id="contentToConvert">
+  <div class="viewInner">
+    <div class="modal-dialog modal-xl position-fixed top-0 start-0 end-0">
+      <div class="modal-content pt-7 px-5 pb-10">
+        <div class="d-flex align-items-center justify-content-between mb-10">
+          <div class="text-black fs-2 fw-bold">{{ templateName }}</div>
+          <div class="d-flex align-items-center view_area">
+            <button class="btn-olt me-3" (click)="downloadFile()">
+              <i class="bi bi-download"></i>
+              Download
+            </button>
+            <button class="btn-olt" (click)="printViewDocument()">
+              <i class="bi bi-printer-fill"></i>
+              Print
+            </button>
+            <i
+              type="button"
+              class="ms-7 d-block fs-3 bi bi-x-lg"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              (click)="closeViewModal()"
+            ></i>
+          </div>
+        </div>
+
+        <div class="embed-responsive embed-responsive-16by9">
+          <!-- !for PDF -->
+          <!-- <iframe style="height: 76vh;" class="embed-responsive-item w-100" [src]="iframeSrc"></iframe> -->
+          <!-- !for base64 to PDF conversion -->
+          <iframe style="height: 76vh" class="iframeClass embed-responsive-item w-100" [src]="fileUrl"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

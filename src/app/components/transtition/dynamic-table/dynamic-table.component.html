@@ -1,0 +1,238 @@
+<div class="p-card p-fluid" dynamicHeight>
+  <p-table
+    [value]="tableData"
+    [tableStyle]="{ 'min-width': '100%', 'border-collapse': 'collapse', overflow: 'auto' }"
+    styleClass="p-datatable-sm p-datatable-striped"
+    editMode="cell"
+    (onEditComplete)="onEditComplete($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let header of headers" [style.width]="getHeaderWidth(header)">
+          <div class="header-content">
+            <span class="header-text">{{ header.label }}</span>
+            <span *ngIf="header.hasFilter" class="header-filter">
+              <i class="pi pi-filter" style="font-size: 0.8rem; opacity: 0.6"></i>
+            </span>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <tr [class.highlight-row]="rowData.highlight">
+        <td
+          *ngFor="let header of headers"
+          pEditableColumn
+          [pEditableColumnDisabled]="
+            !rowData.isEditable ||
+            !rowData[header.field] ||
+            rowData[header.field].disabled ||
+            (header.field === 'Phases' && rowData.transitionId)
+          "
+          [ngClass]="{ 'editable-cell': header.editable !== false && !rowData[header.field]?.disabled }"
+        >
+          <ng-container *ngIf="rowData[header.field]?.key?.startsWith('commentIconBtn') || header.field === 'Comment'">
+            <i
+              class="bi bi-chat-left-dots fs-3 cursor-pointer me-2"
+              title="Comments"
+              (click)="onCommentClick(rowData, header)"
+            ></i>
+            <span *ngIf="rowData.commentCount" class="comment-count-badge">
+              {{ rowData.commentCount }}
+            </span>
+          </ng-container>
+
+          <ng-container *ngIf="header.field === 'Phases' && rowData.transitionId; else normalCell">
+            <a
+              class="phase-link cursor-pointer text-blue-500 hover:underline"
+              (click)="handleTemplateId(rowData.transitionId)"
+            >
+              {{
+                rowData[header.field]?.value ||
+                  rowData[header.field]?.defaultValue ||
+                  rowData[header.field]?.label ||
+                  ""
+              }}
+              <i class="pi pi-external-link ms-1"></i>
+            </a>
+          </ng-container>
+
+          <ng-template #normalCell>
+            <ng-container *ngIf="rowData[header.field]">
+              <ng-container [ngSwitch]="getCellType(header, rowData[header.field])">
+                <ng-container *ngSwitchCase="'text'">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        #textInput
+                        pInputText
+                        [(ngModel)]="rowData[header.field].value"
+                        (blur)="onCellBlur(rowIndex, header, rowData[header.field], $event)"
+                        style="width: 100%"
+                        [style.text-align]="header.align || 'left'"
+                        [placeholder]="header.placeholder || rowData[header.field]?.placeholder || ''"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div
+                        [style.text-align]="header.align || 'left'"
+                        [innerHTML]="
+                          rowData[header.field]?.value ||
+                          rowData[header.field]?.defaultValue ||
+                          rowData[header.field]?.label ||
+                          ''
+                        "
+                      ></div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'number'">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        #numberInput
+                        pInputText
+                        type="number"
+                        [(ngModel)]="rowData[header.field].value"
+                        (blur)="onCellBlur(rowIndex, header, rowData[header.field], $event)"
+                        style="width: 100%"
+                        [style.text-align]="header.align || 'left'"
+                        [placeholder]="header.placeholder || rowData[header.field]?.placeholder || ''"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div [style.text-align]="header.align || 'left'">
+                        {{ rowData[header.field]?.value || rowData[header.field]?.defaultValue || "" }}
+                      </div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'percentage'">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        #percentageInput
+                        pInputText
+                        type="number"
+                        [(ngModel)]="rowData[header.field].value"
+                        (blur)="onCellBlur(rowIndex, header, rowData[header.field], $event)"
+                        (input)="validatePercentage(rowData[header.field])"
+                        min="0"
+                        max="100"
+                        style="width: 100%"
+                        [style.text-align]="header.align || 'left'"
+                        [placeholder]="header.placeholder || rowData[header.field]?.placeholder || ''"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div [style.text-align]="header.align || 'left'">
+                        {{ (rowData[header.field]?.value || rowData[header.field]?.defaultValue || 0) + "%" }}
+                      </div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'status'">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <p-select
+                        #statusSelect
+                        [options]="statusOptions"
+                        [(ngModel)]="rowData[header.field].value"
+                        (ngModelChange)="onSelectChange(rowIndex, header, rowData[header.field], $event)"
+                        [placeholder]="rowData[header.field]?.placeholder || 'Select Status'"
+                        appendTo="body"
+                      ></p-select>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div
+                        class="status-badge"
+                        [class]="getStatusClass(rowData[header.field]?.value || rowData[header.field]?.defaultValue)"
+                      >
+                        {{ rowData[header.field]?.value || rowData[header.field]?.defaultValue || "" }}
+                      </div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'select'">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <p-select
+                        #customSelect
+                        [options]="getSelectOptions(rowData[header.field])"
+                        [(ngModel)]="rowData[header.field].value"
+                        (ngModelChange)="onSelectChange(rowIndex, header, rowData[header.field], $event)"
+                        optionLabel="label"
+                        optionValue="value"
+                        [placeholder]="rowData[header.field]?.placeholder || 'Select'"
+                        class="w-full"
+                        appendTo="body"
+                      ></p-select>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div [style.text-align]="header.align || 'left'">
+                        {{ getSelectLabel(rowData[header.field]) }}
+                      </div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'datetime'">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <p-datePicker
+                        #datePicker
+                        [(ngModel)]="rowData[header.field].value"
+                        (onSelect)="onDateSelect(rowIndex, header, rowData[header.field], $event)"
+                        [showTime]="rowData[header.field]?.enableTime || false"
+                        [showSeconds]="false"
+                        [placeholder]="rowData[header.field]?.placeholder || 'Select Date'"
+                        dateFormat="dd/mm/yy"
+                        appendTo="body"
+                        [inputStyle]="{ width: '100%' }"
+                      ></p-datePicker>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div [style.text-align]="header.align || 'left'">
+                        {{ formatDate(rowData[header.field]?.value || rowData[header.field]?.defaultValue) }}
+                      </div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+
+                <ng-container *ngSwitchDefault>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        #defaultInput
+                        pInputText
+                        [(ngModel)]="rowData[header.field].value"
+                        (blur)="onCellBlur(rowIndex, header, rowData[header.field], $event)"
+                        style="width: 100%"
+                        [placeholder]="rowData[header.field]?.placeholder || ''"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <div
+                        [innerHTML]="
+                          rowData[header.field]?.value ||
+                          rowData[header.field]?.defaultValue ||
+                          rowData[header.field]?.label ||
+                          ''
+                        "
+                      ></div>
+                    </ng-template>
+                  </p-cellEditor>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

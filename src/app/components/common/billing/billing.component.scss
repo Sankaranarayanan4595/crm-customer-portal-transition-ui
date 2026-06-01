@@ -1,0 +1,37 @@
+.added-newcolor {
+  color: var(--ab-primary);
+}
+
+.col-gap-2 {
+  column-gap: 16px;
+}
+.floatingInput {
+  font-size: 15px;
+  height: 40px;
+  border: 1px solid #9E9D9A;
+  border-radius: 5px;
+  outline: 0;
+  padding: 4px 8px;
+}
+.floatingInput::placeholder{
+  font-size: 13px;
+}
+// !Responsive
+@media (max-width: 1399.98px) {  }
+@media (max-width: 1199.98px) {  }
+@media (max-width: 991.98px) {
+}
+@media (max-width: 767.98px) {
+.billingFreq_txt{
+  margin-top: 14px;
+}
+.billingFreq{
+  display: block;
+}
+}
+@media (max-width: 575.98px) {  }
+
+
+.product-body{
+  width: 94% !important;
+}
