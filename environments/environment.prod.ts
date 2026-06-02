@@ -64,6 +64,7 @@ export const environment = {
   ticketingArticleUrl: `https://ticketapi.adamsbridge.com/ticketingService`,
   ticketkingAppUrl: `https://ticket.adamsbridge.com/#/ticket`,
   crm_socket: "https://crmapi.adamsbridge.com",
+  crm_transition_socket: "https://crmapi.adamsbridge.com",
   fileStorageApiUrl: "https://filesysapi.adamsbridge.com/fileStorageService",
   invoiceRecordMailApiUrl: "https://abstractapi.adamsbridge.com/invoiceRecordsService/mailRecordsService/api/mailRead",
   recategoryid: "66b5ba7c996870547c64cdee",
