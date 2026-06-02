@@ -9,7 +9,7 @@ import { FloatLabelModule } from "primeng/floatlabel"
 import { TextareaModule } from 'primeng/textarea';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { TransitionService } from 'projects/customer-management-ui/shared/transition/transition.service';
+import { TransitionService } from 'projects/crm-customer-portal-transition-ui/shared/transition/transition.service';
 
 @Component({
   selector: 'app-approve-modal',

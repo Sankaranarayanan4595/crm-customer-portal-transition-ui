@@ -9,7 +9,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { TooltipModule } from 'primeng/tooltip';
 // import { AgGridDataTableComponent } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/lib/shared/ag-grid-datatable/ag-grid-datatable.component';
-import { TransitionService } from 'projects/customer-management-ui/shared/transition/transition.service';
+import { TransitionService } from 'projects/crm-customer-portal-transition-ui/shared/transition/transition.service';
 import { firstValueFrom } from 'rxjs';
 import { TransitionModalComponent } from './transition-modal/transition-modal.component';
 import { Router } from '@angular/router';

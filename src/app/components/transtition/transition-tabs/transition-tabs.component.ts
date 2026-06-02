@@ -17,7 +17,7 @@ import { FloatLabel } from "primeng/floatlabel";
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
 import { BBLoaderService, BbStoreService, BBToastService, DateRangePickerComponent } from "projects/CommonLibrary-UI/BBLayout-mongo/src/public-api";
 import { firstValueFrom, Subscription } from "rxjs";
-import { TransitionService } from "projects/customer-management-ui/shared/transition/transition.service";
+import { TransitionService } from "projects/crm-customer-portal-transition-ui/shared/transition/transition.service";
 import moment from "moment";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { GanttChartComponent } from "../gantt-chart/gantt-chart.component";

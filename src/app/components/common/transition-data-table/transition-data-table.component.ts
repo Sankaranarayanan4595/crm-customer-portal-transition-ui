@@ -3,7 +3,7 @@ import { Component, Input, Output, ViewChild, EventEmitter, ElementRef, ChangeDe
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormioModule } from '@formio/angular';
 import { BbStoreService, BBToastService } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/public-api';
-import { TransitionService } from 'projects/customer-management-ui/shared/transition/transition.service';
+import { TransitionService } from 'projects/crm-customer-portal-transition-ui/shared/transition/transition.service';
 import { firstValueFrom } from 'rxjs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';

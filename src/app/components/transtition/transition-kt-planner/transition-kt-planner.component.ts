@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { firstValueFrom } from 'rxjs';
-import { TransitionService } from 'projects/customer-management-ui/shared/transition/transition.service';
+import { TransitionService } from 'projects/crm-customer-portal-transition-ui/shared/transition/transition.service';
 import { BBLoaderService, BbStoreService, BBToastService } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/public-api';
 import { EventEmitter, Output } from '@angular/core';
 import moment from 'moment';

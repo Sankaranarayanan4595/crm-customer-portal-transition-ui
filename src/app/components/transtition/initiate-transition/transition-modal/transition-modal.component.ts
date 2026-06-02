@@ -16,7 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { BBLoaderService, BBToastService } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/public-api';
 import { CategoriesService } from 'projects/customer-management-ui/shared/categories/categories.service';
-import { TransitionService } from 'projects/customer-management-ui/shared/transition/transition.service';
+import { TransitionService } from 'projects/crm-customer-portal-transition-ui/shared/transition/transition.service';
 import { firstValueFrom } from 'rxjs';
 import { AgGridDataTableComponent } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/lib/shared/ag-grid-datatable/ag-grid-datatable.component';
 import { PAGE_SIZE_SELECTOR } from '../../../sharedUI/constants/pagination-list.service';

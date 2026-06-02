@@ -30,7 +30,7 @@ import { InputIcon } from "primeng/inputicon";
 import { ApproveModalComponent } from "../../sharedUI/approve-modal/approve-modal.component";
 import { AgGridDynamicHeightDirective } from "../../sharedUI/directives/ag-grid-header-height/ag-grid-dynamic-height.directive";
 const transition = "transition";
-import { TransitionService } from "projects/customer-management-ui/shared/transition/transition.service";
+import { TransitionService } from "projects/crm-customer-portal-transition-ui/shared/transition/transition.service";
 
 @Component({
   selector: 'app-approval-request-list',

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { BbStoreService, BBToastService, BBLoaderService } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/public-api';
 import { SettingsService } from 'projects/customer-management-ui/shared/settings.service';
 import { CategoriesService } from 'projects/customer-management-ui/shared/categories/categories.service';
-import { TransitionService } from 'projects/customer-management-ui/shared/transition/transition.service';
+import { TransitionService } from 'projects/crm-customer-portal-transition-ui/shared/transition/transition.service';
 import { CustomerService } from 'projects/customer-management-ui/shared/customer/customer.service';
 import { ExcelService } from 'projects/CommonLibrary-UI/BBLayout-mongo/src/lib/shared/data-table/excel.service';
 import { Clipboard } from '@angular/cdk/clipboard';

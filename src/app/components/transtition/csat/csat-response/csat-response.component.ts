@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormioBaseComponent, FormioModule } from "@formio/angular";
-import { TransitionService } from "projects/customer-management-ui/shared/transition/transition.service";
+import { TransitionService } from "projects/crm-customer-portal-transition-ui/shared/transition/transition.service";
 import { firstValueFrom } from "rxjs";
 import { BBLoaderService } from "projects/CommonLibrary-UI/BBLayout-mongo/src/public-api";
 import { BBToastService } from "projects/CommonLibrary-UI/BBLayout-mongo/src/public-api";

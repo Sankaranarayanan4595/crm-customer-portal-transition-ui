@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { TableModule } from "primeng/table";
 import { CommonModule } from "@angular/common";
 import { firstValueFrom } from "rxjs";
-import { TransitionService } from "projects/customer-management-ui/shared/transition/transition.service";
+import { TransitionService } from "projects/crm-customer-portal-transition-ui/shared/transition/transition.service";
 import { BBLoaderService, BBToastService, DataTableComponent } from "projects/CommonLibrary-UI/BBLayout-mongo/src/public-api";
 import { FloatLabelModule } from "primeng/floatlabel";
 import { CategoriesService } from "projects/customer-management-ui/shared/categories/categories.service";

@@ -16,7 +16,7 @@ import { PhaseMaster } from "projects/customer-management-ui/shared/interface/ma
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { CommonModule } from "@angular/common";
-import { TransitionService } from "projects/customer-management-ui/shared/transition/transition.service";
+import { TransitionService } from "projects/crm-customer-portal-transition-ui/shared/transition/transition.service";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
 import { FloatLabel } from "primeng/floatlabel";
