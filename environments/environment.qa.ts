@@ -7,6 +7,7 @@ export const environment = {
   mongo_RealServServiceURL: "https://qcan.adamsbridgestage.com/realServService",
   report_builder_apiUrl: "https://qcan.adamsbridgestage.com/reportBuilderService",
   CRM_ApiUrl: "https://qcan.adamsbridgestage.com/CRMService",
+  CRM_Transition_ApiUrl: "http://localhost:5010/CRMTransitionService",
   assetPath: "./",
   Companyid: "1",
   layoutSetting: {

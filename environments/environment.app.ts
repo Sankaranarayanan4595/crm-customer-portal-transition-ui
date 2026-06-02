@@ -6,6 +6,7 @@ export const environment = {
   mongo_RealServServiceURL: "https://crmappapi.adamsbridge.com/realServService",
   report_builder_apiUrl: "https://crmappapi.adamsbridge.com/reportBuilderService",
   CRM_ApiUrl: "https://crmappapi.adamsbridge.com/CRMService",
+  CRM_Transition_ApiUrl: "http://localhost:5010/CRMTransitionService",
   assetPath: "./",
   Companyid: "1",
   body: { UserName: "ticket", Password: "ao" + "sta", LogOpt: "1" },

@@ -13,7 +13,7 @@ export class CustomerPortalService {
 
 
   constructor() { }
-  private apiUrl = environment.CRM_ApiUrl;
+  private apiUrl = environment.CRM_Transition_ApiUrl;
   private profileData: any = null;
 
   getInvoicesCustomer() {
